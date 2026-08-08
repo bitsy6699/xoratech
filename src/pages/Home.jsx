@@ -7,6 +7,8 @@ import RevealHeading from '../components/motion/RevealHeading'
 import { Stagger, StaggerItem, Reveal } from '../components/motion/Reveal'
 import CountUp from '../components/motion/CountUp'
 import TiltCard from '../components/motion/TiltCard'
+import Parallax from '../components/motion/Parallax'
+import HorizontalScroll from '../components/motion/HorizontalScroll'
 import { SectionKicker, ArrowLink, Marquee, PixelTag } from '../components/ui/Button.jsx'
 import PixelArrow from '../components/ui/PixelArrow'
 import PixelWipe from '../components/ui/PixelWipe'
@@ -158,7 +160,7 @@ const CategoriesSection = ({ sectionRef }) => {
   return (
     <section ref={sectionRef} className="bg-cream py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <Reveal>
+        <Reveal scale={0.96}>
           <div className="mb-14 flex flex-col justify-between gap-6 md:flex-row md:items-end">
             <div>
               <SectionKicker>Layanan Kami</SectionKicker>
@@ -201,8 +203,14 @@ const CategoriesSection = ({ sectionRef }) => {
 
 function WhySection() {
   return (
-    <section data-nav-theme="dark" className="bg-primary py-24 text-cream">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <section data-nav-theme="dark" className="relative isolate overflow-hidden bg-primary py-24 text-cream">
+      <Parallax
+        speed={0.22}
+        className="pointer-events-none absolute -right-16 top-1/2 z-0 hidden -translate-y-1/2 lg:block"
+      >
+        <XorMark className="h-[40vw] w-[40vw] max-h-[520px] max-w-[520px] text-white/[0.05]" />
+      </Parallax>
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid gap-16 lg:grid-cols-2 lg:items-center">
           <div>
             <SectionKicker dark>Kenapa Xora</SectionKicker>
@@ -242,57 +250,73 @@ function WhySection() {
 
 function PortfolioPreview() {
   return (
-    <section className="bg-cream py-24">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <Reveal>
-          <div className="mb-14 flex flex-col justify-between gap-6 md:flex-row md:items-end">
-            <div>
-              <SectionKicker>Portofolio</SectionKicker>
-              <RevealHeading lines={['Karya yang sudah', 'kami kerjakan']} className="text-4xl font-bold tracking-tight sm:text-5xl" />
-            </div>
+    <HorizontalScroll className="bg-cream" scrollHeight="360vh">
+      <div className="flex h-[64vh] w-[82vw] flex-col justify-center lg:w-[48vw]">
+        <div className="mb-5 flex items-center gap-3 font-pixel text-lg uppercase tracking-[0.35em] text-primary">
+          <span className="h-2 w-2 bg-pixel-dim" />
+          Portofolio
+        </div>
+        <RevealHeading
+          lines={['Karya yang sudah', 'kami kerjakan']}
+          className="text-4xl font-bold tracking-tight sm:text-6xl"
+        />
+        <Reveal delay={0.15}>
+          <p className="mt-6 max-w-md text-lg font-light leading-relaxed text-muted">
+            Gulir terus — galeri bergerak mengikuti scroll Anda, satu proyek demi satu proyek.
+          </p>
+        </Reveal>
+        <Reveal delay={0.25}>
+          <div className="mt-8 flex items-center gap-4">
             <ArrowLink to="/portofolio">Selengkapnya</ArrowLink>
+            <span className="flex items-center gap-2 font-pixel text-lg uppercase tracking-widest text-primary/60">
+              <PixelArrow direction="r" className="h-4 w-4 animate-scroll-hint" />
+              Scroll
+            </span>
           </div>
         </Reveal>
-
-        <Stagger className="grid gap-8 md:grid-cols-2 lg:grid-cols-3" stagger={0.08}>
-          {portfolio.slice(0, 6).map((item) => (
-            <StaggerItem key={item.id}>
-              <TiltCard intensity={5} scale={1.015}>
-                <Link
-                  to="/portofolio"
-                  className="group block border-2 border-primary-darker bg-card shadow-[6px_6px_0_0_#051a66] transition-all hover:translate-x-1 hover:translate-y-1 hover:shadow-[2px_2px_0_0_#051a66]"
-                >
-                  <div
-                    className="relative flex h-44 items-center justify-center overflow-hidden"
-                    style={{ backgroundColor: item.color }}
-                  >
-                    <div className="absolute inset-0 opacity-20" style={{ backgroundImage: 'radial-gradient(#fff 1px, transparent 1px)', backgroundSize: '12px 12px' }} />
-                    <span className="font-pixel text-4xl uppercase tracking-widest text-cream">{item.categoryLabel}</span>
-                  </div>
-                  <div className="p-5">
-                    <h3 className="text-lg font-bold">{item.title}</h3>
-                    <div className="mt-3 flex flex-wrap gap-2">
-                      {item.tags.map((tag) => (
-                        <span key={tag} className="border border-primary/20 px-2 py-0.5 font-pixel text-sm uppercase text-primary">
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                </Link>
-              </TiltCard>
-            </StaggerItem>
-          ))}
-        </Stagger>
       </div>
-    </section>
+
+      {portfolio.slice(0, 6).map((item, i) => (
+        <Link
+          key={item.id}
+          to="/portofolio"
+          className="group relative block h-[64vh] w-[80vw] overflow-hidden border-2 border-primary-darker shadow-[10px_10px_0_0_#051a66] transition-shadow duration-200 hover:shadow-[14px_14px_0_0_#0024fc] md:w-[54vw] lg:w-[42vw]"
+        >
+          <div className="absolute inset-0" style={{ backgroundColor: item.color }}>
+            <div className="absolute inset-0 opacity-20" style={{ backgroundImage: 'radial-gradient(#fff 1px, transparent 1px)', backgroundSize: '14px 14px' }} />
+            <span className="absolute left-6 top-6 font-pixel text-6xl text-cream/90">{String(i + 1).padStart(2, '0')}</span>
+            <span className="absolute right-6 top-6 font-pixel text-2xl text-cream/60">{item.year}</span>
+            <XorMark className="absolute -bottom-12 -right-12 h-56 w-56 text-white/10 transition-transform duration-500 group-hover:rotate-6" />
+            <span className="absolute left-6 top-24 font-pixel text-3xl uppercase tracking-widest text-cream/70">
+              {item.categoryLabel}
+            </span>
+          </div>
+          <div className="absolute inset-x-0 bottom-0 border-t-2 border-white/20 bg-primary-deep/85 p-6 backdrop-blur-sm">
+            <h3 className="text-2xl font-bold text-cream">{item.title}</h3>
+            <div className="mt-3 flex flex-wrap gap-2">
+              {item.tags.slice(0, 4).map((tag) => (
+                <span key={tag} className="border border-cream/25 px-2 py-0.5 font-pixel text-sm uppercase tracking-wide text-cream/80">
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </div>
+        </Link>
+      ))}
+    </HorizontalScroll>
   )
 }
 
 function ProcessSection() {
   return (
-    <section data-nav-theme="dark" className="bg-primary-deep py-24 text-cream">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <section data-nav-theme="dark" className="relative isolate overflow-hidden bg-primary-deep py-24 text-cream">
+      <Parallax
+        speed={0.16}
+        className="pointer-events-none absolute -left-20 top-1/2 z-0 hidden -translate-y-1/2 lg:block"
+      >
+        <XorMark className="h-[34vw] w-[34vw] max-h-[460px] max-w-[460px] text-white/[0.04]" />
+      </Parallax>
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <Reveal>
           <div className="mb-14">
             <SectionKicker dark>Proses Kerja</SectionKicker>
