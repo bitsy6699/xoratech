@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { motion, useMotionValueEvent, useReducedMotion, useScroll, useTransform } from 'framer-motion'
-import XorMark from '../ui/XorMark'
+import VideoMaskedHeading from '../ui/VideoMaskedHeading'
 import PixelArrow from '../ui/PixelArrow'
 
 export default function BlueprintHero({ sectionRef }) {
@@ -9,10 +9,12 @@ export default function BlueprintHero({ sectionRef }) {
   const reduce = useReducedMotion()
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end end'] })
   const [stepIdx, setStepIdx] = useState(1)
+  const [videoOn, setVideoOn] = useState(false)
 
   useMotionValueEvent(scrollYProgress, 'change', (v) => {
     const idx = v < 0.16 ? 0 : v < 0.38 ? 1 : v < 0.56 ? 2 : v < 0.8 ? 3 : 4
     setStepIdx(idx)
+    if (!videoOn && v >= 0.75) setVideoOn(true)
   })
 
   const gridOp = useTransform(scrollYProgress, [0, 0.3], [0.12, 0.28])
@@ -38,9 +40,10 @@ export default function BlueprintHero({ sectionRef }) {
   const cardsOp = useTransform(scrollYProgress, [0.56, 0.64], [0, 1])
   const cardsY = useTransform(scrollYProgress, [0.56, 0.64], [30, 0])
 
-  const logoOp = useTransform(scrollYProgress, [0.8, 0.86], [0, 1])
-  const logoY = useTransform(scrollYProgress, [0.82, 0.9], [44, 0])
-  const logoRestY = useTransform(scrollYProgress, [0.86, 0.94], [20, 0])
+  const logoOp = useTransform(scrollYProgress, [0.8, 0.86, 0.92, 0.99], [0, 1, 1, 0])
+  const logoScale = useTransform(scrollYProgress, [0.8, 0.86, 1], [1.08, 1, 1.5])
+  const logoBlur = useTransform(scrollYProgress, [0.94, 1], ['blur(0px)', 'blur(14px)'])
+  const logoY = useTransform(scrollYProgress, [0.82, 0.9], [22, 0])
 
   if (reduce) {
     return <StaticHero sectionRef={sectionRef} />
@@ -161,40 +164,36 @@ export default function BlueprintHero({ sectionRef }) {
 
         {/* logo reveal */}
         <motion.div
-          className="absolute inset-0 z-[4] grid place-items-center text-center text-cream"
+          className="pointer-events-none absolute inset-0 z-[4] grid place-items-center text-center text-cream"
           style={{ opacity: logoOp }}
         >
-          <div className="flex flex-col items-center">
-            <motion.div style={{ y: logoY }}>
-              <XorMark className="h-[20vw] w-[20vw] max-h-[260px] max-w-[260px] text-cream" />
-            </motion.div>
-            <motion.div style={{ y: logoRestY }}>
-              <p className="mt-6 text-[clamp(64px,12vw,200px)] font-bold leading-[0.75] tracking-[-0.08em]">
-                XORA
-              </p>
-              <p className="mt-5 font-pixel text-[clamp(18px,3vw,42px)] uppercase tracking-[0.45em] text-cream/80">
-                TECH
-              </p>
-              <p className="mt-8 font-pixel text-sm uppercase tracking-[0.25em] text-cream/60">
-                We Build What Comes Next
-              </p>
-              <div className="mt-10 flex flex-wrap justify-center gap-4">
-                <Link
-                  to="/kontak"
-                  className="inline-flex items-center gap-2 border-2 border-cream bg-cream px-9 py-4 font-sans text-sm font-bold uppercase tracking-wide text-primary shadow-[4px_4px_0_0_#093FB4] transition-transform hover:-translate-y-0.5"
-                >
-                  Mulai Proyek
-                  <PixelArrow className="h-3.5 w-3.5 text-current" />
-                </Link>
-                <a
-                  href="mailto:halo@xora.id"
-                  className="inline-flex items-center border-2 border-cream/50 px-9 py-4 font-sans text-sm font-semibold uppercase tracking-wide text-cream transition-colors hover:bg-cream hover:text-primary"
-                >
-                  Email Kami
-                </a>
-              </div>
-            </motion.div>
-          </div>
+          <motion.div
+            className="flex w-[min(94vw,960px)] flex-col items-center"
+            style={{ scale: logoScale, filter: logoBlur, y: logoY }}
+          >
+            <VideoMaskedHeading active={videoOn} className="-mb-[4.5vw] w-[min(100%,960px)]" />
+            <p className="font-pixel text-[clamp(18px,3vw,42px)] uppercase tracking-[0.45em] text-cream/80">
+              TECH
+            </p>
+            <p className="mt-8 font-pixel text-sm uppercase tracking-[0.25em] text-cream/60">
+              We Build What Comes Next
+            </p>
+            <div className="pointer-events-auto mt-10 flex flex-wrap justify-center gap-4">
+              <Link
+                to="/kontak"
+                className="inline-flex items-center gap-2 border-2 border-cream bg-cream px-9 py-4 font-sans text-sm font-bold uppercase tracking-wide text-primary shadow-[4px_4px_0_0_#093FB4] transition-transform hover:-translate-y-0.5"
+              >
+                Mulai Proyek
+                <PixelArrow className="h-3.5 w-3.5 text-current" />
+              </Link>
+              <a
+                href="mailto:halo@xora.id"
+                className="inline-flex items-center border-2 border-cream/50 px-9 py-4 font-sans text-sm font-semibold uppercase tracking-wide text-cream transition-colors hover:bg-cream hover:text-primary"
+              >
+                Email Kami
+              </a>
+            </div>
+          </motion.div>
         </motion.div>
 
         {/* scroll / scrub indicator */}
@@ -231,11 +230,12 @@ function StaticHero({ sectionRef }) {
           backgroundSize: '32px 32px',
         }}
       />
-      <div className="relative mx-auto max-w-3xl px-4">
-        <XorMark className="mx-auto h-28 w-28 text-cream" />
-        <h1 className="mt-6 text-[clamp(48px,9vw,128px)] font-bold leading-[0.8] tracking-[-0.07em]">
-          XORA
-        </h1>
+      <div className="relative mx-auto max-w-4xl px-4">
+        <VideoMaskedHeading
+          active
+          preferPoster
+          className="mx-auto w-[min(100%,860px)]"
+        />
         <p className="mt-4 font-pixel text-xl uppercase tracking-[0.45em] text-cream/80">Tech</p>
         <p className="mt-6 text-lg font-light text-cream/70">
           Produk digital yang direkayasa dari ide hingga diluncurkan.
