@@ -5,8 +5,8 @@ const clamp = (v, a, b) => (v < a ? a : v > b ? b : v)
 
 export default function RippleDistortion({
   children,
-  radius = 260,
-  maxScale = 60,
+  radius = 320,
+  maxScale = 100,
   className = '',
 }) {
   const reduce = useReducedMotion()
@@ -46,7 +46,7 @@ export default function RippleDistortion({
         const ny = clamp(cursorRef.current.y, r.top, r.bottom)
         const d = Math.hypot(cursorRef.current.x - nx, cursorRef.current.y - ny)
         const target = d <= radius ? 1 - d / radius : 0
-        const amp = ampRef.current + (target - ampRef.current) * (target > ampRef.current ? 0.18 : 0.06)
+        const amp = ampRef.current + (target - ampRef.current) * (target > ampRef.current ? 0.18 : 0.12)
         ampRef.current = amp
         const scale = Math.round(amp * maxScale + Math.sin(clock * 2.4) * amp * 4)
         map.setAttribute('scale', String(Math.max(0, scale)))
@@ -67,8 +67,8 @@ export default function RippleDistortion({
   }, [reduce, radius, maxScale])
 
   return (
-    <div ref={wrapRef} className={`absolute inset-0 overflow-hidden ${className}`.trim()}>
-      <svg aria-hidden="true" focusable="false" width="0" height="0" className="absolute">
+    <div ref={wrapRef} className={`pointer-events-none absolute inset-0 overflow-hidden ${className}`.trim()}>
+      <svg aria-hidden="true" focusable="false" width="0" height="0" className="absolute" style={{ left: 0, top: 0 }}>
         <defs>
           <filter id={filterId}>
             <feTurbulence
@@ -89,7 +89,7 @@ export default function RippleDistortion({
           </filter>
         </defs>
       </svg>
-      <div className="absolute inset-0" style={{ filter: `url(#${filterId})` }}>
+      <div className="absolute inset-0" style={{ filter: `url(#${filterId})`, willChange: 'filter' }}>
         {children}
       </div>
     </div>
