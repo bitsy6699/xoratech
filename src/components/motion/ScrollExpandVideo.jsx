@@ -3,6 +3,30 @@ import { useScroll, useMotionValueEvent, useReducedMotion } from 'framer-motion'
 
 const clamp01 = (v) => (v < 0 ? 0 : v > 1 ? 1 : v)
 
+const parseMediaTransform = (el) => {
+  const cs = window.getComputedStyle(el)
+  if (typeof DOMMatrix === 'function') {
+    try {
+      const m = new DOMMatrix(cs.transform)
+      if (m.a) return { sx: m.a, tx: m.e, ty: m.f }
+    } catch {
+      /* ignore */
+    }
+  }
+  const mat = cs.transform.match(/matrix\(([^)]+)\)/)
+  if (mat) {
+    const p = mat[1].split(',').map(Number)
+    if (p.length === 6 && p[0]) return { sx: p[0], tx: p[4], ty: p[5] }
+  }
+  const scale = cs.transform.match(/scale\(([^)]+)\)/)
+  const tr = cs.transform.match(/translate3d\(([^,]+),([^,]+)/)
+  return {
+    sx: scale ? parseFloat(scale[1]) : 1,
+    tx: tr ? parseFloat(tr[1]) : 0,
+    ty: tr ? parseFloat(tr[2]) : 0,
+  }
+}
+
 export default function ScrollExpandVideo({
   targetRef,
   src = '/videos/header.mp4',
@@ -14,6 +38,7 @@ export default function ScrollExpandVideo({
   const boxRef = useRef(null)
   const glyphRef = useRef(null)
   const layerRef = useRef(null)
+  const mediaRef = useRef(null)
   const overlayRef = useRef(null)
   const srcRef = useRef(null)
   const posRef = useRef({ x: 0, y: 0, fs: 0, sx: 1, hidden: false })
@@ -24,8 +49,9 @@ export default function ScrollExpandVideo({
     const box = boxRef.current
     const glyph = glyphRef.current
     const layer = layerRef.current
+    const video = mediaRef.current
     const over = overlayRef.current
-    if (!box || !glyph || !layer || !over) return
+    if (!box || !glyph || !layer || !video || !over) return
     const t = reduce ? 1 : clamp01(scrollYProgress.get())
     const vw = window.innerWidth
     const vh = window.innerHeight
@@ -34,31 +60,50 @@ export default function ScrollExpandVideo({
     const src = srcRef.current
     if (!src) {
       const rootEl = document.querySelector('[data-hero-word]')
+      const heroGlyph = rootEl?.querySelector('.masked-heading__defs text:nth-child(3)')
+      const heroMedia = rootEl?.querySelector('.masked-heading__media')
       const spanO = rootEl?.querySelector('.mpt-char:nth-child(3)')
       const baseO = spanO?.querySelector('.masked-heading__baseline')
-      if (rootEl && spanO && baseO) srcRef.current = { span: spanO, base: baseO }
+      if (rootEl && heroGlyph && heroMedia && spanO && baseO) {
+        srcRef.current = { root: rootEl, glyph: heroGlyph, media: heroMedia, span: spanO, base: baseO }
+      }
     }
 
     if (src) {
       const r = src.span.getBoundingClientRect()
       const visible = r.top < vh + 80 && r.bottom > -80
       if (visible) {
-        const cs = window.getComputedStyle(src.span)
+        const rr = src.root.getBoundingClientRect()
+        const gx = rr.left + (parseFloat(src.glyph.getAttribute('x')) || src.span.offsetLeft)
+        const gy = rr.top + (parseFloat(src.glyph.getAttribute('y')) || src.base.offsetTop)
+        const cs = window.getComputedStyle(src.glyph)
         const fs = parseFloat(cs.fontSize) || st.fs || 200
+
         st.x = r.left + r.width / 2
         st.y = r.top + r.height / 2
         st.hidden = false
+
         glyph.style.fontFamily = cs.fontFamily
         glyph.style.fontStyle = cs.fontStyle
         glyph.style.fontWeight = cs.fontWeight
         glyph.style.fontSize = cs.fontSize
         glyph.style.letterSpacing = cs.letterSpacing
         glyph.style.fontVariationSettings = cs.fontVariationSettings
-        glyph.setAttribute('x', String(r.left))
-        glyph.setAttribute('y', String(src.base.getBoundingClientRect().top))
+        glyph.setAttribute('x', String(gx))
+        glyph.setAttribute('y', String(gy))
+
         if (Math.abs(fs - st.fs) > 1) {
           st.fs = fs
           st.sx = Math.max(vw / (0.62 * fs), vh / fs) * 1.25
+        }
+        if (!src.mediaBox) {
+          src.mediaBox = {
+            left: rr.left,
+            top: rr.top,
+            width: rr.width,
+            height: rr.height,
+            ...parseMediaTransform(src.media),
+          }
         }
       } else {
         st.hidden = true
@@ -81,6 +126,17 @@ export default function ScrollExpandVideo({
     const cy = st.y
     const s = 1 + (st.sx - 1) * t
     glyph.setAttribute('transform', `translate(${cx} ${cy}) scale(${s}) translate(${-cx} ${-cy})`)
+
+    const mb = src?.mediaBox
+    if (mb) {
+      const e = reduce ? 1 : clamp01((t - 0.05) / 0.45)
+      video.style.left = `${mb.left * (1 - e)}px`
+      video.style.top = `${mb.top * (1 - e)}px`
+      video.style.width = `${mb.width * (1 - e) + vw * e}px`
+      video.style.height = `${mb.height * (1 - e) + vh * e}px`
+      video.style.transformOrigin = 'center center'
+      video.style.transform = `translate3d(${mb.tx * (1 - e)}px, ${mb.ty * (1 - e)}px, 0) scale(${mb.sx * (1 - e) + e})`
+    }
   }
 
   useMotionValueEvent(scrollYProgress, 'change', update)
@@ -135,6 +191,7 @@ export default function ScrollExpandVideo({
       </svg>
       <div ref={layerRef} className="absolute inset-0" style={{ clipPath: `url(#${clipId})` }}>
         <video
+          ref={mediaRef}
           className="absolute inset-0 h-full w-full object-cover"
           src={src}
           poster={poster}

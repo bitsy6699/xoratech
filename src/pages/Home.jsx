@@ -59,6 +59,11 @@ const CategoriesSection = ({ sectionRef }) => {
               </div>
               <ArrowLink to="/layanan">Semua layanan</ArrowLink>
             </div>
+            <div aria-hidden="true" className="mb-14 flex items-center gap-4">
+              <span className="h-1.5 flex-1 bg-primary shadow-[4px_4px_0_0_rgba(9,63,180,0.25)]" />
+              <span className="h-3 w-3 shrink-0 bg-primary" />
+              <span className="h-1.5 flex-1 bg-primary shadow-[4px_4px_0_0_rgba(9,63,180,0.25)]" />
+            </div>
           </Reveal>
 
           <Stagger className="grid gap-8 md:grid-cols-3" stagger={0.12}>
