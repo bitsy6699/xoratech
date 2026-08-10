@@ -119,7 +119,9 @@ export default function ScrollExpandVideo({
       box.style.opacity = '0'
       return
     }
-    box.style.opacity = reduce ? '1' : String(clamp01((t - 0.02) / 0.14))
+    const fadeIn = reduce ? 1 : clamp01((t - 0.02) / 0.14)
+    const fadeOut = reduce ? 1 : clamp01((t - 0.72) / 0.28)
+    box.style.opacity = String(fadeIn * (1 - fadeOut))
     over.style.opacity = reduce ? '1' : String(clamp01((t - 0.35) / 0.4))
 
     const cx = st.x

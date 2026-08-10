@@ -47,17 +47,29 @@ function ServicesMarquee() {
 
 const CategoriesSection = ({ sectionRef }) => {
   return (
-    <section ref={sectionRef} data-nav-theme="light" className="relative">
+    <section ref={sectionRef} data-nav-theme="light" className="relative isolate overflow-hidden">
+      <div aria-hidden="true" className="absolute inset-0">
+        <video
+          className="h-full w-full object-cover"
+          src="/videos/header.mp4"
+          poster="/videos/header-poster.jpg"
+          autoPlay
+          muted
+          loop
+          playsInline
+        />
+        <div className="absolute inset-0" style={{ background: 'rgba(9, 63, 180, 0.35)' }} />
+      </div>
       <ScrollExpandVideo targetRef={sectionRef} />
-      <div className="relative z-10 -mt-[100vh] py-24">
+      <div className="relative z-10 py-24">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <Reveal scale={0.96}>
             <div className="mb-14 flex flex-col justify-between gap-6 md:flex-row md:items-end">
               <div>
-                <SectionKicker>Layanan Kami</SectionKicker>
-                <RevealHeading lines={['Digital untuk semua', 'kebutuhan Anda']} className="text-4xl font-bold tracking-tight sm:text-5xl" />
+                <SectionKicker dark>Layanan Kami</SectionKicker>
+                <RevealHeading lines={['Digital untuk semua', 'kebutuhan Anda']} className="text-4xl font-bold tracking-tight text-cream sm:text-5xl" />
               </div>
-              <ArrowLink to="/layanan">Semua layanan</ArrowLink>
+              <ArrowLink to="/layanan" dark>Semua layanan</ArrowLink>
             </div>
             <div aria-hidden="true" className="mb-14 flex items-center gap-4">
               <span className="h-1.5 flex-1 bg-primary shadow-[4px_4px_0_0_rgba(9,63,180,0.25)]" />
