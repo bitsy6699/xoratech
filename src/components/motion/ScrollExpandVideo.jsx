@@ -3,8 +3,6 @@ import { useScroll, useMotionValueEvent, useReducedMotion } from 'framer-motion'
 
 const clamp01 = (v) => (v < 0 ? 0 : v > 1 ? 1 : v)
 
-const ANCHOR_SELECTOR = '[data-hero-word] .mpt-char:nth-child(3)'
-
 export default function ScrollExpandVideo({
   targetRef,
   src = '/videos/header.mp4',
@@ -17,8 +15,8 @@ export default function ScrollExpandVideo({
   const glyphRef = useRef(null)
   const layerRef = useRef(null)
   const overlayRef = useRef(null)
-  const anchorRef = useRef(null)
-  const posRef = useRef({ x: 0, y: 0, fs: 0, sx: 1 })
+  const srcRef = useRef(null)
+  const posRef = useRef({ x: 0, y: 0, fs: 0, sx: 1, hidden: false })
 
   const { scrollYProgress } = useScroll({ target: targetRef, offset: ['start end', 'start start'] })
 
@@ -33,32 +31,39 @@ export default function ScrollExpandVideo({
     const vh = window.innerHeight
     const st = posRef.current
 
-    if (!anchorRef.current) {
-      const el = document.querySelector(ANCHOR_SELECTOR)
-      if (el) {
-        anchorRef.current = el
-        const fs = parseFloat(window.getComputedStyle(el).fontSize) || 200
-        st.fs = fs
-        st.sx = Math.max(vw / (0.62 * fs), vh / fs) * 1.25
-      }
+    const src = srcRef.current
+    if (!src) {
+      const rootEl = document.querySelector('[data-hero-word]')
+      const spanO = rootEl?.querySelector('.mpt-char:nth-child(3)')
+      const baseO = spanO?.querySelector('.masked-heading__baseline')
+      if (rootEl && spanO && baseO) srcRef.current = { span: spanO, base: baseO }
     }
-    const el = anchorRef.current
-    if (el) {
-      const r = el.getBoundingClientRect()
-      if (r.bottom > 0 && r.top < vh) {
+
+    if (src) {
+      const r = src.span.getBoundingClientRect()
+      const visible = r.top < vh + 80 && r.bottom > -80
+      if (visible) {
+        const cs = window.getComputedStyle(src.span)
+        const fs = parseFloat(cs.fontSize) || st.fs || 200
         st.x = r.left + r.width / 2
         st.y = r.top + r.height / 2
-        const fs = parseFloat(window.getComputedStyle(el).fontSize) || st.fs
+        st.hidden = false
+        glyph.style.fontFamily = cs.fontFamily
+        glyph.style.fontStyle = cs.fontStyle
+        glyph.style.fontWeight = cs.fontWeight
+        glyph.style.fontSize = cs.fontSize
+        glyph.style.letterSpacing = cs.letterSpacing
+        glyph.style.fontVariationSettings = cs.fontVariationSettings
+        glyph.setAttribute('x', String(r.left))
+        glyph.setAttribute('y', String(src.base.getBoundingClientRect().top))
         if (Math.abs(fs - st.fs) > 1) {
           st.fs = fs
           st.sx = Math.max(vw / (0.62 * fs), vh / fs) * 1.25
         }
-      } else if (!st.x) {
-        st.x = vw / 2
-        st.y = vh * 0.5
+      } else {
+        st.hidden = true
       }
-    }
-    if (!st.x) {
+    } else if (!st.x || !st.fs) {
       st.x = vw / 2
       st.y = vh * 0.5
       if (!st.fs) st.fs = 200
@@ -74,9 +79,6 @@ export default function ScrollExpandVideo({
 
     const cx = st.x
     const cy = st.y
-    glyph.setAttribute('x', String(cx))
-    glyph.setAttribute('y', String(cy))
-    glyph.setAttribute('font-size', String(st.fs))
     const s = 1 + (st.sx - 1) * t
     glyph.setAttribute('transform', `translate(${cx} ${cy}) scale(${s}) translate(${-cx} ${-cy})`)
   }
@@ -87,9 +89,9 @@ export default function ScrollExpandVideo({
     update()
     let raf
     const onResize = () => {
-      const el = anchorRef.current
-      if (el) {
-        const fs = parseFloat(window.getComputedStyle(el).fontSize) || 0
+      const span = srcRef.current?.span
+      if (span) {
+        const fs = parseFloat(window.getComputedStyle(span).fontSize) || 0
         if (fs) {
           posRef.current.fs = fs
           posRef.current.sx = Math.max(innerWidth / (0.62 * fs), innerHeight / fs) * 1.25
@@ -123,8 +125,6 @@ export default function ScrollExpandVideo({
               ref={glyphRef}
               x="0"
               y="0"
-              textAnchor="middle"
-              dominantBaseline="middle"
               fontFamily="'Martian Mono', monospace"
               fontWeight="700"
             >
