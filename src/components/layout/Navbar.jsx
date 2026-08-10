@@ -3,6 +3,7 @@ import { NavLink, useLocation } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
 import Logo from '../ui/Logo'
 import Button from '../ui/Button'
+import Icon from '../ui/Icon'
 
 const navLinks = [
   { to: '/', label: 'Beranda' },
@@ -48,14 +49,14 @@ export default function Navbar() {
   const dark = overDark && !open
   const accent = dark ? 'text-cream' : 'text-primary'
   const navBg = dark
-    ? 'bg-primary-deep/90 border-primary/20 backdrop-blur'
+    ? 'bg-primary/90 border-cream/20 backdrop-blur'
     : 'bg-cream/95 border-primary/20 backdrop-blur'
 
   return (
     <header
       className={`sticky top-0 z-40 border-b-2 transition-colors ${navBg} ${
-        scrolled && !dark ? 'shadow-[0_4px_0_0_#051a66]' : ''
-      } ${dark ? 'shadow-[0_4px_0_0_#0024fc]' : ''}`}
+        scrolled && !dark ? 'shadow-[0_4px_0_0_#093FB4]' : ''
+      } ${dark ? 'shadow-[0_4px_0_0_#FFFCFB]' : ''}`}
     >
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <Logo variant={dark ? 'dark' : 'light'} />
@@ -67,8 +68,8 @@ export default function Navbar() {
               to={link.to}
               end={link.to === '/'}
               className={({ isActive }) =>
-                `group relative font-medium tracking-wide transition-colors hover:text-pixel ${
-                  isActive ? accent : dark ? 'text-cream/85' : 'text-ink'
+                `group relative font-medium tracking-wide transition-colors hover:opacity-70 ${
+                  isActive ? accent : dark ? 'text-cream/85' : 'text-primary'
                 }`
               }
             >
@@ -77,7 +78,7 @@ export default function Navbar() {
                   {link.label}
                   <span
                     className={`absolute -bottom-1 left-0 h-1 w-4 transition-all ${
-                      isActive ? (dark ? 'bg-pixel' : 'bg-primary') : 'bg-transparent group-hover:bg-pixel/60'
+                      isActive ? (dark ? 'bg-cream' : 'bg-primary') : 'bg-transparent group-hover:bg-current'
                     }`}
                   />
                 </>
@@ -91,7 +92,7 @@ export default function Navbar() {
             to="/kontak"
             size="sm"
             variant={dark ? 'pixel' : 'primary'}
-            className="btn-sheen"
+            className=""
           >
             Konsultasi Gratis
           </Button>
@@ -100,20 +101,13 @@ export default function Navbar() {
         <button
           className={`flex h-10 w-10 items-center justify-center border-2 ${dark ? 'border-cream/40' : 'border-primary'} lg:hidden`}
           onClick={() => setOpen(!open)}
-          aria-label="Toggle menu"
+          aria-label={open ? 'Tutup menu' : 'Buka menu'}
           aria-expanded={open}
         >
-          <div className="space-y-1.5">
-            <span className={`block h-0.5 w-5 transition-transform ${
-              open ? 'translate-y-2 rotate-45' : ''
-            } ${dark && !open ? 'bg-cream' : 'bg-primary'}`} />
-            <span className={`block h-0.5 w-5 transition-opacity ${
-              open ? 'opacity-0' : ''
-            } ${dark && !open ? 'bg-cream' : 'bg-primary'}`} />
-            <span className={`block h-0.5 w-5 transition-transform ${
-              open ? '-translate-y-2 -rotate-45' : ''
-            } ${dark && !open ? 'bg-cream' : 'bg-primary'}`} />
-          </div>
+          <Icon
+            name={open ? 'close' : 'menu'}
+            className={`h-5 w-5 ${dark && !open ? 'text-cream' : 'text-primary'}`}
+          />
         </button>
       </div>
 
@@ -142,7 +136,7 @@ export default function Navbar() {
                 </NavLink>
               ))}
               <div className="mt-4">
-                <Button to="/kontak" className="w-full btn-sheen">
+                <Button to="/kontak" className="w-full">
                   Konsultasi Gratis
                 </Button>
               </div>

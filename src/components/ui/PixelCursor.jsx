@@ -70,7 +70,7 @@ export default function PixelCursor() {
           marginLeft: -3,
           marginTop: -3,
         }}
-        animate={{ backgroundColor: hovering ? '#3DF0C4' : '#0024fc' }}
+        animate={{ backgroundColor: hovering ? '#FFFCFB' : '#093FB4' }}
       />
       {/* outer pixel ring (spring lag) */}
       <motion.div
@@ -84,8 +84,8 @@ export default function PixelCursor() {
           height: ringSize,
         }}
         animate={{
-          backgroundColor: hovering ? 'rgba(61,240,196,0.12)' : 'rgba(9,63,180,0.08)',
-          borderColor: hovering ? '#3DF0C4' : '#0024fc',
+          backgroundColor: hovering ? 'rgba(255,252,251,0.12)' : 'rgba(9,63,180,0.08)',
+          borderColor: hovering ? '#FFFCFB' : '#093FB4',
         }}
         transition={{ type: 'spring', stiffness: 260, damping: 24 }}
       />

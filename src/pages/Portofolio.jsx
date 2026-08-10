@@ -24,14 +24,14 @@ export default function PortofolioPage() {
             className="text-center text-4xl font-bold tracking-tight sm:text-6xl"
           />
           <Reveal delay={0.2}>
-            <p className="mx-auto mt-5 max-w-2xl text-lg font-light text-muted">
+            <p className="mx-auto mt-5 max-w-2xl text-lg font-light text-primary/60">
               Website, aplikasi, dan sistem yang telah selesai kami kembangkan untuk berbagai klien.
             </p>
           </Reveal>
         </div>
       </section>
 
-      <section data-nav-theme="light" className="bg-card py-16">
+      <section data-nav-theme="light" className="bg-cream py-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mb-12 flex flex-wrap justify-center gap-3">
             {portfolioFilters.map((filter) => (
@@ -40,7 +40,7 @@ export default function PortofolioPage() {
                 onClick={() => setActiveFilter(filter.value)}
                 className={`relative border-2 px-5 py-2 font-pixel text-lg uppercase tracking-widest transition-all ${
                   activeFilter === filter.value
-                    ? 'border-primary-darker bg-primary text-cream shadow-[4px_4px_0_0_#051a66]'
+                    ? 'border-primary/25 bg-primary text-cream shadow-[4px_4px_0_0_#093FB4]'
                     : 'border-primary/30 bg-cream text-primary hover:bg-primary/5'
                 }`}
               >
@@ -48,7 +48,7 @@ export default function PortofolioPage() {
                 {activeFilter === filter.value && (
                   <motion.span
                     layoutId="filter-caret"
-                    className="absolute -bottom-2 left-1/2 h-2 w-2 -translate-x-1/2 bg-pixel-dim"
+                    className="absolute -bottom-2 left-1/2 h-2 w-2 -translate-x-1/2 bg-primary"
                   />
                 )}
               </button>
@@ -67,7 +67,7 @@ export default function PortofolioPage() {
                   transition={{ duration: 0.32, ease: [0.76, 0, 0.24, 1] }}
                 >
                   <TiltCard intensity={7} className="h-full">
-                    <article className="group relative block h-full overflow-hidden border-2 border-primary-darker bg-cream shadow-[6px_6px_0_0_#051a66] transition-all duration-200 hover:translate-x-1 hover:translate-y-1 hover:shadow-[2px_2px_0_0_#051a66]">
+                    <article className="group relative block h-full overflow-hidden border-2 border-primary/25 bg-cream shadow-[4px_4px_0_0_#093FB4] transition-all duration-200 hover:translate-x-1 hover:translate-y-1 hover:shadow-[2px_2px_0_0_#093FB4]">
                       <div
                         className="relative flex h-48 cursor-pointer items-center justify-center overflow-hidden p-6 text-center"
                         style={{ backgroundColor: item.color }}
@@ -76,10 +76,10 @@ export default function PortofolioPage() {
                           className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
                           style={{
                             backgroundImage:
-                              'radial-gradient(circle at 50% 120%, rgba(61,240,196,0.5) 0%, transparent 60%)',
+                              'radial-gradient(circle at 50% 120%, rgba(255,252,251,0.35) 0%, transparent 60%)',
                           }}
                         />
-                        <div className="pointer-events-none absolute inset-0 opacity-15" style={{ backgroundImage: 'radial-gradient(#fff 1px, transparent 1px)', backgroundSize: '12px 12px' }} />
+                        <div className="pointer-events-none absolute inset-0 opacity-15" style={{ backgroundImage: 'radial-gradient(#FFFCFB 1px, transparent 1px)', backgroundSize: '12px 12px' }} />
                         <div className="relative">
                           <p className="font-pixel text-xl uppercase tracking-widest text-cream/90">
                             {item.categoryLabel}
@@ -91,9 +91,9 @@ export default function PortofolioPage() {
                       <div className="p-5">
                         <div className="flex items-start justify-between gap-3">
                           <h3 className="text-xl font-bold">{item.title}</h3>
-                          <span className="mt-1 h-2 w-2 shrink-0 bg-pixel-dim" />
+                          <span className="mt-1 h-2 w-2 shrink-0 bg-primary" />
                         </div>
-                        <p className="mt-2 text-sm leading-relaxed text-muted">{item.description}</p>
+                        <p className="mt-2 text-sm leading-relaxed text-primary/60">{item.description}</p>
                         <div className="mt-4 flex flex-wrap gap-2">
                           {item.tags.map((tag) => (
                             <PixelTag key={tag} className="border-primary/20 px-2 py-0.5 !text-base">

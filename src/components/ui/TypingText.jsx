@@ -32,7 +32,7 @@ export default function TypingText({
     <span className={className}>
       {text}
       {caret && !reduce && (
-        <span aria-hidden="true" className="animate-caret ml-1 inline-block h-[0.9em] w-[0.5ch] translate-y-[0.12em] bg-pixel" />
+        <span aria-hidden="true" className="animate-caret ml-1 inline-block h-[0.9em] w-[0.5ch] translate-y-[0.12em] bg-cream" />
       )}
     </span>
   )

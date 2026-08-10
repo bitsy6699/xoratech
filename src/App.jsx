@@ -6,7 +6,6 @@ import Footer from './components/layout/Footer'
 import ScrollToTop from './components/layout/ScrollToTop'
 import PixelCursor from './components/ui/PixelCursor'
 import ScrollProgress from './components/ui/ScrollProgress'
-import NoiseOverlay from './components/ui/NoiseOverlay'
 import BackToTop from './components/ui/BackToTop'
 import ClickDust from './components/ui/ClickDust'
 import HomePage from './pages/Home'
@@ -27,7 +26,6 @@ export default function App() {
         <ScrollProgress />
         <PixelCursor />
         <ClickDust />
-        <NoiseOverlay />
         <Navbar />
         <main>
           <Routes>

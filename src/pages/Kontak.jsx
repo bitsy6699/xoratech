@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { Reveal } from '../components/motion/Reveal'
 import RevealHeading from '../components/motion/RevealHeading'
 import { SectionKicker, PixelTag } from '../components/ui/Button.jsx'
+import Icon from '../components/ui/Icon'
 import PixelArrow from '../components/ui/PixelArrow'
 import { submitMessage, isSupabaseConfigured } from '../lib/supabase'
 import { allServices } from '../data/services'
@@ -57,7 +58,7 @@ export default function KontakPage() {
   }
 
   const inputCls =
-    'w-full border-2 border-primary-darker bg-cream px-4 py-3 text-sm text-ink placeholder:text-muted/60 outline-none transition-colors focus:bg-white focus:shadow-[4px_4px_0_0_#0024fc]'
+    'w-full border-2 border-primary/25 bg-cream px-4 py-3 text-sm text-primary placeholder:text-primary/60/60 outline-none transition-colors focus:bg-cream focus:shadow-[4px_4px_0_0_#093FB4]'
 
   return (
     <div>
@@ -69,14 +70,14 @@ export default function KontakPage() {
             className="text-center text-4xl font-bold tracking-tight sm:text-6xl"
           />
           <Reveal delay={0.2}>
-            <p className="mx-auto mt-5 max-w-2xl text-lg font-light text-muted">
+            <p className="mx-auto mt-5 max-w-2xl text-lg font-light text-primary/60">
               Ceritakan kebutuhan Anda. Tim kami akan menghubungi Anda dalam 1x24 jam kerja.
             </p>
           </Reveal>
         </div>
       </section>
 
-      <section data-nav-theme="light" className="bg-card py-20">
+      <section data-nav-theme="light" className="bg-cream py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid gap-12 lg:grid-cols-5">
             <div className="lg:col-span-2">
@@ -84,13 +85,16 @@ export default function KontakPage() {
                 <h2 className="text-2xl font-bold">Info Kontak</h2>
                 <div className="mt-6 space-y-4">
                   {[
-                    ['Email', 'halo@xora.id', 'mailto:halo@xora.id'],
-                    ['WhatsApp', '+62 812 3456 7890', 'https://wa.me/6281234567890'],
-                    ['Alamat', 'Jakarta, Indonesia', '#'],
-                  ].map(([label, value, href]) => (
+                    ['mail', 'Email', 'halo@xora.id', 'mailto:halo@xora.id'],
+                    ['whatsapp', 'WhatsApp', '+62 812 3456 7890', 'https://wa.me/6281234567890'],
+                    ['map-pin', 'Alamat', 'Jakarta, Indonesia', '#'],
+                  ].map(([icon, label, value, href]) => (
                     <div key={label} className="border-2 border-primary/10 bg-cream p-4">
-                      <p className="font-pixel text-lg uppercase tracking-widest text-primary">{label}</p>
-                      <a href={href} className="mt-1 block font-medium text-ink hover:underline">
+                      <p className="flex items-center gap-2 font-pixel text-lg uppercase tracking-widest text-primary">
+                        <Icon name={icon} className="h-4 w-4" />
+                        {label}
+                      </p>
+                      <a href={href} className="mt-1 block font-medium text-primary hover:underline">
                         {value}
                       </a>
                     </div>
@@ -107,7 +111,7 @@ export default function KontakPage() {
               <Reveal delay={0.1}>
                 <form
                   onSubmit={handleSubmit}
-                  className="border-2 border-ink bg-card p-6 shadow-[8px_8px_0_0_#051a66] sm:p-8"
+                  className="border-2 border-primary/25 bg-cream p-6 shadow-[4px_4px_0_0_#093FB4] sm:p-8"
                 >
                   {!isSupabaseConfigured && (
                     <div className="mb-6 border-2 border-amber-500 bg-amber-50 p-4 text-sm text-amber-800">
@@ -179,7 +183,7 @@ export default function KontakPage() {
                   <button
                     type="submit"
                     disabled={submitting}
-                    className="mt-6 inline-flex w-full items-center justify-center gap-3 border-2 border-primary-darker bg-primary px-8 py-4 text-sm font-bold uppercase tracking-wide text-cream shadow-[5px_5px_0_0_#051a66] transition-all hover:bg-primary-dark active:translate-x-1 active:translate-y-1 active:shadow-none disabled:opacity-60 sm:w-auto"
+                    className="mt-6 inline-flex w-full items-center justify-center gap-3 border-2 border-primary/25 bg-primary px-8 py-4 text-sm font-bold uppercase tracking-wide text-cream shadow-[4px_4px_0_0_#093FB4] transition-allhover:brightness-110 active:translate-x-1 active:translate-y-1 active:shadow-none disabled:opacity-60 sm:w-auto"
                   >
                     {submitting ? (
                       <>
@@ -208,22 +212,26 @@ export default function KontakPage() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ duration: 0.35, ease: [0.76, 0, 0.24, 1] }}
-            className={`fixed bottom-6 right-6 z-[70] flex max-w-sm items-start gap-3 border-2 p-4 shadow-[6px_6px_0_0_#051a66] ${
+            className={`fixed bottom-6 right-6 z-[70] flex max-w-sm items-start gap-3 border-2 p-4 shadow-[4px_4px_0_0_#093FB4] ${
               status.type === 'success'
-                ? 'border-pixel-dim bg-pixel text-primary-deep'
-                : 'border-red-500 bg-white text-red-700'
+                ? 'border-primary bg-cream text-primary'
+                : 'border-red-500 bg-cream text-red-700'
             }`}
           >
-            <span className="mt-0.5 grid h-6 w-6 shrink-0 place-items-center bg-primary-deep font-bold text-pixel">
-              {status.type === 'success' ? '✓' : '!'}
+            <span className="mt-0.5 grid h-6 w-6 shrink-0 place-items-center bg-primary text-cream">
+              {status.type === 'success' ? (
+                <Icon name="check" className="h-4 w-4" />
+              ) : (
+                <span className="text-lg font-bold leading-none">!</span>
+              )}
             </span>
             <p className="text-sm font-medium leading-relaxed">{status.message}</p>
             <button
               onClick={() => setStatus({ type: '', message: '' })}
-              className="ml-auto text-lg leading-none opacity-60 transition-opacity hover:opacity-100"
+              className="ml-auto opacity-60 transition-opacity hover:opacity-100"
               aria-label="Tutup"
             >
-              ×
+              <Icon name="close" className="h-5 w-5" />
             </button>
           </motion.div>
         )}

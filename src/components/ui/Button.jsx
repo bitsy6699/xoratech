@@ -11,14 +11,14 @@ export default function Button({
   ...props
 }) {
   const base =
-    'btn-sheen inline-flex items-center justify-center gap-2 border-2 font-sans font-semibold uppercase tracking-wide transition-all duration-150 active:translate-x-1 active:translate-y-1 active:shadow-none'
+    ' inline-flex items-center justify-center gap-2 border-2 font-sans font-semibold uppercase tracking-wide transition-all duration-150 active:translate-x-1 active:translate-y-1 active:shadow-none'
   const variants = {
-    primary: 'bg-primary text-cream border-primary-darker shadow-[4px_4px_0_0_#051a66] hover:bg-primary-dark',
+    primary: 'bg-primary text-cream border-primary/25 shadow-[4px_4px_0_0_#093FB4] hover:brightness-110',
     outline:
-      'bg-transparent text-primary border-primary-darker shadow-[4px_4px_0_0_#051a66] hover:bg-primary hover:text-cream',
-    dark: 'bg-primary-deep text-cream border-ink shadow-[4px_4px_0_0_#000] hover:bg-primary-darker',
-    cream: 'bg-cream text-primary border-primary-darker shadow-[4px_4px_0_0_#042d80] hover:bg-pixel',
-    pixel: 'bg-pixel text-primary-deep border-primary-darker shadow-[4px_4px_0_0_#042d80] hover:bg-cream',
+      'bg-transparent text-primary border-primary/25 shadow-[4px_4px_0_0_#093FB4] hover:bg-primary hover:text-cream',
+    dark: 'bg-primary text-cream border-primary/25 shadow-[4px_4px_0_0_#093FB4] hover:bg-primary',
+    cream: 'bg-cream text-primary border-primary/25 shadow-[4px_4px_0_0_#fffcfb] hover:bg-primary',
+    pixel: 'bg-cream text-primary border-primary/25 shadow-[4px_4px_0_0_#fffcfb] hover:bg-cream',
   }
   const sizes = {
     sm: 'px-4 py-2 text-xs',
@@ -52,10 +52,10 @@ export function PixelTag({ children, className = '', dark = false }) {
   return (
     <span
       className={`inline-flex items-center gap-2 border px-2.5 py-1 font-pixel text-base uppercase tracking-[0.2em] ${
-        dark ? 'border-white/25 text-pixel' : 'border-primary/30 text-primary'
+        dark ? 'border-cream text-cream' : 'border-primary/30 text-primary'
       } ${className}`}
     >
-      <span className={`h-1.5 w-1.5 ${dark ? 'bg-pixel' : 'bg-primary'}`} />
+      <span className={`h-1.5 w-1.5 ${dark ? 'bg-cream' : 'bg-primary'}`} />
       {children}
     </span>
   )
@@ -66,7 +66,7 @@ export function ArrowLink({ to, children, dark = false, className = '' }) {
     <Link
       to={to}
       className={`group inline-flex items-center gap-2 font-bold tracking-wide ${
-        dark ? 'text-pixel' : 'text-primary'
+        dark ? 'text-cream' : 'text-primary'
       } ${className}`}
     >
       <span className="border-b-2 border-current pb-0.5">{children}</span>
@@ -79,12 +79,12 @@ export function SectionKicker({ children, dark = false, className = '' }) {
   return (
     <p
       className={`mb-4 flex items-center gap-3 font-pixel text-xl uppercase tracking-[0.35em] ${
-        dark ? 'text-pixel' : 'text-primary'
+        dark ? 'text-cream' : 'text-primary'
       } ${className}`}
     >
-      <span className={`h-2 w-2 ${dark ? 'bg-pixel' : 'bg-primary'}`} />
+      <span className={`h-2 w-2 ${dark ? 'bg-cream' : 'bg-primary'}`} />
       {children}
-      <span className={`h-2 w-2 ${dark ? 'bg-pixel' : 'bg-primary'}`} />
+      <span className={`h-2 w-2 ${dark ? 'bg-cream' : 'bg-primary'}`} />
     </p>
   )
 }
@@ -99,12 +99,12 @@ export function Marquee({ items, dark = false, className = '' }) {
               <span key={i} className="inline-flex items-center gap-8">
                 <span
                   className={`font-pixel text-2xl uppercase tracking-wider ${
-                    dark ? 'text-white/70' : 'text-primary/60'
+                    dark ? 'text-cream' : 'text-primary/60'
                   }`}
                 >
                   {item}
                 </span>
-                <span className={`inline-block h-3 w-3 ${dark ? 'bg-pixel' : 'bg-primary'}`} />
+                <span className={`inline-block h-3 w-3 ${dark ? 'bg-cream' : 'bg-primary'}`} />
               </span>
             ))}
           </div>

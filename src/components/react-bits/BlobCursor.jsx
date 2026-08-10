@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 
-export default function BlobCursor({ color = '#0024fc' }) {
+export default function BlobCursor({ color = '#093FB4' }) {
   const [enabled, setEnabled] = useState(false)
   const blobRef = useRef(null)
   const positionRef = useRef({ x: 0, y: 0 })

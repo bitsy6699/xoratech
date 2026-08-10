@@ -23,7 +23,7 @@ const hash = (i) => {
 export default function PixelWipe({
   start,
   end,
-  from = '#020f2c',
+  from = '#093fb4',
   to = '#fffcfb',
   cols = 40,
   rows = 24,

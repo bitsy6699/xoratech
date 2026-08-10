@@ -8,7 +8,7 @@ export const portfolio = [
     year: '2025',
     description:
       'Company profile modern untuk perusahaan manufaktur, dengan bahasa visual bersih dan SEO yang meningkat 2x.',
-    color: '#0024fc',
+    color: '#093FB4',
   },
   {
     id: 2,
@@ -19,7 +19,7 @@ export const portfolio = [
     year: '2025',
     description:
       'Website sekolah dengan sistem PPDB online dan manajemen berita yang menangani 1.200+ pendaftar.',
-    color: '#051a66',
+    color: '#093FB4',
   },
   {
     id: 3,
@@ -30,7 +30,7 @@ export const portfolio = [
     year: '2024',
     description:
       'Portal desa lengkap: layanan surat online, potensi UMKM, dan transparansi dana desa.',
-    color: '#0B5E4A',
+    color: '#093FB4',
   },
   {
     id: 4,
@@ -41,7 +41,7 @@ export const portfolio = [
     year: '2024',
     description:
       'Toko online kopi specialty dengan checkout multi-payment dan integrasi ekspedisi.',
-    color: '#7A3B0E',
+    color: '#093FB4',
   },
   {
     id: 5,
@@ -52,7 +52,7 @@ export const portfolio = [
     year: '2025',
     description:
       'Aplikasi kasir POS untuk restoran: cetak struk thermal, manajemen produk, dan laporan harian.',
-    color: '#5B2A86',
+    color: '#093FB4',
   },
   {
     id: 6,
@@ -63,7 +63,7 @@ export const portfolio = [
     year: '2024',
     description:
       'Aplikasi fitness tracker Android dengan push notification dan sinkronisasi cloud real-time.',
-    color: '#0E7A2E',
+    color: '#093FB4',
   },
   {
     id: 7,
@@ -74,7 +74,7 @@ export const portfolio = [
     year: '2025',
     description:
       'Landing page asuransi berkonversi tinggi terhubung Meta Ads — meningkatkan leads 3x lipat.',
-    color: '#0024fc',
+    color: '#093FB4',
   },
   {
     id: 8,
@@ -85,7 +85,7 @@ export const portfolio = [
     year: '2024',
     description:
       'Dashboard manajemen inventori dengan grafik real-time dan kontrol akses per role.',
-    color: '#173E8F',
+    color: '#093FB4',
   },
   {
     id: 9,
@@ -96,7 +96,7 @@ export const portfolio = [
     year: '2024',
     description:
       'Website pemerintahan sesuai standar aksesibilitas: berita, layanan, dan pengaduan masyarakat.',
-    color: '#051a66',
+    color: '#093FB4',
   },
 ]
 

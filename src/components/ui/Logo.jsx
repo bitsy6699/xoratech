@@ -7,7 +7,7 @@ export default function Logo({ className = '', variant = 'light' }) {
   return (
     <Link to="/" className={`group inline-flex items-center gap-2.5 ${className}`} aria-label="Xora — beranda">
       {dark ? (
-        <XorMark className="h-9 w-9 text-pixel" />
+        <XorMark className="h-9 w-9 text-cream" />
       ) : (
         <img
           src={logoUrl}

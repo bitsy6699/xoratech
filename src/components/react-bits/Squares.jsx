@@ -5,7 +5,7 @@ export default function Squares({
   speed = 0.5,
   squareSize = 40,
   borderColor = '#c9cddd',
-  hoverFillColor = '#0024fc',
+  hoverFillColor = '#093FB4',
 }) {
   const canvasRef = useRef(null)
   const numSquaresX = useRef(0)

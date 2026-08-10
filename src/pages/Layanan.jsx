@@ -17,7 +17,7 @@ export default function LayananPage() {
             className="text-4xl font-bold tracking-tight sm:text-6xl"
           />
           <Reveal delay={0.2}>
-            <p className="mx-auto mt-5 max-w-2xl text-lg font-light text-muted">
+            <p className="mx-auto mt-5 max-w-2xl text-lg font-light text-primary/60">
               Dari halaman web sederhana hingga sistem infrastruktur lengkap — semua bisa disatukan
               dalam satu partner.
             </p>
@@ -31,7 +31,7 @@ export default function LayananPage() {
           <section
             key={cat.slug}
             data-nav-theme={dark ? 'dark' : 'light'}
-            className={`py-20 ${dark ? 'bg-primary-deep text-cream' : 'bg-cream'}`}
+            className={`py-20 ${dark ? 'bg-primary text-cream' : 'bg-cream'}`}
           >
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
               <Reveal>
@@ -40,9 +40,9 @@ export default function LayananPage() {
                     <SectionKicker dark={dark}>{cat.kicker}</SectionKicker>
                     <RevealHeading
                       lines={[cat.title]}
-                      className={`text-3xl font-bold tracking-tight sm:text-4xl ${dark ? 'text-pixel' : ''}`}
+                      className={`text-3xl font-bold tracking-tight sm:text-4xl ${dark ? 'text-cream' : ''}`}
                     />
-                    <p className={`mt-3 max-w-xl ${dark ? 'text-white/60' : 'text-muted'}`}>
+                    <p className={`mt-3 max-w-xl ${dark ? 'text-cream' : 'text-primary/60'}`}>
                       {cat.description}
                     </p>
                   </div>
@@ -60,33 +60,33 @@ export default function LayananPage() {
                         to={`/layanan/${cat.slug}/${s.slug}`}
                         className={`group flex h-full flex-col justify-between border-2 p-6 transition-all duration-200 ${
                           dark
-                            ? 'border-white/15 bg-white/5 hover:border-pixel/60'
-                            : 'border-primary-darker bg-card shadow-[6px_6px_0_0_#051a66] hover:translate-x-1 hover:translate-y-1 hover:shadow-[2px_2px_0_0_#051a66]'
+                            ? 'border-cream bg-cream hover:border-cream/60'
+                            : 'border-primary/25 bg-cream shadow-[4px_4px_0_0_#093FB4] hover:translate-x-1 hover:translate-y-1 hover:shadow-[2px_2px_0_0_#093FB4]'
                         }`}
                       >
                         <div>
                           <div className="flex items-start justify-between">
                             <span
                               className={`grid h-12 w-12 place-items-center border-2 font-pixel text-xl ${
-                                dark ? 'border-pixel/50 text-pixel' : 'border-primary-darker bg-primary text-cream'
+                                dark ? 'border-cream/50 text-cream' : 'border-primary/25 bg-primary text-cream'
                               }`}
                             >
                               {s.slug[0].toUpperCase()}
                             </span>
                             <PixelArrow
                               className={`h-4 w-4 transition-transform group-hover:translate-x-1 ${
-                                dark ? 'text-pixel' : 'text-primary'
+                                dark ? 'text-cream' : 'text-primary'
                               }`}
                             />
                           </div>
                           <h3 className="mt-5 text-xl font-bold">{s.title}</h3>
-                          <p className={`mt-2 text-sm leading-relaxed ${dark ? 'text-white/60' : 'text-muted'}`}>
+                          <p className={`mt-2 text-sm leading-relaxed ${dark ? 'text-cream' : 'text-primary/60'}`}>
                             {s.short}
                           </p>
                         </div>
                         <span
                           className={`mt-6 inline-block font-pixel text-lg uppercase tracking-widest ${
-                            dark ? 'text-pixel' : 'text-primary'
+                            dark ? 'text-cream' : 'text-primary'
                           }`}
                         >
                           Lihat Detail →

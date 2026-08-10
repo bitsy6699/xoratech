@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
-const DUST_COLORS = ['#0024fc', '#3DF0C4', '#051a66', '#0024fc', '#1FCC9F']
+const DUST_COLORS = ['#093FB4', '#FFFCFB', '#093FB4', '#FFFCFB', '#093FB4']
 
 export default function ClickDust() {
   const [bursts, setBursts] = useState([])

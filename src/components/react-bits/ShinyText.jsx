@@ -6,7 +6,7 @@ export default function ShinyText({
   speed = 4,
   className = '',
   baseColor = '#9aa1b5',
-  highlightColor = '#0024fc',
+  highlightColor = '#093FB4',
 }) {
   const [hasAnimated, setHasAnimated] = useState(false)
   const ref = useRef(null)

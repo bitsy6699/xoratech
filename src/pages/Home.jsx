@@ -1,21 +1,17 @@
 import { useRef } from 'react'
 import { Link } from 'react-router-dom'
-import { motion, useMotionValue, useScroll, useTransform } from 'framer-motion'
-import Squares from '../components/react-bits/Squares'
-import FadeContent from '../components/react-bits/FadeContent'
+import BlueprintHero from '../components/motion/BlueprintHero'
 import RevealHeading from '../components/motion/RevealHeading'
 import { Stagger, StaggerItem, Reveal } from '../components/motion/Reveal'
 import CountUp from '../components/motion/CountUp'
 import TiltCard from '../components/motion/TiltCard'
 import Parallax from '../components/motion/Parallax'
 import HorizontalScroll from '../components/motion/HorizontalScroll'
-import { SectionKicker, ArrowLink, Marquee, PixelTag } from '../components/ui/Button.jsx'
+import { SectionKicker, ArrowLink, Marquee } from '../components/ui/Button.jsx'
 import PixelArrow from '../components/ui/PixelArrow'
 import PixelWipe from '../components/ui/PixelWipe'
-import TypingText from '../components/ui/TypingText'
 import XorMark from '../components/ui/XorMark'
 import LineDraw from '../components/ui/LineDraw'
-import FloatingPixelBlocks from '../components/ui/FloatingPixelBlocks'
 import { services } from '../data/services'
 import { portfolio } from '../data/portfolio'
 import { testimonials, stats, processSteps, marqueeTags } from '../data/content'
@@ -26,8 +22,8 @@ export default function HomePage() {
 
   return (
     <div>
-      <Hero sectionRef={heroRef} />
-      <PixelWipe start={heroRef} end={categoriesRef} from="#020f2c" to="#fffcfb" />
+      <BlueprintHero sectionRef={heroRef} />
+      <PixelWipe start={heroRef} end={categoriesRef} from="#093FB4" to="#FFFCFB" />
       <ServicesMarquee />
       <CategoriesSection sectionRef={categoriesRef} />
       <WhySection />
@@ -37,114 +33,6 @@ export default function HomePage() {
       <TestimonialsSection />
       <CTASection />
     </div>
-  )
-}
-
-function Hero({ sectionRef }) {
-  const mx = useMotionValue(0)
-  const my = useMotionValue(0)
-  const { scrollY } = useScroll()
-  const yHero = useTransform(scrollY, [0, 700], [0, 140])
-
-  const onMouseMove = (e) => {
-    const rect = e.currentTarget.getBoundingClientRect()
-    mx.set((e.clientX - rect.left) / rect.width - 0.5)
-    my.set((e.clientY - rect.top) / rect.height - 0.5)
-  }
-
-  const px = useTransform(mx, [-0.5, 0.5], [10, -10])
-  const py = useTransform(my, [-0.5, 0.5], [6, -6])
-
-  return (
-    <section
-      ref={sectionRef}
-      data-nav-theme="dark"
-      onMouseMove={onMouseMove}
-      className="relative isolate overflow-hidden bg-primary-deep text-cream"
-    >
-      <div className="absolute inset-0 opacity-[0.35]">
-        <Squares speed={0.3} squareSize={48} borderColor="rgba(255,252,251,0.12)" hoverFillColor="#3DF0C4" />
-      </div>
-      <FloatingPixelBlocks />
-      <motion.div
-        style={{ x: useTransform(my, [-0.5, 0.5], [-40, 40]), y: useTransform(scrollY, [0, 700], [0, 90]) }}
-        className="pointer-events-none absolute right-[-12vw] top-1/2 hidden -translate-y-1/2 md:block"
-      >
-        <XorMark className="h-[52vw] w-[52vw] max-h-[560px] max-w-[560px] text-white/[0.045]" />
-      </motion.div>
-
-      <motion.div
-        style={{ y: yHero }}
-        className="relative mx-auto max-w-7xl px-4 pb-36 pt-24 sm:px-6 sm:pt-32 lg:px-8"
-      >
-        <motion.div style={{ x: px, y: py }}>
-          <FadeContent>
-            <PixelTag dark className="mb-8">
-              Solusi Digital #1
-            </PixelTag>
-          </FadeContent>
-
-          <h1 className="max-w-4xl text-5xl font-bold leading-[1.05] tracking-tight sm:text-6xl lg:text-7xl">
-            <span className="text-white">Kami Bangun Digital</span>
-            <br />
-            <span className="text-cream">
-              <TypingText
-                words={['Website Layanan Anda', 'Aplikasi Bisnis Anda', 'E-Commerce Impian', 'Sistem & IT Anda']}
-                className="text-pixel"
-              />
-            </span>
-          </h1>
-
-          <p className="mt-6 max-w-2xl text-lg font-light leading-relaxed text-white/70">
-            Website development, aplikasi mobile &amp; web, hingga support IT — dikerjakan tim yang
-            berpengalaman, transparan, dan selalu menjaga kualitas serta kecepatan.
-          </p>
-
-          <div className="mt-10 flex flex-wrap items-center gap-4">
-            <Link
-              to="/kontak"
-              className="btn-sheen inline-flex items-center gap-3 border-2 border-cream bg-cream px-8 py-4 font-sans font-bold uppercase tracking-wide text-primary shadow-[6px_6px_0_0_#00000040] transition-all hover:bg-pixel hover:text-primary-deep"
-            >
-              Mulai Proyek
-              <PixelArrow className="h-4 w-4 text-current" />
-            </Link>
-            <Link
-              to="/portofolio"
-              className="inline-flex items-center gap-2 border-2 border-white/40 px-8 py-4 font-sans font-semibold uppercase tracking-wide text-cream transition-colors hover:border-pixel hover:text-pixel"
-            >
-              Lihat Portofolio
-            </Link>
-          </div>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.2 }}
-          className="mt-20 flex flex-wrap items-center gap-3 font-pixel text-lg uppercase tracking-widest text-white/50"
-        >
-          <span className="h-2 w-2 bg-pixel" />
-          <span>Website</span>
-          <span>Aplikasi</span>
-          <span>E-Commerce</span>
-          <span>IT Support</span>
-          <span className="h-2 w-2 bg-pixel" />
-        </motion.div>
-      </motion.div>
-
-      {/* scroll hint */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.6 }}
-        className="pointer-events-none absolute bottom-6 left-1/2 -translate-x-1/2"
-      >
-        <div className="flex flex-col items-center gap-2 text-white/40">
-          <span className="animate-scroll-hint font-pixel text-sm uppercase tracking-[0.3em]">Scroll</span>
-          <PixelArrow direction="d" className="h-4 w-4 animate-scroll-hint text-pixel" />
-        </div>
-      </motion.div>
-    </section>
   )
 }
 
@@ -176,16 +64,16 @@ const CategoriesSection = ({ sectionRef }) => {
               <TiltCard intensity={7}>
                 <Link
                   to={`/layanan/${full.slug}`}
-                  className="group relative block h-full border-2 border-primary-darker bg-card p-8 shadow-[8px_8px_0_0_#051a66] transition-all duration-200 hover:translate-x-1 hover:translate-y-1 hover:shadow-[4px_4px_0_0_#051a66]"
+                  className="group relative block h-full border-2 border-primary/25 bg-cream p-8 shadow-[4px_4px_0_0_#093FB4] transition-all duration-200 hover:-translate-y-1"
                 >
                   <div className="mb-8 flex items-start justify-between">
-                    <span className="grid h-14 w-14 place-items-center border-2 border-primary-darker bg-primary font-pixel text-2xl text-cream">
+                    <span className="grid h-14 w-14 place-items-center border-2 border-primary/25 bg-primary font-pixel text-2xl text-cream">
                       {full.title[0]}
                     </span>
                     <PixelArrow className="h-5 w-5 text-primary transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
                   </div>
                   <h3 className="text-2xl font-bold">{full.title}</h3>
-                  <p className="mt-3 text-sm leading-relaxed text-muted">{full.description}</p>
+                  <p className="mt-3 text-sm leading-relaxed text-primary/60">{full.description}</p>
                   <div className="mt-6 flex items-center gap-3 font-pixel text-lg uppercase tracking-widest text-primary">
                     <span>{full.services.length} Layanan</span>
                     <span className="h-2 w-2 bg-primary opacity-30" />
@@ -208,7 +96,7 @@ function WhySection() {
         speed={0.22}
         className="pointer-events-none absolute -right-16 top-1/2 z-0 hidden -translate-y-1/2 lg:block"
       >
-        <XorMark className="h-[40vw] w-[40vw] max-h-[520px] max-w-[520px] text-white/[0.05]" />
+        <XorMark className="h-[40vw] w-[40vw] max-h-[520px] max-w-[520px] text-cream/[0.05]" />
       </Parallax>
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid gap-16 lg:grid-cols-2 lg:items-center">
@@ -216,10 +104,10 @@ function WhySection() {
             <SectionKicker dark>Kenapa Xora</SectionKicker>
             <RevealHeading
               lines={['Bukan sekadar', 'bikin kode']}
-              className="text-4xl font-bold tracking-tight text-pixel sm:text-5xl"
+              className="text-4xl font-bold tracking-tight text-cream sm:text-5xl"
             />
             <Reveal delay={0.2}>
-              <p className="mt-6 max-w-lg text-lg font-light leading-relaxed text-white/70">
+              <p className="mt-6 max-w-lg text-lg font-light leading-relaxed text-cream/70">
                 Kepercayaan, kecepatan, dan kualitas adalah tiga hal yang selalu kami pegang dalam
                 setiap proyek yang kami kerjakan.
               </p>
@@ -232,11 +120,11 @@ function WhySection() {
               ['No.3', 'Dukungan 24/7', 'Konsultasi dan support sesudah proyek selesai.'],
             ].map(([num, title, desc]) => (
               <StaggerItem key={num}>
-                <div className="group flex gap-5 border-2 border-white/15 bg-white/5 p-5 transition-colors hover:border-pixel/60">
-                  <span className="font-pixel text-3xl text-pixel">{num}</span>
+                <div className="group flex gap-5 border-2 border-cream/15 bg-cream/5 p-5 transition-colors hover:border-cream/60">
+                  <span className="font-pixel text-3xl text-cream">{num}</span>
                   <div>
                     <h3 className="text-lg font-bold">{title}</h3>
-                    <p className="mt-1 text-sm text-white/60">{desc}</p>
+                    <p className="mt-1 text-sm text-cream/60">{desc}</p>
                   </div>
                 </div>
               </StaggerItem>
@@ -253,7 +141,7 @@ function PortfolioPreview() {
     <HorizontalScroll className="bg-cream" scrollHeight="360vh">
       <div className="flex h-[64vh] w-[82vw] flex-col justify-center lg:w-[48vw]">
         <div className="mb-5 flex items-center gap-3 font-pixel text-lg uppercase tracking-[0.35em] text-primary">
-          <span className="h-2 w-2 bg-pixel-dim" />
+          <span className="h-2 w-2 bg-primary/40" />
           Portofolio
         </div>
         <RevealHeading
@@ -261,7 +149,7 @@ function PortfolioPreview() {
           className="text-4xl font-bold tracking-tight sm:text-6xl"
         />
         <Reveal delay={0.15}>
-          <p className="mt-6 max-w-md text-lg font-light leading-relaxed text-muted">
+          <p className="mt-6 max-w-md text-lg font-light leading-relaxed text-primary/60">
             Gulir terus — galeri bergerak mengikuti scroll Anda, satu proyek demi satu proyek.
           </p>
         </Reveal>
@@ -280,18 +168,18 @@ function PortfolioPreview() {
         <Link
           key={item.id}
           to="/portofolio"
-          className="group relative block h-[64vh] w-[80vw] overflow-hidden border-2 border-primary-darker shadow-[10px_10px_0_0_#051a66] transition-shadow duration-200 hover:shadow-[14px_14px_0_0_#0024fc] md:w-[54vw] lg:w-[42vw]"
+          className="group relative block h-[64vh] w-[80vw] overflow-hidden border-2 border-primary/20 shadow-[4px_4px_0_0_#093FB4] transition-shadow duration-200 hover:-translate-y-1 md:w-[54vw] lg:w-[42vw]"
         >
           <div className="absolute inset-0" style={{ backgroundColor: item.color }}>
-            <div className="absolute inset-0 opacity-20" style={{ backgroundImage: 'radial-gradient(#fff 1px, transparent 1px)', backgroundSize: '14px 14px' }} />
+            <div className="absolute inset-0 opacity-20" style={{ backgroundImage: 'radial-gradient(#FFFCFB 1px, transparent 1px)', backgroundSize: '14px 14px' }} />
             <span className="absolute left-6 top-6 font-pixel text-6xl text-cream/90">{String(i + 1).padStart(2, '0')}</span>
             <span className="absolute right-6 top-6 font-pixel text-2xl text-cream/60">{item.year}</span>
-            <XorMark className="absolute -bottom-12 -right-12 h-56 w-56 text-white/10 transition-transform duration-500 group-hover:rotate-6" />
+            <XorMark className="absolute -bottom-12 -right-12 h-56 w-56 text-cream/10 transition-transform duration-500 group-hover:rotate-6" />
             <span className="absolute left-6 top-24 font-pixel text-3xl uppercase tracking-widest text-cream/70">
               {item.categoryLabel}
             </span>
           </div>
-          <div className="absolute inset-x-0 bottom-0 border-t-2 border-white/20 bg-primary-deep/85 p-6 backdrop-blur-sm">
+          <div className="absolute inset-x-0 bottom-0 border-t-2 border-cream/20 bg-primary/85 p-6 backdrop-blur-sm">
             <h3 className="text-2xl font-bold text-cream">{item.title}</h3>
             <div className="mt-3 flex flex-wrap gap-2">
               {item.tags.slice(0, 4).map((tag) => (
@@ -309,13 +197,7 @@ function PortfolioPreview() {
 
 function ProcessSection() {
   return (
-    <section data-nav-theme="dark" className="relative isolate overflow-hidden bg-primary-deep py-24 text-cream">
-      <Parallax
-        speed={0.16}
-        className="pointer-events-none absolute -left-20 top-1/2 z-0 hidden -translate-y-1/2 lg:block"
-      >
-        <XorMark className="h-[34vw] w-[34vw] max-h-[460px] max-w-[460px] text-white/[0.04]" />
-      </Parallax>
+    <section data-nav-theme="dark" className="relative isolate overflow-hidden bg-primary py-24 text-cream">
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <Reveal>
           <div className="mb-14">
@@ -327,10 +209,10 @@ function ProcessSection() {
         <Stagger className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4" stagger={0.12}>
           {processSteps.map((step) => (
             <StaggerItem key={step.step}>
-              <div className="group relative border-2 border-white/15 bg-white/5 p-6 transition-colors hover:border-pixel/60">
-                <span className="font-pixel text-5xl text-pixel">{step.step}</span>
+              <div className="group relative border-2 border-cream/15 bg-cream/5 p-6 transition-colors hover:border-cream/60">
+                <span className="font-pixel text-5xl text-cream">{step.step}</span>
                 <h3 className="mt-4 text-xl font-bold">{step.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-white/60">{step.description}</p>
+                <p className="mt-2 text-sm leading-relaxed text-cream/60">{step.description}</p>
               </div>
             </StaggerItem>
           ))}
@@ -357,9 +239,9 @@ function StatItem({ value, suffix, label }) {
     <Reveal className="px-6 py-4 text-center">
       <div className="text-5xl font-bold tracking-tight text-primary sm:text-6xl">
         <CountUp value={value} suffix="" />
-        <span className="text-pixel-dim">{suffix}</span>
+        <span className="text-primary/40">{suffix}</span>
       </div>
-      <p className="mt-2 font-pixel text-xl uppercase tracking-widest text-muted">{label}</p>
+      <p className="mt-2 font-pixel text-xl uppercase tracking-widest text-primary/60">{label}</p>
     </Reveal>
   )
 }
@@ -378,12 +260,12 @@ function TestimonialsSection() {
         <Stagger className="grid gap-8 md:grid-cols-2" stagger={0.1}>
           {testimonials.map((t) => (
             <StaggerItem key={t.name}>
-              <figure className="h-full border-2 border-primary-darker bg-card p-6 shadow-[6px_6px_0_0_#051a66] transition-all hover:-translate-y-0.5 hover:shadow-[6px_8px_0_0_#051a66]">
-                <div className="flex gap-1 text-pixel-dim">{"★★★★★"}</div>
+              <figure className="h-full border-2 border-primary/25 bg-cream p-6 shadow-[4px_4px_0_0_#093FB4] transition-all hover:-translate-y-0.5">
+                <div className="flex gap-1 text-primary/40">{"★★★★★"}</div>
                 <blockquote className="mt-4 text-lg font-light leading-relaxed">"{t.quote}"</blockquote>
                 <figcaption className="mt-6">
                   <div className="font-bold">{t.name}</div>
-                  <div className="text-sm text-muted">{t.role}</div>
+                  <div className="text-sm text-primary/60">{t.role}</div>
                 </figcaption>
               </figure>
             </StaggerItem>
@@ -396,7 +278,7 @@ function TestimonialsSection() {
 
 function CTASection() {
   return (
-    <section data-nav-theme="dark" className="border-t-2 border-primary-deep bg-primary text-cream">
+    <section data-nav-theme="dark" className="border-t-2 border-primary bg-primary text-cream">
       <div className="mx-auto max-w-7xl px-4 pb-20 pt-24 text-center sm:px-6 lg:px-8">
         <Reveal>
           <SectionKicker dark className="justify-center">
@@ -406,7 +288,7 @@ function CTASection() {
             lines={['Punya ide? Mari', 'wujudkan bersama Xora.']}
             className="mx-auto max-w-3xl text-4xl font-bold tracking-tight sm:text-6xl"
           />
-          <p className="mx-auto mt-6 max-w-xl text-lg font-light text-white/70">
+          <p className="mx-auto mt-6 max-w-xl text-lg font-light text-cream/70">
             Konsultasi gratis tanpa komitmen. Ceritakan kebutuhan Anda, kami susun solusinya.
           </p>
 
@@ -417,14 +299,14 @@ function CTASection() {
           <div className="mt-10 flex flex-wrap justify-center gap-4">
             <Link
               to="/kontak"
-              className="btn-sheen inline-flex items-center gap-3 border-2 border-cream bg-cream px-9 py-4 font-sans text-sm font-bold uppercase tracking-wide text-primary shadow-[6px_6px_0_0_#00000080] transition-all hover:bg-pixel hover:text-primary-deep"
+              className="inline-flex items-center gap-3 border-2 border-cream bg-cream px-9 py-4 font-sans text-sm font-bold uppercase tracking-wide text-primary shadow-[4px_4px_0_0_#FFFCFB] transition-transform hover:-translate-y-0.5"
             >
               Mulai Proyek
               <PixelArrow className="h-4 w-4 text-current" />
             </Link>
             <a
-              href="#"
-              className="inline-flex items-center border-2 border-white/40 px-9 py-4 font-sans text-sm font-semibold uppercase tracking-wide text-white transition-colors hover:border-pixel hover:text-pixel"
+              href="mailto:halo@xora.id"
+              className="inline-flex items-center border-2 border-cream/40 px-9 py-4 font-sans text-sm font-semibold uppercase tracking-wide text-cream transition-colors hover:bg-cream hover:text-primary"
             >
               WhatsApp Kami
             </a>

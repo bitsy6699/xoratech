@@ -58,10 +58,10 @@ export default function AdminPage() {
       <section className="border-b-2 border-primary/10 bg-cream py-20">
         <div className="mx-auto max-w-2xl px-4 text-center">
           <h1 className="text-3xl font-bold">Halaman Admin</h1>
-          <p className="mt-4 text-muted">
-            Supabase belum dikonfigurasi. Tambahkan <code className="bg-card px-1">VITE_SUPABASE_URL</code> dan{' '}
-            <code className="bg-card px-1">VITE_SUPABASE_ANON_KEY</code> pada file <code className="bg-card px-1">.env</code>, lalu
-            jalankan migration SQL yang tersedia di <code className="bg-card px-1">supabase/migrations/</code>.
+          <p className="mt-4 text-primary/60">
+            Supabase belum dikonfigurasi. Tambahkan <code className="bg-cream px-1">VITE_SUPABASE_URL</code> dan{' '}
+            <code className="bg-cream px-1">VITE_SUPABASE_ANON_KEY</code> pada file <code className="bg-cream px-1">.env</code>, lalu
+            jalankan migration SQL yang tersedia di <code className="bg-cream px-1">supabase/migrations/</code>.
           </p>
         </div>
       </section>
@@ -72,7 +72,7 @@ export default function AdminPage() {
     return (
       <section className="bg-cream py-20">
         <div className="mx-auto max-w-md px-4">
-          <div className="border-2 border-ink bg-card p-8 shadow-[8px_8px_0_0_#051a66]">
+          <div className="border-2 border-primary/25 bg-cream p-8 shadow-[4px_4px_0_0_#093FB4]">
             <p className="font-pixel text-2xl uppercase tracking-widest text-primary">Login Admin</p>
             <form onSubmit={handleLogin} className="mt-6 space-y-4">
               <div>
@@ -83,7 +83,7 @@ export default function AdminPage() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
-                  className="w-full border-2 border-ink bg-cream px-4 py-3 text-sm outline-none focus:shadow-[4px_4px_0_0_#0024fc]"
+                  className="w-full border-2 border-primary/25 bg-cream px-4 py-3 text-sm outline-none focus:shadow-[4px_4px_0_0_#093FB4]"
                   placeholder="admin@xora.id"
                 />
               </div>
@@ -95,7 +95,7 @@ export default function AdminPage() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
-                  className="w-full border-2 border-ink bg-cream px-4 py-3 text-sm outline-none focus:shadow-[4px_4px_0_0_#0024fc]"
+                  className="w-full border-2 border-primary/25 bg-cream px-4 py-3 text-sm outline-none focus:shadow-[4px_4px_0_0_#093FB4]"
                   placeholder="••••••••"
                 />
               </div>
@@ -103,12 +103,12 @@ export default function AdminPage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full border-2 border-primary-darker bg-primary py-3 text-sm font-bold uppercase tracking-wide text-cream shadow-[4px_4px_0_0_#051a66] transition-all hover:bg-primary-dark active:translate-x-1 active:translate-y-1 active:shadow-none disabled:opacity-60"
+                className="w-full border-2 border-primary/25 bg-primary py-3 text-sm font-bold uppercase tracking-wide text-cream shadow-[4px_4px_0_0_#093FB4] transition-allhover:brightness-110 active:translate-x-1 active:translate-y-1 active:shadow-none disabled:opacity-60"
               >
                 {loading ? 'Memproses...' : 'Masuk'}
               </button>
             </form>
-            <p className="mt-4 text-xs text-muted">
+            <p className="mt-4 text-xs text-primary/60">
               Buat pengguna baru di Supabase → Authentication → Add user, lalu beri role lewat SQL
               (lihat migration).
             </p>
@@ -121,16 +121,16 @@ export default function AdminPage() {
   const filtered = statusFilter === 'all' ? messages : messages.filter((m) => m.status === statusFilter)
 
   return (
-    <section className="bg-card py-16">
+    <section className="bg-cream py-16">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
           <div>
             <p className="font-pixel text-2xl uppercase tracking-widest text-primary">Dashboard Admin</p>
-            <p className="mt-1 text-sm text-muted">Selamat datang, {session.email}</p>
+            <p className="mt-1 text-sm text-primary/60">Selamat datang, {session.email}</p>
           </div>
           <button
             onClick={() => signOutAdmin()}
-            className="border-2 border-ink bg-cream px-5 py-2.5 text-sm font-semibold uppercase tracking-wide transition-colors hover:bg-ink hover:text-cream"
+            className="border-2 border-primary/25 bg-cream px-5 py-2.5 text-sm font-semibold uppercase tracking-wide transition-colorshover:bg-primary hover:text-cream"
           >
             Keluar
           </button>
@@ -142,7 +142,7 @@ export default function AdminPage() {
               key={f}
               onClick={() => setStatusFilter(f)}
               className={`border-2 px-4 py-2 font-pixel text-base uppercase tracking-widest ${
-                statusFilter === f ? 'border-primary bg-primary text-cream' : 'border-ink/40 bg-cream text-ink hover:bg-ink/5'
+                statusFilter === f ? 'border-primary bg-primary text-cream' : 'border-primary/25 bg-cream text-inkhover:bg-primary/5'
               }`}
             >
               {f}
@@ -151,33 +151,33 @@ export default function AdminPage() {
         </div>
 
         {filtered.length === 0 ? (
-          <div className="border-2 border-dashed border-ink/30 bg-cream p-12 text-center text-muted">
+          <div className="border-2 border-dashed border-primary/25 bg-cream p-12 text-center text-primary/60">
             Belum ada pesan masuk {statusFilter === 'all' ? '' : `dengan status "${statusFilter}"`}.
           </div>
         ) : (
           <div className="space-y-5">
             {filtered.map((m) => (
-              <article key={m.id} className="border-2 border-ink bg-cream p-6 shadow-[6px_6px_0_0_#051a66]">
+              <article key={m.id} className="border-2 border-primary/25 bg-cream p-6 shadow-[4px_4px_0_0_#093FB4]">
                 <div className="flex flex-wrap items-start justify-between gap-4">
                   <div>
                     <div className="flex flex-wrap items-center gap-3">
                       <h3 className="text-lg font-bold">{m.name}</h3>
                       <span
                         className={`px-2 py-0.5 font-pixel text-base uppercase tracking-wider ${
-                          m.status === 'new' ? 'bg-pixel text-primary-deep' : m.status === 'read' ? 'bg-card text-muted' : 'bg-primary text-cream'
+                          m.status === 'new' ? 'bg-cream text-primary' : m.status === 'read' ? 'bg-cream text-primary/60' : 'bg-primary text-cream'
                         }`}
                       >
                         {m.status}
                       </span>
                     </div>
-                    <p className="mt-1 text-sm text-muted">
+                    <p className="mt-1 text-sm text-primary/60">
                       {m.email} {m.phone && <span>• {m.phone}</span>} • {formatDate(m.created_at)}
                     </p>
                   </div>
                   <select
                     value={m.status}
                     onChange={(e) => handleStatusChange(m.id, e.target.value)}
-                    className="border-2 border-ink bg-cream px-3 py-2 text-sm"
+                    className="border-2 border-primary/25 bg-cream px-3 py-2 text-sm"
                   >
                     <option value="new">Baru (new)</option>
                     <option value="read">Dibaca (read)</option>

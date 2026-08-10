@@ -1,6 +1,6 @@
 import { motion, useReducedMotion } from 'framer-motion'
 
-export default function LineDraw({ className = '', color = '#3DF0C4', width = '100%' }) {
+export default function LineDraw({ className = '', color = '#FFFCFB', width = '100%' }) {
   const reduce = useReducedMotion()
 
   return (
