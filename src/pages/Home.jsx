@@ -1,6 +1,6 @@
 import { useRef } from 'react'
 import { Link } from 'react-router-dom'
-import BlueprintHero from '../components/motion/BlueprintHero'
+import Hero from '../components/motion/Hero'
 import RevealHeading from '../components/motion/RevealHeading'
 import { Stagger, StaggerItem, Reveal } from '../components/motion/Reveal'
 import CountUp from '../components/motion/CountUp'
@@ -22,7 +22,7 @@ export default function HomePage() {
 
   return (
     <div>
-      <BlueprintHero sectionRef={heroRef} />
+      <Hero sectionRef={heroRef} />
       <PixelWipe start={heroRef} end={categoriesRef} from="#093FB4" to="#FFFCFB" />
       <ServicesMarquee />
       <CategoriesSection sectionRef={categoriesRef} />

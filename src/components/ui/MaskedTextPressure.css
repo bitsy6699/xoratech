@@ -1,0 +1,5 @@
+/* per-character layout for MaskedTextPressure (merge of react-bits MaskedHeading + TextPressure) */
+.mpt-char {
+  display: inline-block;
+  white-space: pre;
+}
