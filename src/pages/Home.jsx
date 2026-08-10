@@ -1,6 +1,7 @@
 import { useRef } from 'react'
 import { Link } from 'react-router-dom'
 import Hero from '../components/motion/Hero'
+import ScrollExpandVideo from '../components/motion/ScrollExpandVideo'
 import RevealHeading from '../components/motion/RevealHeading'
 import { Stagger, StaggerItem, Reveal } from '../components/motion/Reveal'
 import CountUp from '../components/motion/CountUp'
@@ -46,44 +47,47 @@ function ServicesMarquee() {
 
 const CategoriesSection = ({ sectionRef }) => {
   return (
-    <section ref={sectionRef} className="bg-cream py-24">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <Reveal scale={0.96}>
-          <div className="mb-14 flex flex-col justify-between gap-6 md:flex-row md:items-end">
-            <div>
-              <SectionKicker>Layanan Kami</SectionKicker>
-              <RevealHeading lines={['Digital untuk semua', 'kebutuhan Anda']} className="text-4xl font-bold tracking-tight sm:text-5xl" />
+    <section ref={sectionRef} data-nav-theme="light" className="relative">
+      <ScrollExpandVideo targetRef={sectionRef} />
+      <div className="relative z-10 -mt-[100vh] py-24">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <Reveal scale={0.96}>
+            <div className="mb-14 flex flex-col justify-between gap-6 md:flex-row md:items-end">
+              <div>
+                <SectionKicker>Layanan Kami</SectionKicker>
+                <RevealHeading lines={['Digital untuk semua', 'kebutuhan Anda']} className="text-4xl font-bold tracking-tight sm:text-5xl" />
+              </div>
+              <ArrowLink to="/layanan">Semua layanan</ArrowLink>
             </div>
-            <ArrowLink to="/layanan">Semua layanan</ArrowLink>
-          </div>
-        </Reveal>
+          </Reveal>
 
-        <Stagger className="grid gap-8 md:grid-cols-3" stagger={0.12}>
-          {Object.values(services).map((full) => (
-            <StaggerItem key={full.slug}>
-              <TiltCard intensity={7}>
-                <Link
-                  to={`/layanan/${full.slug}`}
-                  className="group relative block h-full border-2 border-primary/25 bg-cream p-8 shadow-[4px_4px_0_0_#093FB4] transition-all duration-200 hover:-translate-y-1"
-                >
-                  <div className="mb-8 flex items-start justify-between">
-                    <span className="grid h-14 w-14 place-items-center border-2 border-primary/25 bg-primary font-pixel text-2xl text-cream">
-                      {full.title[0]}
-                    </span>
-                    <PixelArrow className="h-5 w-5 text-primary transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
-                  </div>
-                  <h3 className="text-2xl font-bold">{full.title}</h3>
-                  <p className="mt-3 text-sm leading-relaxed text-primary/60">{full.description}</p>
-                  <div className="mt-6 flex items-center gap-3 font-pixel text-lg uppercase tracking-widest text-primary">
-                    <span>{full.services.length} Layanan</span>
-                    <span className="h-2 w-2 bg-primary opacity-30" />
-                    <span>Lihat Detail</span>
-                  </div>
-                </Link>
-              </TiltCard>
-            </StaggerItem>
-          ))}
-        </Stagger>
+          <Stagger className="grid gap-8 md:grid-cols-3" stagger={0.12}>
+            {Object.values(services).map((full) => (
+              <StaggerItem key={full.slug}>
+                <TiltCard intensity={7}>
+                  <Link
+                    to={`/layanan/${full.slug}`}
+                    className="group relative block h-full border-2 border-primary/25 bg-cream p-8 shadow-[4px_4px_0_0_#093FB4] transition-all duration-200 hover:-translate-y-1"
+                  >
+                    <div className="mb-8 flex items-start justify-between">
+                      <span className="grid h-14 w-14 place-items-center border-2 border-primary/25 bg-primary font-pixel text-2xl text-cream">
+                        {full.title[0]}
+                      </span>
+                      <PixelArrow className="h-5 w-5 text-primary transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+                    </div>
+                    <h3 className="text-2xl font-bold">{full.title}</h3>
+                    <p className="mt-3 text-sm leading-relaxed text-primary/60">{full.description}</p>
+                    <div className="mt-6 flex items-center gap-3 font-pixel text-lg uppercase tracking-widest text-primary">
+                      <span>{full.services.length} Layanan</span>
+                      <span className="h-2 w-2 bg-primary opacity-30" />
+                      <span>Lihat Detail</span>
+                    </div>
+                  </Link>
+                </TiltCard>
+              </StaggerItem>
+            ))}
+          </Stagger>
+        </div>
       </div>
     </section>
   )

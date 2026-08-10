@@ -43,6 +43,7 @@ export default function Hero({ sectionRef }) {
           src="/videos/header.mp4"
           poster="/videos/header-poster.jpg"
           className="mx-auto mt-6 w-[min(100%,1100px)]"
+          data-hero-word
           textScale={0.26}
           minFontSize={88}
           fillScale={1.3}
