@@ -13,13 +13,14 @@ import './MaskedTextPressure.css'
 const clamp = (v, a, b) => (v < a ? a : v > b ? b : v)
 
 const getAttr = (distance, maxDist, minVal, maxVal) => {
-  const t = Math.min(1, distance / (maxDist || 1))
-  return minVal + (maxVal - minVal) * (1 - t)
+  const val = maxVal - Math.abs((maxVal * distance) / (maxDist || 1))
+  return Math.max(minVal, Math.min(maxVal, val + minVal))
 }
 
 export default function MaskedTextPressure({
   text = 'XORA',
   tag = 'h2',
+  fontFamily = "'Martian Mono', monospace",
   mediaType = 'video',
   src = '',
   poster = '',
@@ -183,8 +184,8 @@ export default function MaskedTextPressure({
           const rect = span.getBoundingClientRect()
           const cc = { x: rect.x + rect.width / 2, y: rect.y + rect.height / 2 }
           const d = Math.hypot(mouseRef.current.x - cc.x, mouseRef.current.y - cc.y)
-          const wdth = Math.floor(getAttr(d, maxDist, 90, 112.5))
-          const wght = Math.floor(getAttr(d, maxDist, 480, 800))
+          const wdth = Math.floor(getAttr(d, maxDist, 78, 112.5))
+          const wght = Math.floor(getAttr(d, maxDist, 450, 800))
           const fvs = `'wght' ${wght}, 'wdth' ${wdth}`
           if (span.style.fontVariationSettings !== fvs) span.style.fontVariationSettings = fvs
           const glyph = glyphRefs.current[i]
@@ -299,6 +300,7 @@ export default function MaskedTextPressure({
       ref={rootRef}
       className={`masked-heading mpt ${className}`.trim()}
       style={{
+        fontFamily,
         textAlign: align,
         fontWeight: weight,
         letterSpacing: `${tracking}em`,
