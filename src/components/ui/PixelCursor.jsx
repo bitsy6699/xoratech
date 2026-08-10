@@ -59,7 +59,7 @@ export default function PixelCursor() {
       className="pointer-events-none fixed inset-0 z-[60]"
       style={{ opacity: hidden ? 0 : 1, transition: 'opacity 0.2s ease' }}
     >
-      {/* inner dot (instant) */}
+      {/* inner dot (instant) — blends with the background via difference */}
       <motion.div
         className="absolute left-0 top-0"
         style={{
@@ -69,12 +69,13 @@ export default function PixelCursor() {
           height: 6,
           marginLeft: -3,
           marginTop: -3,
+          backgroundColor: '#FFFCFB',
+          mixBlendMode: 'difference',
         }}
-        animate={{ backgroundColor: hovering ? '#FFFCFB' : '#093FB4' }}
       />
-      {/* outer pixel ring (spring lag) */}
+      {/* outer pixel ring (spring lag) — same adaptive blend */}
       <motion.div
-        className="absolute left-0 top-0 border-2 border-primary"
+        className="absolute left-0 top-0"
         style={{
           x: ringX,
           y: ringY,
@@ -82,10 +83,10 @@ export default function PixelCursor() {
           marginTop: -ringSize / 2,
           width: ringSize,
           height: ringSize,
-        }}
-        animate={{
-          backgroundColor: hovering ? 'rgba(255,252,251,0.12)' : 'rgba(9,63,180,0.08)',
-          borderColor: hovering ? '#FFFCFB' : '#093FB4',
+          border: '2px solid #FFFCFB',
+          backgroundColor: 'rgba(255,252,251,0.15)',
+          boxShadow: '0 0 0 1px rgba(255,252,251,0.3)',
+          mixBlendMode: 'difference',
         }}
         transition={{ type: 'spring', stiffness: 260, damping: 24 }}
       />

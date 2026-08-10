@@ -1,7 +1,6 @@
 import { useRef } from 'react'
 import { Link } from 'react-router-dom'
 import Hero from '../components/motion/Hero'
-import ScrollExpandVideo from '../components/motion/ScrollExpandVideo'
 import RevealHeading from '../components/motion/RevealHeading'
 import { Stagger, StaggerItem, Reveal } from '../components/motion/Reveal'
 import CountUp from '../components/motion/CountUp'
@@ -11,6 +10,7 @@ import HorizontalScroll from '../components/motion/HorizontalScroll'
 import { SectionKicker, ArrowLink, Marquee } from '../components/ui/Button.jsx'
 import PixelArrow from '../components/ui/PixelArrow'
 import PixelWipe from '../components/ui/PixelWipe'
+import RippleDistortion from '../components/ui/RippleDistortion'
 import XorMark from '../components/ui/XorMark'
 import LineDraw from '../components/ui/LineDraw'
 import { services } from '../data/services'
@@ -49,18 +49,19 @@ const CategoriesSection = ({ sectionRef }) => {
   return (
     <section ref={sectionRef} data-nav-theme="light" className="relative isolate overflow-hidden">
       <div aria-hidden="true" className="absolute inset-0">
-        <video
-          className="h-full w-full object-cover"
-          src="/videos/header.mp4"
-          poster="/videos/header-poster.jpg"
-          autoPlay
-          muted
-          loop
-          playsInline
-        />
-        <div className="absolute inset-0" style={{ background: 'rgba(9, 63, 180, 0.35)' }} />
+        <RippleDistortion>
+          <video
+            className="h-full w-full object-cover"
+            src="/videos/header.mp4"
+            poster="/videos/header-poster.jpg"
+            autoPlay
+            muted
+            loop
+            playsInline
+          />
+          <div className="absolute inset-0" style={{ background: 'rgba(9, 63, 180, 0.35)' }} />
+        </RippleDistortion>
       </div>
-      <ScrollExpandVideo targetRef={sectionRef} />
       <div className="relative z-10 py-24">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <Reveal scale={0.96}>
