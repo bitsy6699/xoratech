@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom'
 import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion'
 import MaskedTextPressure from '../ui/MaskedTextPressure'
 import PixelArrow from '../ui/PixelArrow'
+import Magnetic from '../ui/Magnetic'
+import HeroGrid from './HeroGrid'
 
 export default function Hero({ sectionRef }) {
   const ref = useRef(null)
@@ -28,6 +30,7 @@ export default function Hero({ sectionRef }) {
             'radial-gradient(120% 90% at 50% 8%, rgba(255,252,251,0.1), transparent 60%)',
         }}
       />
+      <HeroGrid />
       <motion.div
         className="relative z-10 mx-auto w-full max-w-6xl px-4"
         style={reduce ? undefined : { scale: outScale, opacity: outOpacity }}
@@ -58,19 +61,23 @@ export default function Hero({ sectionRef }) {
         </p>
 
         <div className="mt-10 flex flex-wrap justify-center gap-4">
-          <Link
-            to="/kontak"
-            className="inline-flex items-center gap-2 border-2 border-cream bg-cream px-9 py-4 font-sans text-sm font-bold uppercase tracking-wide text-primary shadow-[4px_4px_0_0_#FFFCFB] transition-transform hover:-translate-y-0.5"
-          >
-            Mulai Proyek
-            <PixelArrow className="h-3.5 w-3.5 text-current" />
-          </Link>
-          <Link
-            to="/layanan"
-            className="inline-flex items-center border-2 border-cream/50 px-9 py-4 font-sans text-sm font-semibold uppercase tracking-wide text-cream transition-colors hover:bg-cream hover:text-primary"
-          >
-            Lihat Layanan
-          </Link>
+          <Magnetic>
+            <Link
+              to="/kontak"
+              className="inline-flex items-center gap-2 border-2 border-cream bg-cream px-9 py-4 font-sans text-sm font-bold uppercase tracking-wide text-primary shadow-[4px_4px_0_0_#FFFCFB] transition-transform hover:-translate-y-0.5"
+            >
+              Mulai Proyek
+              <PixelArrow className="h-3.5 w-3.5 text-current" />
+            </Link>
+          </Magnetic>
+          <Magnetic>
+            <Link
+              to="/layanan"
+              className="inline-flex items-center border-2 border-cream/50 px-9 py-4 font-sans text-sm font-semibold uppercase tracking-wide text-cream transition-colors hover:bg-cream hover:text-primary"
+            >
+              Lihat Layanan
+            </Link>
+          </Magnetic>
         </div>
       </motion.div>
     </section>

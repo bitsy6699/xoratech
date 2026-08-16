@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom'
 import Logo from '../ui/Logo'
 import Icon from '../ui/Icon'
+import Magnetic from '../ui/Magnetic'
+import Spotlight from '../ui/Spotlight'
 import { allServices } from '../../data/services'
 
 const companyLinks = [
@@ -25,7 +27,8 @@ export default function Footer() {
   return (
     <footer className="relative overflow-hidden bg-primary text-cream">
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-cream/60 to-transparent" />
-      <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+      <Spotlight>
+        <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <div className="grid gap-12 lg:grid-cols-12">
           <div className="lg:col-span-5">
             <Logo variant="dark" />
@@ -40,14 +43,15 @@ export default function Footer() {
                 ['linkedin', 'LinkedIn'],
                 ['youtube', 'YouTube'],
               ].map(([icon, label]) => (
-                <a
-                  key={label}
-                  href="#"
-                  aria-label={label}
-                  className="group inline-flex h-9 w-9 items-center justify-center border border-cream/20 text-cream transition-colors hover:border-cream hover:text-cream"
-                >
-                  <Icon name={icon} className="h-5 w-5" />
-                </a>
+                <Magnetic key={label}>
+                  <a
+                    href="#"
+                    aria-label={label}
+                    className="group inline-flex h-9 w-9 items-center justify-center border border-cream/20 text-cream transition-colors hover:border-cream hover:text-cream"
+                  >
+                    <Icon name={icon} className="h-5 w-5" />
+                  </a>
+                </Magnetic>
               ))}
             </div>
           </div>
@@ -107,7 +111,8 @@ export default function Footer() {
           </a>{' '}
           · CC BY 4.0
         </p>
-      </div>
+        </div>
+      </Spotlight>
     </footer>
   )
 }

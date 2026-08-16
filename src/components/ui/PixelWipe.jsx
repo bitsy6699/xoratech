@@ -36,14 +36,9 @@ export default function PixelWipe({
   const { scrollY } = useScroll()
   const n = cols * rows
 
-  useEffect(() => {
-    cellRefs.current = []
-    colorsRef.current = []
-    for (let i = 0; i < n; i++) {
-      cellRefs.current.push(null)
-      colorsRef.current.push(null)
-    }
-  }, [n, active])
+  const setRef = (i) => (el) => {
+    cellRefs.current[i] = el
+  }
 
   const update = (p) => {
     if (!active) return
@@ -99,9 +94,7 @@ export default function PixelWipe({
       {Array.from({ length: n }).map((_, i) => (
         <span
           key={i}
-          ref={(el) => {
-            cellRefs.current[i] = el
-          }}
+          ref={setRef(i)}
           className="h-full w-full"
         />
       ))}

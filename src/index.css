@@ -11,6 +11,8 @@
 @theme {
   --color-primary: #093fb4;
   --color-cream: #fffcfb;
+  --color-primary-deep: #020f2c;
+  --color-pixel: #3df0c4;
 
   --font-sans: 'Space Grotesk', system-ui, sans-serif;
   --font-pixel: 'VT323', monospace;
@@ -48,6 +50,31 @@ body {
 
 .marquee-paused:hover .animate-marquee {
   animation-play-state: paused;
+}
+
+.marquee-fade {
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    #000 10%,
+    #000 90%,
+    transparent
+  );
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent,
+    #000 10%,
+    #000 90%,
+    transparent
+  );
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
 }
 
 .has-custom-cursor,
@@ -156,6 +183,10 @@ body {
   .animate-caret,
   .animate-scroll-hint {
     animation: none !important;
+  }
+  .marquee-fade {
+    mask-image: none;
+    -webkit-mask-image: none;
   }
   [data-reveal] {
     transform: none !important;

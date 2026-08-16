@@ -11,6 +11,7 @@ export default function RevealHeading({
   once = true,
 }) {
   const reduce = useReducedMotion()
+  const MotionTag = motion(Tag)
 
   const container = {
     hidden: {},
@@ -22,7 +23,7 @@ export default function RevealHeading({
   }
 
   return (
-    <Tag
+    <MotionTag
       className={className}
       initial="hidden"
       whileInView="visible"
@@ -46,6 +47,6 @@ export default function RevealHeading({
           {li < lines.length - 1 && <br />}
         </span>
       ))}
-    </Tag>
+    </MotionTag>
   )
 }

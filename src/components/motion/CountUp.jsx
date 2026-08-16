@@ -1,5 +1,5 @@
-import { useEffect, useRef } from 'react'
-import { motion, useInView, useSpring, useTransform } from 'framer-motion'
+import { useRef } from 'react'
+import { motion, useReducedMotion, useScroll, useSpring, useTransform } from 'framer-motion'
 
 export default function CountUp({
   value,
@@ -9,21 +9,27 @@ export default function CountUp({
   format = true,
 }) {
   const ref = useRef(null)
-  const inView = useInView(ref, { once: true, margin: '-40px' })
-  const spring = useSpring(0, { stiffness: 50, damping: 18, mass: 0.9 })
+  const reduce = useReducedMotion()
 
-  useEffect(() => {
-    if (inView) spring.set(value)
-  }, [inView, value, spring])
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ['start end', 'start 0.3'],
+  })
+  const spring = useSpring(scrollYProgress, { stiffness: 60, damping: 22, mass: 0.9 })
 
-  const text = useTransform(spring, (v) =>
-    format ? Math.round(v).toLocaleString('id-ID') : String(Math.round(v))
-  )
+  const text = useTransform(spring, (p) => {
+    const v = Math.round(p * value)
+    return format ? v.toLocaleString('id-ID') : String(v)
+  })
 
   return (
     <span ref={ref} className={className}>
       {prefix}
-      <motion.span>{text}</motion.span>
+      {reduce ? (
+        format ? value.toLocaleString('id-ID') : String(value)
+      ) : (
+        <motion.span>{text}</motion.span>
+      )}
       {suffix}
     </span>
   )

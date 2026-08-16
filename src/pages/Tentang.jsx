@@ -1,28 +1,32 @@
 import { Link } from 'react-router-dom'
-import { Reveal, Stagger, StaggerItem } from '../components/motion/Reveal'
-import RevealHeading from '../components/motion/RevealHeading'
+import ScrollReveal from '../components/motion/ScrollReveal'
+import ScrollHeading from '../components/motion/ScrollHeading'
 import CountUp from '../components/motion/CountUp'
 import { SectionKicker, PixelTag } from '../components/ui/Button.jsx'
+import Spotlight from '../components/ui/Spotlight'
+import Magnetic from '../components/ui/Magnetic'
 import Icon from '../components/ui/Icon'
 import { stats } from '../data/content'
 
 export default function TentangPage() {
   return (
     <div>
-      <section data-nav-theme="dark" className="bg-primary py-20 text-cream">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <SectionKicker dark>Tentang Kami</SectionKicker>
-          <RevealHeading
-            lines={['Xora — partner digital', 'yang bisa dipercaya']}
-            className="max-w-4xl text-4xl font-bold tracking-tight sm:text-6xl"
-          />
-        </div>
+      <section data-nav-theme="dark" className="relative isolate overflow-hidden bg-primary py-20 text-cream">
+        <Spotlight>
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <SectionKicker dark>Tentang Kami</SectionKicker>
+            <ScrollHeading
+              lines={['Xora — partner digital', 'yang bisa dipercaya']}
+              className="max-w-4xl text-4xl font-bold tracking-tight sm:text-6xl"
+            />
+          </div>
+        </Spotlight>
       </section>
 
       <section data-nav-theme="light" className="bg-cream py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid gap-16 lg:grid-cols-2">
-            <Reveal>
+            <ScrollReveal>
               <div className="relative border-2 border-primary/25 bg-cream p-8 shadow-[4px_4px_0_0_#093FB4]">
                 <span className="absolute -top-3 left-6 h-3 w-3 bg-cream" />
                 <span className="absolute -top-3 left-14 h-3 w-3 bg-cream/60" />
@@ -43,9 +47,9 @@ export default function TentangPage() {
                   <PixelTag>IT Support</PixelTag>
                 </div>
               </div>
-            </Reveal>
+            </ScrollReveal>
 
-            <Reveal delay={0.12}>
+            <ScrollReveal>
               <div className="space-y-6">
                 <h2 className="text-2xl font-bold">Visi</h2>
                 <p className="text-lg font-light leading-relaxed text-primary/60">
@@ -53,27 +57,28 @@ export default function TentangPage() {
                   institusi di Indonesia melalui teknologi yang relevan.
                 </p>
                 <h2 className="pt-4 text-2xl font-bold">Misi</h2>
-                <Stagger className="space-y-3" stagger={0.06}>
+                <div className="space-y-3">
                   {[
                     'Memberikan solusi digital yang efektif, cepat, dan terjangkau.',
                     'Membangun aplikasi dan website yang kokoh dan mudah dikelola.',
                     'Mendukung pertumbuhan UMKM dan layanan publik lewat teknologi.',
                     'Menjaga komunikasi serta kepercayaan di setiap penjualan.',
                   ].map((m) => (
-                    <StaggerItem key={m} className="flex items-start gap-3">
+                    <ScrollReveal key={m} className="flex items-start gap-3">
                       <span className="mt-1 grid h-5 w-5 shrink-0 place-items-center bg-primary text-cream"><Icon name="check" className="h-4 w-4" /></span>
                       <span className="font-light leading-relaxed text-primary/60">{m}</span>
-                    </StaggerItem>
+                    </ScrollReveal>
                   ))}
-                </Stagger>
+                </div>
               </div>
-            </Reveal>
+            </ScrollReveal>
           </div>
         </div>
       </section>
 
-      <section data-nav-theme="dark" className="border-y-2 border-primary/10 bg-primary text-cream">
-        <div className="mx-auto grid max-w-7xl grid-cols-2 gap-px py-16 sm:grid-cols-4">
+      <section data-nav-theme="dark" className="relative isolate overflow-hidden border-y-2 border-primary/10 bg-primary text-cream">
+        <Spotlight>
+          <div className="mx-auto grid max-w-7xl grid-cols-2 gap-px py-16 sm:grid-cols-4">
           {stats.map((stat) => (
             <div key={stat.label} className="border-r border-cream px-6 py-4 text-center last:border-r-0">
               <div className="text-5xl font-bold tracking-tight sm:text-6xl">
@@ -83,25 +88,28 @@ export default function TentangPage() {
             </div>
           ))}
         </div>
+        </Spotlight>
       </section>
 
       <section data-nav-theme="light" className="bg-cream py-20 text-center">
         <div className="mx-auto max-w-3xl px-4 sm:px-6">
-          <RevealHeading
+          <ScrollHeading
             lines={['Tertarik bekerja', 'bersama kami?']}
             className="text-center text-3xl font-bold tracking-tight sm:text-5xl"
           />
-          <Reveal delay={0.15}>
+          <ScrollReveal delay={0.3}>
             <p className="mx-auto mt-4 max-w-xl font-light text-primary/60">
               Mari ceritakan proyek Anda. Kami akan merespon dalam satu hari kerja.
             </p>
+            <Magnetic>
             <Link
               to="/kontak"
-              className=" mt-8 inline-flex items-center gap-2 border-2 border-primary/25 bg-primary px-8 py-4 text-sm font-bold uppercase tracking-wide text-cream shadow-[4px_4px_0_0_#093FB4] transition-allhover:brightness-110 active:translate-x-1 active:translate-y-1 active:shadow-none"
+              className="inline-flex items-center gap-2 border-2 border-primary/25 bg-primary px-8 py-4 text-sm font-bold uppercase tracking-wide text-cream shadow-[4px_4px_0_0_#093FB4] transition-all hover:brightness-110 active:translate-x-1 active:translate-y-1 active:shadow-none"
             >
               Mulai Konsultasi
             </Link>
-          </Reveal>
+          </Magnetic>
+          </ScrollReveal>
         </div>
       </section>
     </div>

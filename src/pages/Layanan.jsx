@@ -1,8 +1,10 @@
 import { Link } from 'react-router-dom'
-import { Reveal, Stagger, StaggerItem } from '../components/motion/Reveal'
-import RevealHeading from '../components/motion/RevealHeading'
+import ScrollReveal from '../components/motion/ScrollReveal'
+import ScrollHeading from '../components/motion/ScrollHeading'
 import TiltCard from '../components/motion/TiltCard'
 import { SectionKicker, ArrowLink } from '../components/ui/Button.jsx'
+import Spotlight from '../components/ui/Spotlight'
+import CardSpotlight from '../components/ui/CardSpotlight'
 import PixelArrow from '../components/ui/PixelArrow'
 import { services } from '../data/services'
 
@@ -12,16 +14,16 @@ export default function LayananPage() {
       <section data-nav-theme="light" className="border-b-2 border-primary/10 bg-cream py-20 text-center">
         <div className="mx-auto max-w-4xl px-4 sm:px-6">
           <SectionKicker className="justify-center">Layanan</SectionKicker>
-          <RevealHeading
+          <ScrollHeading
             lines={['Solusi digital untuk', 'setiap kebutuhan']}
             className="text-4xl font-bold tracking-tight sm:text-6xl"
           />
-          <Reveal delay={0.2}>
+          <ScrollReveal delay={0.3}>
             <p className="mx-auto mt-5 max-w-2xl text-lg font-light text-primary/60">
               Dari halaman web sederhana hingga sistem infrastruktur lengkap — semua bisa disatukan
               dalam satu partner.
             </p>
-          </Reveal>
+          </ScrollReveal>
         </div>
       </section>
 
@@ -31,14 +33,15 @@ export default function LayananPage() {
           <section
             key={cat.slug}
             data-nav-theme={dark ? 'dark' : 'light'}
-            className={`py-20 ${dark ? 'bg-primary text-cream' : 'bg-cream'}`}
+            className={`relative isolate overflow-hidden py-20 ${dark ? 'bg-primary text-cream' : 'bg-cream'}`}
           >
+            <Spotlight color={dark ? '255, 252, 251' : '9, 63, 180'} opacity={0.04}>
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-              <Reveal>
+              <ScrollReveal>
                 <div className="mb-12 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
                   <div>
                     <SectionKicker dark={dark}>{cat.kicker}</SectionKicker>
-                    <RevealHeading
+                    <ScrollHeading
                       lines={[cat.title]}
                       className={`text-3xl font-bold tracking-tight sm:text-4xl ${dark ? 'text-cream' : ''}`}
                     />
@@ -50,12 +53,13 @@ export default function LayananPage() {
                     Lihat semua {cat.title}
                   </ArrowLink>
                 </div>
-              </Reveal>
+              </ScrollReveal>
 
-              <Stagger className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3" stagger={0.07}>
+              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                 {cat.services.map((s) => (
-                  <StaggerItem key={s.slug}>
+                  <ScrollReveal key={s.slug}>
                     <TiltCard intensity={6} className="h-full">
+                      <CardSpotlight className="h-full" color={dark ? '255, 252, 251' : '9, 63, 180'} opacity={dark ? 0.06 : 0.08}>
                       <Link
                         to={`/layanan/${cat.slug}/${s.slug}`}
                         className={`group flex h-full flex-col justify-between border-2 p-6 transition-all duration-200 ${
@@ -92,11 +96,13 @@ export default function LayananPage() {
                           Lihat Detail →
                         </span>
                       </Link>
+                      </CardSpotlight>
                     </TiltCard>
-                  </StaggerItem>
+                  </ScrollReveal>
                 ))}
-              </Stagger>
+              </div>
             </div>
+            </Spotlight>
           </section>
         )
       })}

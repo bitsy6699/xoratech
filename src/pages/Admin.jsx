@@ -103,7 +103,7 @@ export default function AdminPage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full border-2 border-primary/25 bg-primary py-3 text-sm font-bold uppercase tracking-wide text-cream shadow-[4px_4px_0_0_#093FB4] transition-allhover:brightness-110 active:translate-x-1 active:translate-y-1 active:shadow-none disabled:opacity-60"
+                className="w-full border-2 border-primary/25 bg-primary py-3 text-sm font-bold uppercase tracking-wide text-cream shadow-[4px_4px_0_0_#093FB4] transition-all hover:brightness-110 active:translate-x-1 active:translate-y-1 active:shadow-none disabled:opacity-60"
               >
                 {loading ? 'Memproses...' : 'Masuk'}
               </button>
@@ -130,7 +130,7 @@ export default function AdminPage() {
           </div>
           <button
             onClick={() => signOutAdmin()}
-            className="border-2 border-primary/25 bg-cream px-5 py-2.5 text-sm font-semibold uppercase tracking-wide transition-colorshover:bg-primary hover:text-cream"
+            className="border-2 border-primary/25 bg-cream px-5 py-2.5 text-sm font-semibold uppercase tracking-wide transition-colors hover:bg-primary hover:text-cream"
           >
             Keluar
           </button>
@@ -142,7 +142,7 @@ export default function AdminPage() {
               key={f}
               onClick={() => setStatusFilter(f)}
               className={`border-2 px-4 py-2 font-pixel text-base uppercase tracking-widest ${
-                statusFilter === f ? 'border-primary bg-primary text-cream' : 'border-primary/25 bg-cream text-inkhover:bg-primary/5'
+                statusFilter === f ? 'border-primary bg-primary text-cream' : 'border-primary/25 bg-cream text-primary hover:bg-primary/5'
               }`}
             >
               {f}

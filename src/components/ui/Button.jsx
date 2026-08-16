@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import PixelArrow from './PixelArrow'
+import Magnetic from './Magnetic'
 
 export default function Button({
   children,
@@ -8,6 +9,7 @@ export default function Button({
   variant = 'primary',
   size = 'md',
   className = '',
+  magnetic = false,
   ...props
 }) {
   const base =
@@ -27,25 +29,28 @@ export default function Button({
   }
   const cls = `${base} ${variants[variant]} ${sizes[size]} ${className}`
 
+  let el
   if (to) {
-    return (
+    el = (
       <Link to={to} className={cls} {...props}>
         {children}
       </Link>
     )
-  }
-  if (href) {
-    return (
+  } else if (href) {
+    el = (
       <a href={href} className={cls} {...props}>
         {children}
       </a>
     )
+  } else {
+    el = (
+      <button className={cls} {...props}>
+        {children}
+      </button>
+    )
   }
-  return (
-    <button className={cls} {...props}>
-      {children}
-    </button>
-  )
+
+  return magnetic ? <Magnetic>{el}</Magnetic> : el
 }
 
 export function PixelTag({ children, className = '', dark = false }) {
@@ -91,14 +96,14 @@ export function SectionKicker({ children, dark = false, className = '' }) {
 
 export function Marquee({ items, dark = false, className = '' }) {
   return (
-    <div className={`relative overflow-hidden whitespace-nowrap ${className}`}>
+    <div className={`marquee-fade relative overflow-hidden whitespace-nowrap ${className}`}>
       <div className="animate-marquee inline-flex w-max items-center gap-8">
         {[0, 1].map((dup) => (
           <div key={dup} className="inline-flex items-center gap-8" aria-hidden={dup === 1}>
             {items.map((item, i) => (
               <span key={i} className="inline-flex items-center gap-8">
                 <span
-                  className={`font-pixel text-2xl uppercase tracking-wider ${
+                  className={`font-pixel text-2xl uppercase tracking-wider transition-transform duration-200 hover:scale-110 ${
                     dark ? 'text-cream' : 'text-primary/60'
                   }`}
                 >

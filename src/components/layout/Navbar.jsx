@@ -47,6 +47,7 @@ export default function Navbar() {
   }, [location.pathname])
 
   const dark = overDark && !open
+  const compact = scrolled && !dark
   const accent = dark ? 'text-cream' : 'text-primary'
   const navBg = dark
     ? 'bg-primary/90 border-cream/20 backdrop-blur'
@@ -54,11 +55,15 @@ export default function Navbar() {
 
   return (
     <header
-      className={`sticky top-0 z-40 border-b-2 transition-colors ${navBg} ${
-        scrolled && !dark ? 'shadow-[0_4px_0_0_#093FB4]' : ''
+      className={`sticky top-0 z-40 border-b-2 transition-all ${navBg} ${
+        compact ? 'shadow-[0_4px_0_0_#093FB4]' : ''
       } ${dark ? 'shadow-[0_4px_0_0_#FFFCFB]' : ''}`}
     >
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+      <div
+        className={`mx-auto flex max-w-7xl items-center justify-between px-4 transition-all sm:px-6 lg:px-8 ${
+          compact ? 'h-14' : 'h-16'
+        }`}
+      >
         <Logo variant={dark ? 'dark' : 'light'} />
 
         <nav className="hidden items-center gap-8 lg:flex">
@@ -92,6 +97,7 @@ export default function Navbar() {
             to="/kontak"
             size="sm"
             variant={dark ? 'pixel' : 'primary'}
+            magnetic
             className=""
           >
             Konsultasi Gratis

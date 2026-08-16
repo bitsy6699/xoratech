@@ -9,7 +9,7 @@ mobile/web, dan solusi IT — dengan gaya desain *minimalism + pixelated*.
 - **Tailwind CSS v4**
 - **React Router v7**
 - **Supabase** (PostgreSQL) untuk form pesan & login admin
-- **React Bits** (animated components: SplitText, Squares, FadeContent, ShinyText, Magnet, BlobCursor)
+- **Animasi scroll-driven** (Framer Motion `useScroll`/`useTransform` + GSAP): `ScrollReveal`, `ScrollHeading`, `MaskedTextPressure`, horizontal scroll, parallax
 
 ## Struktur Halaman
 

@@ -1,9 +1,10 @@
 import { useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
-import { Reveal } from '../components/motion/Reveal'
-import RevealHeading from '../components/motion/RevealHeading'
+import ScrollReveal from '../components/motion/ScrollReveal'
+import ScrollHeading from '../components/motion/ScrollHeading'
 import { SectionKicker, PixelTag } from '../components/ui/Button.jsx'
+import CardSpotlight from '../components/ui/CardSpotlight'
 import Icon from '../components/ui/Icon'
 import PixelArrow from '../components/ui/PixelArrow'
 import { submitMessage, isSupabaseConfigured } from '../lib/supabase'
@@ -65,15 +66,15 @@ export default function KontakPage() {
       <section data-nav-theme="light" className="border-b-2 border-primary/10 bg-cream py-20 text-center">
         <div className="mx-auto max-w-4xl px-4 sm:px-6">
           <SectionKicker className="justify-center">Kontak</SectionKicker>
-          <RevealHeading
+          <ScrollHeading
             lines={['Mari kita mulai', 'proyek Anda']}
             className="text-center text-4xl font-bold tracking-tight sm:text-6xl"
           />
-          <Reveal delay={0.2}>
+          <ScrollReveal delay={0.3}>
             <p className="mx-auto mt-5 max-w-2xl text-lg font-light text-primary/60">
               Ceritakan kebutuhan Anda. Tim kami akan menghubungi Anda dalam 1x24 jam kerja.
             </p>
-          </Reveal>
+          </ScrollReveal>
         </div>
       </section>
 
@@ -81,7 +82,7 @@ export default function KontakPage() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid gap-12 lg:grid-cols-5">
             <div className="lg:col-span-2">
-              <Reveal>
+              <ScrollReveal>
                 <h2 className="text-2xl font-bold">Info Kontak</h2>
                 <div className="mt-6 space-y-4">
                   {[
@@ -89,26 +90,28 @@ export default function KontakPage() {
                     ['whatsapp', 'WhatsApp', '+62 812 3456 7890', 'https://wa.me/6281234567890'],
                     ['map-pin', 'Alamat', 'Jakarta, Indonesia', '#'],
                   ].map(([icon, label, value, href]) => (
-                    <div key={label} className="border-2 border-primary/10 bg-cream p-4">
-                      <p className="flex items-center gap-2 font-pixel text-lg uppercase tracking-widest text-primary">
-                        <Icon name={icon} className="h-4 w-4" />
-                        {label}
-                      </p>
-                      <a href={href} className="mt-1 block font-medium text-primary hover:underline">
-                        {value}
-                      </a>
-                    </div>
+                    <CardSpotlight key={label}>
+                      <div className="border-2 border-primary/10 bg-cream p-4">
+                        <p className="flex items-center gap-2 font-pixel text-lg uppercase tracking-widest text-primary">
+                          <Icon name={icon} className="h-4 w-4" />
+                          {label}
+                        </p>
+                        <a href={href} className="mt-1 block font-medium text-primary hover:underline">
+                          {value}
+                        </a>
+                      </div>
+                    </CardSpotlight>
                   ))}
                 </div>
                 <div className="mt-8 flex flex-wrap gap-2">
                   <PixelTag>Fast Response</PixelTag>
                   <PixelTag>Gratis Estimasi</PixelTag>
                 </div>
-              </Reveal>
+              </ScrollReveal>
             </div>
 
             <div className="lg:col-span-3">
-              <Reveal delay={0.1}>
+              <ScrollReveal delay={0.2}>
                 <form
                   onSubmit={handleSubmit}
                   className="border-2 border-primary/25 bg-cream p-6 shadow-[4px_4px_0_0_#093FB4] sm:p-8"
@@ -183,7 +186,7 @@ export default function KontakPage() {
                   <button
                     type="submit"
                     disabled={submitting}
-                    className="mt-6 inline-flex w-full items-center justify-center gap-3 border-2 border-primary/25 bg-primary px-8 py-4 text-sm font-bold uppercase tracking-wide text-cream shadow-[4px_4px_0_0_#093FB4] transition-allhover:brightness-110 active:translate-x-1 active:translate-y-1 active:shadow-none disabled:opacity-60 sm:w-auto"
+                    className="mt-6 inline-flex w-full items-center justify-center gap-3 border-2 border-primary/25 bg-primary px-8 py-4 text-sm font-bold uppercase tracking-wide text-cream shadow-[4px_4px_0_0_#093FB4] transition-all hover:brightness-110 active:translate-x-1 active:translate-y-1 active:shadow-none disabled:opacity-60 sm:w-auto"
                   >
                     {submitting ? (
                       <>
@@ -198,7 +201,7 @@ export default function KontakPage() {
                     )}
                   </button>
                 </form>
-              </Reveal>
+              </ScrollReveal>
             </div>
           </div>
         </div>

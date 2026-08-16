@@ -1,10 +1,13 @@
 import { useState } from 'react'
 import { Link, useParams, Navigate } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
-import { Reveal, Stagger, StaggerItem } from '../components/motion/Reveal'
-import RevealHeading from '../components/motion/RevealHeading'
+import ScrollReveal from '../components/motion/ScrollReveal'
+import ScrollHeading from '../components/motion/ScrollHeading'
 import TiltCard from '../components/motion/TiltCard'
 import { SectionKicker, PixelTag } from '../components/ui/Button.jsx'
+import Spotlight from '../components/ui/Spotlight'
+import CardSpotlight from '../components/ui/CardSpotlight'
+import Magnetic from '../components/ui/Magnetic'
 import Icon from '../components/ui/Icon'
 import PixelArrow from '../components/ui/PixelArrow'
 import { services, findService } from '../data/services'
@@ -30,58 +33,55 @@ export default function LayananDetailPage() {
 }
 
 function CategoryLanding({ category }) {
-  const bg =
-    category.slug === 'website'
-      ? 'bg-primary'
-      : category.slug === 'application'
-        ? 'bg-primary'
-        : 'bg-primary'
-
   return (
     <div>
-      <section data-nav-theme="dark" className={`py-20 text-cream ${bg}`}>
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <SectionKicker dark>{category.kicker}</SectionKicker>
-          <RevealHeading
-            lines={[category.title]}
-            className="max-w-4xl text-4xl font-bold tracking-tight sm:text-6xl"
-          />
-          <Reveal delay={0.15}>
-            <p className="mt-5 max-w-2xl text-lg font-light text-cream">{category.description}</p>
-          </Reveal>
-        </div>
+      <section data-nav-theme="dark" className="relative isolate overflow-hidden bg-primary py-20 text-cream">
+        <Spotlight>
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <SectionKicker dark>{category.kicker}</SectionKicker>
+            <ScrollHeading
+              lines={[category.title]}
+              className="max-w-4xl text-4xl font-bold tracking-tight sm:text-6xl"
+            />
+            <ScrollReveal delay={0.3}>
+              <p className="mt-5 max-w-2xl text-lg font-light text-cream">{category.description}</p>
+            </ScrollReveal>
+          </div>
+        </Spotlight>
       </section>
 
       <section data-nav-theme="light" className="bg-cream py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <Stagger className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3" stagger={0.07}>
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {category.services.map((s) => (
-              <StaggerItem key={s.slug}>
+              <ScrollReveal key={s.slug}>
                 <TiltCard intensity={6} className="h-full">
-                  <Link
-                    to={`/layanan/${category.slug}/${s.slug}`}
-                    className="group flex h-full flex-col justify-between border-2 border-primary/25 bg-cream p-6 shadow-[4px_4px_0_0_#093FB4] transition-all duration-200 hover:translate-x-1 hover:translate-y-1 hover:shadow-[2px_2px_0_0_#093FB4]"
-                  >
-                    <div>
-                      <div className="flex items-start justify-between">
-                        <span className="grid h-12 w-12 place-items-center border-2 border-primary/25 bg-primary font-pixel text-xl text-cream">
-                          {s.slug[0].toUpperCase()}
-                        </span>
-                        <PixelArrow className="h-4 w-4 text-primary transition-transform group-hover:translate-x-1" />
+                  <CardSpotlight className="h-full">
+                    <Link
+                      to={`/layanan/${category.slug}/${s.slug}`}
+                      className="group flex h-full flex-col justify-between border-2 border-primary/25 bg-cream p-6 shadow-[4px_4px_0_0_#093FB4] transition-all duration-200 hover:translate-x-1 hover:translate-y-1 hover:shadow-[2px_2px_0_0_#093FB4]"
+                    >
+                      <div>
+                        <div className="flex items-start justify-between">
+                          <span className="grid h-12 w-12 place-items-center border-2 border-primary/25 bg-primary font-pixel text-xl text-cream">
+                            {s.slug[0].toUpperCase()}
+                          </span>
+                          <PixelArrow className="h-4 w-4 text-primary transition-transform group-hover:translate-x-1" />
+                        </div>
+                        <h3 className="mt-5 text-xl font-bold">{s.title}</h3>
+                        <p className="mt-2 text-sm leading-relaxed text-primary/60">{s.short}</p>
                       </div>
-                      <h3 className="mt-5 text-xl font-bold">{s.title}</h3>
-                      <p className="mt-2 text-sm leading-relaxed text-primary/60">{s.short}</p>
-                    </div>
-                    <div className="mt-6 flex items-center gap-2 font-pixel text-lg uppercase tracking-widest text-primary">
-                      <span>Buka Detail</span>
-                      <span className="h-2 w-2 bg-primary/40" />
-                      <span className="h-2 w-2 bg-primary/70" />
-                    </div>
-                  </Link>
+                      <div className="mt-6 flex items-center gap-2 font-pixel text-lg uppercase tracking-widest text-primary">
+                        <span>Buka Detail</span>
+                        <span className="h-2 w-2 bg-primary/40" />
+                        <span className="h-2 w-2 bg-primary/70" />
+                      </div>
+                    </Link>
+                  </CardSpotlight>
                 </TiltCard>
-              </StaggerItem>
+              </ScrollReveal>
             ))}
-          </Stagger>
+          </div>
         </div>
       </section>
     </div>
@@ -99,68 +99,74 @@ function ServiceDetail({ service, category }) {
 
   return (
     <div>
-      <section data-nav-theme="dark" className="bg-primary py-20 text-cream">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <Reveal>
+      <section data-nav-theme="dark" className="relative isolate overflow-hidden bg-primary py-20 text-cream">
+        <Spotlight>
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <ScrollReveal>
             <div className="flex flex-wrap items-center gap-3 font-pixel text-lg uppercase tracking-widest text-cream">
               <Link to="/layanan" className="hover:text-cream">Layanan</Link>
               <span className="text-cream">/</span>
               <Link to={`/layanan/${category.slug}`} className="hover:text-cream">{category.title}</Link>
             </div>
-            <RevealHeading lines={[service.title]} className="mt-6 max-w-4xl text-5xl font-bold tracking-tight sm:text-7xl" />
-            <Reveal delay={0.15}>
+            <ScrollHeading lines={[service.title]} className="mt-6 max-w-4xl text-5xl font-bold tracking-tight sm:text-7xl" />
+            <ScrollReveal delay={0.3}>
               <p className="mt-6 max-w-2xl text-lg font-light leading-relaxed text-cream">
                 {service.description}
               </p>
-            </Reveal>
-            <Reveal delay={0.25}>
+            </ScrollReveal>
+            <ScrollReveal delay={0.45}>
               <div className="mt-8 flex flex-wrap gap-3">
                 {['Fast Response', 'Garansi', 'Transparan'].map((tag) => (
                   <PixelTag key={tag} dark>{tag}</PixelTag>
                 ))}
               </div>
-            </Reveal>
-          </Reveal>
+            </ScrollReveal>
+          </ScrollReveal>
         </div>
+        </Spotlight>
       </section>
 
       <section data-nav-theme="light" className="bg-cream py-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid gap-12 lg:grid-cols-3">
             <div className="lg:col-span-2">
-              <Reveal>
+              <ScrollReveal>
                 <div className="border-2 bg-cream p-8 md:p-10">
                   <SectionKicker>Ketentuan</SectionKicker>
                   <h2 className="text-3xl font-bold tracking-tight">Apa yang Anda dapatkan</h2>
-                  <Stagger className="mt-8 grid gap-4 sm:grid-cols-2" stagger={0.05}>
+                  <div className="mt-8 grid gap-4 sm:grid-cols-2">
                     {service.features.map((f) => (
-                      <StaggerItem key={f}>
+                      <ScrollReveal key={f}>
                         <div className="flex items-start gap-3">
                           <span className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center bg-primary text-cream"><Icon name="check" className="h-4 w-4" /></span>
                           <span className="text-sm leading-relaxed">{f}</span>
                         </div>
-                      </StaggerItem>
+                      </ScrollReveal>
                     ))}
-                  </Stagger>
+                  </div>
                   <div className="mt-10 flex flex-wrap gap-4">
-                    <Link
-                      to={`/kontak?layanan=${encodeURIComponent(service.title)}`}
-                      className=" inline-flex items-center gap-2 border-2 border-primary/25 bg-primary px-7 py-3.5 text-sm font-bold uppercase tracking-wide text-cream shadow-[4px_4px_0_0_#093FB4] transition-allhover:brightness-110 active:translate-x-1 active:translate-y-1 active:shadow-none"
-                    >
-                      Pesan Layanan Ini
-                      <PixelArrow className="h-3.5 w-3.5 text-cream" />
-                    </Link>
-                    <Link
-                      to="/portofolio"
-                      className="inline-flex items-center border-2 border-primary/25 px-7 py-3.5 text-sm font-semibold uppercase tracking-wide text-primary transition-colors hover:bg-primary hover:text-cream"
-                    >
-                      Lihat Portofolio
-                    </Link>
+                    <Magnetic>
+                      <Link
+                        to={`/kontak?layanan=${encodeURIComponent(service.title)}`}
+                        className="inline-flex items-center gap-2 border-2 border-primary/25 bg-primary px-7 py-3.5 text-sm font-bold uppercase tracking-wide text-cream shadow-[4px_4px_0_0_#093FB4] transition-all hover:brightness-110 active:translate-x-1 active:translate-y-1 active:shadow-none"
+                      >
+                        Pesan Layanan Ini
+                        <PixelArrow className="h-3.5 w-3.5 text-cream" />
+                      </Link>
+                    </Magnetic>
+                    <Magnetic>
+                      <Link
+                        to="/portofolio"
+                        className="inline-flex items-center border-2 border-primary/25 px-7 py-3.5 text-sm font-semibold uppercase tracking-wide text-primary transition-colors hover:bg-primary hover:text-cream"
+                      >
+                        Lihat Portofolio
+                      </Link>
+                    </Magnetic>
                   </div>
                 </div>
-              </Reveal>
+              </ScrollReveal>
 
-              <Reveal>
+              <ScrollReveal>
                 <div className="mt-12">
                   <SectionKicker>FAQ</SectionKicker>
                   <h2 className="text-2xl font-bold">Pertanyaan umum</h2>
@@ -197,12 +203,12 @@ function ServiceDetail({ service, category }) {
                     ))}
                   </div>
                 </div>
-              </Reveal>
+              </ScrollReveal>
             </div>
 
             <aside className="lg:col-span-1">
               <div className="sticky top-24 space-y-6">
-                <Reveal>
+                <ScrollReveal>
                   <div className="border-2 border-primary/25 bg-primary p-6 text-cream">
                     <div className="flex items-center justify-between">
                       <p className="font-pixel text-sm uppercase tracking-widest text-cream">Mulai dari</p>
@@ -221,7 +227,7 @@ function ServiceDetail({ service, category }) {
                       Estimasi Gratis
                     </Link>
                   </div>
-                </Reveal>
+                </ScrollReveal>
 
                 <div className="border-2 border-primary/25 bg-cream p-6">
                   <h3 className="font-pixel text-lg uppercase tracking-widest text-primary">Kategori</h3>
