@@ -19,9 +19,7 @@
   --font-mono: 'Martian Mono', ui-monospace, monospace;
 }
 
-html {
-  scroll-behavior: smooth;
-}
+
 
 body {
   @apply bg-cream text-primary font-sans antialiased;

@@ -59,7 +59,7 @@ export default function KontakPage() {
   }
 
   const inputCls =
-    'w-full border-2 border-primary/25 bg-cream px-4 py-3 text-sm text-primary placeholder:text-primary/60/60 outline-none transition-colors focus:bg-cream focus:shadow-[4px_4px_0_0_#093FB4]'
+    'w-full border-2 border-primary/25 bg-cream px-4 py-3 text-sm text-primary placeholder:text-primary/60 outline-none transition-colors focus:bg-cream focus:shadow-[4px_4px_0_0_#093FB4]'
 
   return (
     <div>

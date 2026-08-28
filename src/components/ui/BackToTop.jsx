@@ -23,7 +23,7 @@ export default function BackToTop() {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 24 }}
           transition={{ duration: 0.25 }}
-          className="fixed bottom-6 right-6 z-40 inline-flex h-12 w-12 items-center justify-center border-2 border-primary/25 bg-primary text-cream shadow-[4px_4px_0_0_#093FB4] transition-all hover:translate-x-0.5 hover:translate-y-0.5hover:brightness-110 hover:shadow-none"
+          className="fixed bottom-6 right-6 z-40 inline-flex h-12 w-12 items-center justify-center border-2 border-primary/25 bg-primary text-cream shadow-[4px_4px_0_0_#093FB4] transition-all hover:-translate-y-0.5 hover:brightness-110"
         >
           <PixelArrow direction="u" className="h-4 w-4 text-cream" />
         </motion.button>

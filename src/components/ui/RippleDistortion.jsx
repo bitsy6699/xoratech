@@ -33,7 +33,9 @@ export default function RippleDistortion({
     let raf = 0
     let clock = 0
     let last = performance.now()
+    let visible = true
     const frame = (now) => {
+      if (!visible) return
       const dt = Math.min(0.05, (now - last) / 1000)
       last = now
       clock += dt
@@ -55,12 +57,28 @@ export default function RippleDistortion({
       }
       raf = requestAnimationFrame(frame)
     }
-    raf = requestAnimationFrame(frame)
+    const start = () => {
+      if (raf) return
+      last = performance.now()
+      raf = requestAnimationFrame(frame)
+    }
+    const stop = () => {
+      cancelAnimationFrame(raf)
+      raf = 0
+    }
+    const io = new IntersectionObserver(([entry]) => {
+      visible = entry.isIntersecting
+      if (visible) start()
+      else stop()
+    })
+    if (wrapRef.current) io.observe(wrapRef.current)
+    start()
 
     window.addEventListener('mousemove', onMove, { passive: true })
     document.documentElement.addEventListener('mouseleave', onLeave)
     return () => {
-      cancelAnimationFrame(raf)
+      stop()
+      io.disconnect()
       window.removeEventListener('mousemove', onMove)
       document.documentElement.removeEventListener('mouseleave', onLeave)
     }

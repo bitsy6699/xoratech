@@ -62,7 +62,7 @@ export default function LayananPage() {
                       <CardSpotlight className="h-full" color={dark ? '255, 252, 251' : '9, 63, 180'} opacity={dark ? 0.06 : 0.08}>
                       <Link
                         to={`/layanan/${cat.slug}/${s.slug}`}
-                        className={`group flex h-full flex-col justify-between border-2 p-6 transition-all duration-200 ${
+                        className={`group flex h-full flex-col justify-between border-2 p-6 text-primary transition-all duration-200 ${
                           dark
                             ? 'border-cream bg-cream hover:border-cream/60'
                             : 'border-primary/25 bg-cream shadow-[4px_4px_0_0_#093FB4] hover:translate-x-1 hover:translate-y-1 hover:shadow-[2px_2px_0_0_#093FB4]'
@@ -71,28 +71,16 @@ export default function LayananPage() {
                         <div>
                           <div className="flex items-start justify-between">
                             <span
-                              className={`grid h-12 w-12 place-items-center border-2 font-pixel text-xl ${
-                                dark ? 'border-cream/50 text-cream' : 'border-primary/25 bg-primary text-cream'
-                              }`}
+                              className="grid h-12 w-12 place-items-center border-2 border-primary/25 bg-primary font-pixel text-xl text-cream"
                             >
                               {s.slug[0].toUpperCase()}
                             </span>
-                            <PixelArrow
-                              className={`h-4 w-4 transition-transform group-hover:translate-x-1 ${
-                                dark ? 'text-cream' : 'text-primary'
-                              }`}
-                            />
+                            <PixelArrow className="h-4 w-4 text-primary transition-transform group-hover:translate-x-1" />
                           </div>
                           <h3 className="mt-5 text-xl font-bold">{s.title}</h3>
-                          <p className={`mt-2 text-sm leading-relaxed ${dark ? 'text-cream' : 'text-primary/60'}`}>
-                            {s.short}
-                          </p>
+                          <p className="mt-2 text-sm leading-relaxed text-primary/60">{s.short}</p>
                         </div>
-                        <span
-                          className={`mt-6 inline-block font-pixel text-lg uppercase tracking-widest ${
-                            dark ? 'text-cream' : 'text-primary'
-                          }`}
-                        >
+                        <span className="mt-6 inline-block font-pixel text-lg uppercase tracking-widest text-primary">
                           Lihat Detail →
                         </span>
                       </Link>

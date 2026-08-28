@@ -66,7 +66,7 @@ export default function TestimonialCarousel({ items = [] }) {
     <div onMouseEnter={pauseOn} onMouseLeave={pauseOff} onFocusCapture={pauseOn} onBlurCapture={pauseOff}>
       <div
         ref={trackRef}
-        className="no-scrollbar flex snap-x snap-mandatory gap-8 overflow-x-auto scroll-px-4 px-4 pb-4"
+        className="no-scrollbar flex snap-x snap-mandatory gap-8 overflow-x-auto scroll-px-4 px-4 pb-4" data-lenis-prevent
       >
         {items.map((t) => (
           <figure

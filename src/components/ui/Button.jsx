@@ -103,7 +103,7 @@ export function Marquee({ items, dark = false, className = '' }) {
             {items.map((item, i) => (
               <span key={i} className="inline-flex items-center gap-8">
                 <span
-                  className={`font-pixel text-2xl uppercase tracking-wider transition-transform duration-200 hover:scale-110 ${
+                  className={`inline-block font-pixel text-2xl uppercase tracking-wider transition-transform duration-200 hover:scale-110 ${
                     dark ? 'text-cream' : 'text-primary/60'
                   }`}
                 >
