@@ -17,7 +17,6 @@ export default function Spotlight({
     const r = el.getBoundingClientRect()
     el.style.setProperty('--sx', `${e.clientX - r.left}px`)
     el.style.setProperty('--sy', `${e.clientY - r.top}px`)
-    el.style.opacity = 'var(--so, 0)'
     el.style.setProperty('--so', '1')
   }
 
