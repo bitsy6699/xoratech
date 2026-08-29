@@ -34,7 +34,7 @@ export default function ScrollReveal({
         y: translateY,
         scale: scaleValue,
         filter: blur ? `blur(${blurValue}px)` : undefined,
-        willChange: 'transform',
+        willChange: 'transform, opacity',
       }}
     >
       {children}

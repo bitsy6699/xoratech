@@ -10,8 +10,13 @@ export function useSmoothScroll() {
       autoRaf: false,
       anchors: true,
       smoothWheel: true,
-      duration: 1.15,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      syncTouch: false,
+      gestureOrientation: 'vertical',
+      wheelMultiplier: 1.05,
+      touchMultiplier: 1.4,
+      duration: 1.35,
+      easing: (t) => 1 - Math.pow(1 - t, 3),
+      lerp: 0.075,
     })
     window.__lenis = lenis
 
@@ -33,10 +38,18 @@ export function useSmoothScroll() {
 export function scrollToTop(immediate = true) {
   const lenis = window.__lenis
   if (lenis) {
-    lenis.scrollTo(0, { immediate })
+    if (immediate) lenis.scrollTo(0, { immediate: true, force: true })
+    else lenis.scrollTo(0, { duration: 0.9, easing: (t) => 1 - Math.pow(1 - t, 3) })
   } else {
     window.scrollTo({ top: 0, behavior: immediate ? 'auto' : 'smooth' })
   }
+}
+
+export function lenisStop() {
+  window.__lenis?.stop()
+}
+export function lenisStart() {
+  window.__lenis?.start()
 }
 
 export function scrollToTarget(target) {

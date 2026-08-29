@@ -4,7 +4,7 @@ import PixelOverlay from './PixelOverlay'
 import logoWhiteUrl from '../../assets/logo-crop-white.png'
 
 const KEY = 'xora-booted'
-const BOOT_MS = 1200
+const BOOT_MS = 900
 const PIXELS = 14
 
 export default function Preloader() {
@@ -18,6 +18,8 @@ export default function Preloader() {
     if (reduce || sessionStorage.getItem(KEY)) return
 
     setVisible(true)
+    document.documentElement.style.overflow = 'hidden'
+    window.__lenis?.stop()
     const t0 = performance.now()
     let raf = 0
 
@@ -25,7 +27,7 @@ export default function Preloader() {
       sessionStorage.setItem(KEY, '1')
       setPercent(100)
       setPhase('leaving')
-    }, BOOT_MS + 700)
+    }, BOOT_MS + 500)
 
     const finish = (now) => {
       const p = Math.min(1, (now - t0) / BOOT_MS)
@@ -49,18 +51,36 @@ export default function Preloader() {
 
   useEffect(() => {
     if (phase !== 'leaving') return
-    overlayP.set(0.06)
+    overlayP.set(0.02)
     const controls = animate(overlayP, 1, {
-      duration: 0.55,
+      duration: 0.52,
       ease: [0.76, 0, 0.24, 1],
-      onComplete: () => setVisible(false),
+      onComplete: () => {
+        setVisible(false)
+        document.documentElement.style.overflow = ''
+        window.__lenis?.start()
+      },
     })
-    const safety = window.setTimeout(() => setVisible(false), 1600)
+    const safety = window.setTimeout(() => {
+      setVisible(false)
+      document.documentElement.style.overflow = ''
+      window.__lenis?.start()
+    }, 1300)
     return () => {
       controls.stop()
       window.clearTimeout(safety)
     }
   }, [phase, overlayP])
+
+  useEffect(() => {
+    if (!visible) {
+      document.documentElement.style.overflow = ''
+      return
+    }
+    return () => {
+      document.documentElement.style.overflow = ''
+    }
+  }, [visible])
 
   if (!visible) return null
 
@@ -95,7 +115,7 @@ export default function Preloader() {
         </div>
       ) : (
         <div className="pointer-events-none fixed inset-0 z-[70]">
-          <PixelOverlay progress={overlayP} mode="reveal" color="#FFFCFB" />
+          <PixelOverlay progress={overlayP} mode="reveal" color="#FFFCFB" cols={24} rows={16} />
         </div>
       )}
     </>

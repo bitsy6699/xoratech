@@ -21,7 +21,10 @@ import NotFoundPage from './pages/NotFound'
 
 export default function App() {
   return (
-    <MotionConfig reducedMotion="user">
+    <MotionConfig
+      reducedMotion="user"
+      transition={{ ease: [0.76, 0, 0.24, 1], duration: 0.6 }}
+    >
       <div className="min-h-screen">
         <Preloader />
         <GrainOverlay />

@@ -2,7 +2,7 @@ import { motion, useScroll, useSpring } from 'framer-motion'
 
 export default function ScrollProgress() {
   const { scrollYProgress } = useScroll()
-  const scaleX = useSpring(scrollYProgress, { stiffness: 120, damping: 30, mass: 0.4 })
+  const scaleX = useSpring(scrollYProgress, { stiffness: 90, damping: 34, mass: 0.5, restDelta: 0.001 })
 
   return (
     <motion.div

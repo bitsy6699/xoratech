@@ -4,8 +4,12 @@ import { scrollToTop } from '../../lib/smooth'
 
 export default function ScrollToTop() {
   const { pathname } = useLocation()
+  // RouteTransition handles the actual scroll reset (mid-cover) for smoothness.
+  // This keeps a fallback for reduced-motion / no-Lenis cases.
   useEffect(() => {
-    scrollToTop(true)
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || !window.__lenis) {
+      scrollToTop(true)
+    }
   }, [pathname])
   return null
 }
