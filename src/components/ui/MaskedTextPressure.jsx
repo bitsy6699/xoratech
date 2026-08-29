@@ -114,7 +114,9 @@ export default function MaskedTextPressure({
     let raf = 0
     let last = performance.now()
     let clock = 0
+    let visible = true
     const frame = (now) => {
+      if (!visible) return
       const dt = Math.min(0.05, (now - last) / 1000)
       last = now
       clock += dt
@@ -141,11 +143,27 @@ export default function MaskedTextPressure({
       offsetRef.current.tx = 0
       offsetRef.current.ty = 0
     }
+    const start = () => {
+      if (raf) return
+      last = performance.now()
+      raf = requestAnimationFrame(frame)
+    }
+    const stop = () => {
+      cancelAnimationFrame(raf)
+      raf = 0
+    }
+    const io = new IntersectionObserver(([entry]) => {
+      visible = entry.isIntersecting
+      if (visible) start()
+      else stop()
+    })
+    io.observe(root)
     root.addEventListener('pointermove', onMove)
     root.addEventListener('pointerleave', onLeave)
-    raf = requestAnimationFrame(frame)
+    start()
     return () => {
-      cancelAnimationFrame(raf)
+      stop()
+      io.disconnect()
       if (ro) ro.disconnect()
       root.removeEventListener('pointermove', onMove)
       root.removeEventListener('pointerleave', onLeave)
@@ -171,8 +189,10 @@ export default function MaskedTextPressure({
     window.addEventListener('mousemove', onMouseMove)
     window.addEventListener('touchmove', onTouchMove, { passive: true })
 
-    let rafId
+    let rafId = 0
+    let visibleW = true
     const animate = () => {
+      if (!visibleW) return
       mouseRef.current.x += (cursorRef.current.x - mouseRef.current.x) / 15
       mouseRef.current.y += (cursorRef.current.y - mouseRef.current.y) / 15
       const title = rootRef.current
@@ -197,9 +217,24 @@ export default function MaskedTextPressure({
       }
       rafId = requestAnimationFrame(animate)
     }
-    animate()
-    return () => {
+    const startW = () => {
+      if (rafId) return
+      rafId = requestAnimationFrame(animate)
+    }
+    const stopW = () => {
       cancelAnimationFrame(rafId)
+      rafId = 0
+    }
+    const ioW = rootRef.current ? new IntersectionObserver(([entry]) => {
+      visibleW = entry.isIntersecting
+      if (visibleW) startW()
+      else stopW()
+    }) : null
+    if (ioW && rootRef.current) ioW.observe(rootRef.current)
+    startW()
+    return () => {
+      stopW()
+      ioW?.disconnect()
       window.removeEventListener('mousemove', onMouseMove)
       window.removeEventListener('touchmove', onTouchMove)
     }

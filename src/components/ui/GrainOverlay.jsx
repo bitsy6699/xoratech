@@ -2,7 +2,11 @@ const GRAIN_SVG = `<svg xmlns='http://www.w3.org/2000/svg' width='240' height='2
 
 const GRAIN_URL = `url("data:image/svg+xml,${encodeURIComponent(GRAIN_SVG)}")`
 
-export default function GrainOverlay({ opacity = 0.05 }) {
+export default function GrainOverlay({ opacity = 0.03 }) {
+  const coarse =
+    typeof window !== 'undefined' &&
+    window.matchMedia('(pointer: coarse)').matches
+  if (coarse) return null
   return (
     <div
       aria-hidden="true"

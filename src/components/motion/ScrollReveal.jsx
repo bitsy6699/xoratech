@@ -4,9 +4,9 @@ import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion
 export default function ScrollReveal({
   children,
   className = '',
-  y = 40,
+  y = 28,
   scale = 1,
-  blur = 6,
+  blur = 0,
   delay = 0,
   duration = 0.4,
 }) {

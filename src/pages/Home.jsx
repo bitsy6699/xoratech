@@ -68,9 +68,9 @@ const CategoriesSection = ({ sectionRef }) => {
           <div className="absolute inset-0" style={{ background: 'rgba(9, 63, 180, 0.35)' }} />
         </RippleDistortion>
       </div>
-      <div className="relative z-10 py-24">
+      <div className="relative z-10 py-28">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <ScrollReveal scale={0.96}>
+          <ScrollReveal>
             <div className="mb-14 flex flex-col justify-between gap-6 md:flex-row md:items-end">
               <div>
                 <SectionKicker dark>Layanan Kami</SectionKicker>
@@ -87,30 +87,28 @@ const CategoriesSection = ({ sectionRef }) => {
 
           <div className="grid gap-8 md:grid-cols-3">
             {Object.values(services).map((full) => (
-              <ScrollReveal key={full.slug}>
-                <TiltCard intensity={7} className="h-full">
-                  <CardSpotlight className="h-full">
-                    <Link
-                      to={`/layanan/${full.slug}`}
-                      className="group relative flex h-full flex-col border-2 border-primary/25 bg-cream p-8 shadow-[4px_4px_0_0_#093FB4] transition-all duration-200 hover:-translate-y-1"
-                    >
-                      <div className="mb-8 flex items-start justify-between">
-                        <span className="grid h-14 w-14 place-items-center border-2 border-primary/25 bg-primary font-pixel text-2xl text-cream">
-                          {full.title[0]}
-                        </span>
-                        <PixelArrow className="h-5 w-5 text-primary transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
-                      </div>
-                      <h3 className="text-2xl font-bold">{full.title}</h3>
-                      <p className="mt-3 text-sm leading-relaxed text-primary/60">{full.description}</p>
-                      <div className="mt-6 flex items-center gap-3 font-pixel text-lg uppercase tracking-widest text-primary">
-                        <span>{full.services.length} Layanan</span>
-                        <span className="h-2 w-2 bg-primary opacity-30" />
-                        <span>Lihat Detail</span>
-                      </div>
-                    </Link>
-                  </CardSpotlight>
-                </TiltCard>
-              </ScrollReveal>
+              <TiltCard key={full.slug} intensity={7} className="h-full">
+                <CardSpotlight className="h-full">
+                  <Link
+                    to={`/layanan/${full.slug}`}
+                    className="group relative flex h-full flex-col border-2 border-primary/25 bg-cream p-8 shadow-[4px_4px_0_0_#093FB4] transition-colors duration-200 hover:border-primary/50"
+                  >
+                    <div className="mb-8 flex items-start justify-between">
+                      <span className="grid h-14 w-14 place-items-center border-2 border-primary/25 bg-primary font-pixel text-2xl text-cream">
+                        {full.title[0]}
+                      </span>
+                      <PixelArrow className="h-5 w-5 text-primary transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+                    </div>
+                    <h3 className="text-2xl font-bold">{full.title}</h3>
+                    <p className="mt-3 text-sm leading-relaxed text-primary/60">{full.description}</p>
+                    <div className="mt-6 flex items-center gap-3 font-pixel text-lg uppercase tracking-widest text-primary">
+                      <span>{full.services.length} Layanan</span>
+                      <span className="h-2 w-2 bg-primary opacity-30" />
+                      <span>Lihat Detail</span>
+                    </div>
+                  </Link>
+                </CardSpotlight>
+              </TiltCard>
             ))}
           </div>
         </div>
@@ -121,7 +119,7 @@ const CategoriesSection = ({ sectionRef }) => {
 
 function WhySection() {
   return (
-    <section data-nav-theme="dark" className="relative isolate overflow-hidden bg-primary py-24 text-cream">
+    <section data-nav-theme="dark" className="relative isolate overflow-hidden bg-primary py-28 text-cream">
       <Spotlight>
         <Parallax
           speed={0.22}
@@ -143,12 +141,10 @@ function WhySection() {
               lines={['Bukan sekadar', 'bikin kode']}
               className="text-4xl font-bold tracking-tight text-cream sm:text-5xl"
             />
-            <ScrollReveal delay={0.25}>
-              <p className="mt-6 max-w-lg text-lg font-light leading-relaxed text-cream/70">
-                Kepercayaan, kecepatan, dan kualitas adalah tiga hal yang selalu kami pegang dalam
-                setiap proyek yang kami kerjakan.
-              </p>
-            </ScrollReveal>
+            <p className="mt-6 max-w-lg text-lg font-light leading-relaxed text-cream/70">
+              Kepercayaan, kecepatan, dan kualitas adalah tiga hal yang selalu kami pegang dalam
+              setiap proyek yang kami kerjakan.
+            </p>
           </div>
           <div className="space-y-4">
             {[
@@ -156,15 +152,16 @@ function WhySection() {
               ['No.2', 'Proses Transparan', 'Selalu update progress dari awal sampai launch.'],
               ['No.3', 'Dukungan 24/7', 'Konsultasi dan support sesudah proyek selesai.'],
             ].map(([num, title, desc]) => (
-              <ScrollReveal key={num}>
-                <div className="group flex gap-5 border-2 border-cream/15 bg-cream/5 p-5 transition-colors hover:border-cream/60">
-                  <span className="font-pixel text-3xl text-cream">{num}</span>
-                  <div>
-                    <h3 className="text-lg font-bold">{title}</h3>
-                    <p className="mt-1 text-sm text-cream/60">{desc}</p>
-                  </div>
+              <div
+                key={num}
+                className="group flex gap-5 border-2 border-cream/15 bg-cream/5 p-5 transition-colors hover:border-cream/60"
+              >
+                <span className="font-pixel text-3xl text-cream">{num}</span>
+                <div>
+                  <h3 className="text-lg font-bold">{title}</h3>
+                  <p className="mt-1 text-sm text-cream/60">{desc}</p>
                 </div>
-              </ScrollReveal>
+              </div>
             ))}
           </div>
         </div>
@@ -244,27 +241,28 @@ function PortfolioPreview() {
 
 function ProcessSection() {
   return (
-    <section data-nav-theme="dark" className="relative isolate overflow-hidden bg-primary py-24 text-cream">
+    <section data-nav-theme="dark" className="relative isolate overflow-hidden bg-primary py-28 text-cream">
       <Spotlight>
         <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <ScrollReveal>
-          <div className="mb-14">
-            <SectionKicker dark>Proses Kerja</SectionKicker>
-            <ScrollHeading lines={['Empat langkah menuju', 'selesai']} className="text-4xl font-bold tracking-tight sm:text-5xl" />
-          </div>
-        </ScrollReveal>
+          <ScrollReveal>
+            <div className="mb-14">
+              <SectionKicker dark>Proses Kerja</SectionKicker>
+              <ScrollHeading lines={['Empat langkah menuju', 'selesai']} className="text-4xl font-bold tracking-tight sm:text-5xl" />
+            </div>
+          </ScrollReveal>
 
-        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-          {processSteps.map((step) => (
-            <ScrollReveal key={step.step}>
-              <div className="group relative border-2 border-cream/15 bg-cream/5 p-6 transition-colors hover:border-cream/60">
+          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+            {processSteps.map((step) => (
+              <div
+                key={step.step}
+                className="group relative border-2 border-cream/15 bg-cream/5 p-6 transition-colors hover:border-cream/60"
+              >
                 <span className="font-pixel text-5xl text-cream">{step.step}</span>
                 <h3 className="mt-4 text-xl font-bold">{step.title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-cream/60">{step.description}</p>
               </div>
-            </ScrollReveal>
-          ))}
-        </div>
+            ))}
+          </div>
         </div>
       </Spotlight>
     </section>
@@ -273,8 +271,8 @@ function ProcessSection() {
 
 function StatsSection() {
   return (
-    <section className="border-y-2 border-primary/10 bg-cream">
-      <div className="mx-auto grid max-w-7xl grid-cols-2 gap-px py-16 sm:grid-cols-4">
+    <section className="border-y border-primary/10 bg-cream">
+      <div className="mx-auto grid max-w-7xl grid-cols-2 gap-px py-24 sm:grid-cols-4">
         {stats.map((stat) => (
           <StatItem key={stat.label} {...stat} />
         ))}
@@ -285,19 +283,19 @@ function StatsSection() {
 
 function StatItem({ value, suffix, label }) {
   return (
-    <ScrollReveal className="px-6 py-4 text-center">
+    <div className="px-6 py-4 text-center">
       <div className="text-5xl font-bold tracking-tight text-primary sm:text-6xl">
         <CountUp value={value} suffix="" />
         <span className="text-primary/40">{suffix}</span>
       </div>
       <p className="mt-2 font-pixel text-xl uppercase tracking-widest text-primary/60">{label}</p>
-    </ScrollReveal>
+    </div>
   )
 }
 
 function TestimonialsSection() {
   return (
-    <section className="bg-cream py-24">
+    <section className="border-t border-primary/10 bg-cream py-28">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <ScrollReveal>
           <div className="mb-14">
@@ -314,9 +312,9 @@ function TestimonialsSection() {
 
 function CTASection() {
   return (
-    <section data-nav-theme="dark" className="border-t-2 border-primary bg-primary text-cream">
+    <section data-nav-theme="dark" className="border-t border-primary bg-primary text-cream">
       <Spotlight>
-        <div className="mx-auto max-w-7xl px-4 pb-20 pt-24 text-center sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl px-4 py-28 text-center sm:px-6 lg:px-8">
         <ScrollReveal>
           <SectionKicker dark className="justify-center">
             Let&apos;s Build

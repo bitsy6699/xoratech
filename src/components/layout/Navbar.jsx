@@ -82,8 +82,8 @@ export default function Navbar() {
                 <>
                   {link.label}
                   <span
-                    className={`absolute -bottom-1 left-0 h-1 w-4 transition-all ${
-                      isActive ? (dark ? 'bg-cream' : 'bg-primary') : 'bg-transparent group-hover:bg-current'
+                    className={`absolute -bottom-1 left-0 h-1 transition-all duration-300 ${
+                      isActive ? `w-4 ${dark ? 'bg-cream' : 'bg-primary'}` : 'w-0 bg-transparent group-hover:w-4 group-hover:bg-current'
                     }`}
                   />
                 </>

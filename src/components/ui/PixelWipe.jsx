@@ -25,8 +25,8 @@ export default function PixelWipe({
   end,
   from = '#093fb4',
   to = '#fffcfb',
-  cols = 40,
-  rows = 24,
+  cols = 24,
+  rows = 16,
   active = true,
   overlap = 80,
 }) {

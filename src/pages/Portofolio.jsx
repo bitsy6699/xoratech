@@ -1,9 +1,8 @@
 import { useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
-import ScrollReveal from '../components/motion/ScrollReveal'
-import ScrollHeading from '../components/motion/ScrollHeading'
+import { PageHeader } from '../components/ui/SectionHeader'
 import TiltCard from '../components/motion/TiltCard'
-import { SectionKicker, PixelTag } from '../components/ui/Button.jsx'
+import { PixelTag } from '../components/ui/Button.jsx'
 import CardSpotlight from '../components/ui/CardSpotlight'
 import PixelArrow from '../components/ui/PixelArrow'
 import { portfolio, portfolioFilters } from '../data/portfolio'
@@ -17,22 +16,13 @@ export default function PortofolioPage() {
 
   return (
     <div>
-      <section data-nav-theme="light" className="border-b-2 border-primary/10 bg-cream py-20 text-center">
-        <div className="mx-auto max-w-4xl px-4 sm:px-6">
-          <SectionKicker className="justify-center">Portofolio</SectionKicker>
-          <ScrollHeading
-            lines={['Beberapa karya yang', 'kami banggakan']}
-            className="text-center text-4xl font-bold tracking-tight sm:text-6xl"
-          />
-          <ScrollReveal delay={0.3}>
-            <p className="mx-auto mt-5 max-w-2xl text-lg font-light text-primary/60">
-              Website, aplikasi, dan sistem yang telah selesai kami kembangkan untuk berbagai klien.
-            </p>
-          </ScrollReveal>
-        </div>
-      </section>
+      <PageHeader
+        kicker="Portofolio"
+        titleLines={['Beberapa karya yang', 'kami banggakan']}
+        description="Website, aplikasi, dan sistem yang telah selesai kami kembangkan untuk berbagai klien."
+      />
 
-      <section data-nav-theme="light" className="bg-cream py-16">
+      <section data-nav-theme="light" className="border-t border-primary/10 bg-cream py-24 sm:py-28">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mb-12 flex flex-wrap justify-center gap-3">
             {portfolioFilters.map((filter) => (
@@ -69,7 +59,7 @@ export default function PortofolioPage() {
                 >
                   <TiltCard intensity={7} className="h-full">
                     <CardSpotlight className="h-full">
-                      <article className="group relative block h-full overflow-hidden border-2 border-primary/25 bg-cream shadow-[4px_4px_0_0_#093FB4] transition-all duration-200 hover:translate-x-1 hover:translate-y-1 hover:shadow-[2px_2px_0_0_#093FB4]">
+                      <article className="group relative block h-full overflow-hidden border-2 border-primary/25 bg-cream shadow-[4px_4px_0_0_#093FB4] transition-colors duration-200 hover:border-primary/40">
                         <div
                           className="relative flex h-48 cursor-pointer items-center justify-center overflow-hidden p-6 text-center"
                           style={{ backgroundColor: item.color }}
