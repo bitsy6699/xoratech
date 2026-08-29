@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom'
 import Logo from '../ui/Logo'
 import Icon from '../ui/Icon'
-import Magnetic from '../ui/Magnetic'
 import Spotlight from '../ui/Spotlight'
 import { allServices } from '../../data/services'
 
@@ -43,21 +42,20 @@ export default function Footer() {
                 ['linkedin', 'LinkedIn'],
                 ['youtube', 'YouTube'],
               ].map(([icon, label]) => (
-                <Magnetic key={label}>
-                  <a
-                    href="#"
-                    aria-label={label}
-                    className="group inline-flex h-9 w-9 items-center justify-center border border-cream/20 text-cream transition-colors hover:border-cream hover:text-cream"
-                  >
-                    <Icon name={icon} className="h-5 w-5" />
-                  </a>
-                </Magnetic>
+                <a
+                  key={label}
+                  href="#"
+                  aria-label={label}
+                  className="group inline-flex h-9 w-9 items-center justify-center border border-cream/20 text-cream transition-colors hover:border-cream hover:text-cream"
+                >
+                  <Icon name={icon} className="h-5 w-5" />
+                </a>
               ))}
             </div>
           </div>
 
           <div className="lg:col-span-3">
-            <h3 className="font-pixel text-xl uppercase tracking-widest text-cream">Layanan</h3>
+            <h3 className="font-sans text-sm font-bold uppercase tracking-wide text-cream">Layanan</h3>
             <ul className="mt-4 space-y-2.5 text-sm">
               {allServices.map((cat) => (
                 <li key={cat.slug} className="text-cream hover:text-cream">
@@ -68,7 +66,7 @@ export default function Footer() {
           </div>
 
           <div className="lg:col-span-2">
-            <h3 className="font-pixel text-xl uppercase tracking-widest text-cream">Perusahaan</h3>
+            <h3 className="font-sans text-sm font-bold uppercase tracking-wide text-cream">Perusahaan</h3>
             <ul className="mt-4 space-y-2.5">
               {companyLinks.map((link) => (
                 <li key={link.to} className="text-cream">
@@ -79,7 +77,7 @@ export default function Footer() {
           </div>
 
           <div className="lg:col-span-2">
-            <h3 className="font-pixel text-xl uppercase tracking-widest text-cream">Kontak</h3>
+            <h3 className="font-sans text-sm font-bold uppercase tracking-wide text-cream">Kontak</h3>
             <ul className="mt-4 space-y-3.5 text-sm text-cream">
               {[
                 ['mail', 'halo@xora.id', 'mailto:halo@xora.id'],

@@ -83,7 +83,7 @@ export default function AdminPage() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
-                  className="w-full border-2 border-primary/25 bg-cream px-4 py-3 text-sm outline-none focus:shadow-[4px_4px_0_0_#093FB4]"
+                  className="w-full border-2 border-primary/25 bg-cream px-4 py-3 text-sm outline-none focus:shadow-[2px_2px_0_0_#093FB4]"
                   placeholder="admin@xora.id"
                 />
               </div>
@@ -95,7 +95,7 @@ export default function AdminPage() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
-                  className="w-full border-2 border-primary/25 bg-cream px-4 py-3 text-sm outline-none focus:shadow-[4px_4px_0_0_#093FB4]"
+                  className="w-full border-2 border-primary/25 bg-cream px-4 py-3 text-sm outline-none focus:shadow-[2px_2px_0_0_#093FB4]"
                   placeholder="••••••••"
                 />
               </div>
@@ -103,7 +103,7 @@ export default function AdminPage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full border-2 border-primary/25 bg-primary py-3 text-sm font-bold uppercase tracking-wide text-cream shadow-[4px_4px_0_0_#093FB4] transition-all hover:brightness-110 active:translate-x-1 active:translate-y-1 active:shadow-none disabled:opacity-60"
+                className="w-full border-2 border-primary/25 bg-primary py-3 text-sm font-bold uppercase tracking-wide text-cream shadow-[2px_2px_0_0_#093FB4] transition-colors hover:brightness-110 disabled:opacity-60"
               >
                 {loading ? 'Memproses...' : 'Masuk'}
               </button>

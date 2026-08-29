@@ -81,7 +81,7 @@ export default function KontakPage() {
                 ].map(([icon, label, value, href]) => (
                   <CardSpotlight key={label}>
                     <div className="border-2 border-primary/10 bg-cream p-4">
-                      <p className="flex items-center gap-2 font-pixel text-lg uppercase tracking-widest text-primary">
+                      <p className="flex items-center gap-2 font-sans text-sm font-semibold uppercase tracking-wide text-primary">
                         <Icon name={icon} className="h-4 w-4" />
                         {label}
                       </p>
@@ -112,25 +112,25 @@ export default function KontakPage() {
 
                   <div className="grid gap-5 sm:grid-cols-2">
                     <div>
-                      <label className="mb-1.5 block font-pixel text-lg uppercase tracking-widest text-primary" htmlFor="name">
+                      <label className="mb-1.5 block font-sans text-sm font-semibold uppercase tracking-wide text-primary" htmlFor="name">
                         Nama
                       </label>
                       <input id="name" name="name" required value={form.name} onChange={handleChange} className={inputCls} placeholder="Nama lengkap Anda" />
                     </div>
                     <div>
-                      <label className="mb-1.5 block font-pixel text-lg uppercase tracking-widest text-primary" htmlFor="email">
+                      <label className="mb-1.5 block font-sans text-sm font-semibold uppercase tracking-wide text-primary" htmlFor="email">
                         Email
                       </label>
                       <input id="email" name="email" type="email" required value={form.email} onChange={handleChange} className={inputCls} placeholder="email@perusahaan.com" />
                     </div>
                     <div>
-                      <label className="mb-1.5 block font-pixel text-lg uppercase tracking-widest text-primary" htmlFor="phone">
+                      <label className="mb-1.5 block font-sans text-sm font-semibold uppercase tracking-wide text-primary" htmlFor="phone">
                         No. WhatsApp
                       </label>
                       <input id="phone" name="phone" value={form.phone} onChange={handleChange} className={inputCls} placeholder="+62 812 3456 7890" />
                     </div>
                     <div>
-                      <label className="mb-1.5 block font-pixel text-lg uppercase tracking-widest text-primary" htmlFor="budget">
+                      <label className="mb-1.5 block font-sans text-sm font-semibold uppercase tracking-wide text-primary" htmlFor="budget">
                         Estimasi Budget
                       </label>
                       <select id="budget" name="budget" value={form.budget} onChange={handleChange} className={inputCls}>
@@ -143,7 +143,7 @@ export default function KontakPage() {
                   </div>
 
                   <div className="mt-5">
-                    <label className="mb-1.5 block font-pixel text-lg uppercase tracking-widest text-primary" htmlFor="service">
+                    <label className="mb-1.5 block font-sans text-sm font-semibold uppercase tracking-wide text-primary" htmlFor="service">
                       Layanan yang diinginkan
                     </label>
                     <select id="service" name="service" value={form.service} onChange={handleChange} className={inputCls}>
@@ -155,7 +155,7 @@ export default function KontakPage() {
                   </div>
 
                   <div className="mt-5">
-                    <label className="mb-1.5 block font-pixel text-lg uppercase tracking-widest text-primary" htmlFor="message">
+                    <label className="mb-1.5 block font-sans text-sm font-semibold uppercase tracking-wide text-primary" htmlFor="message">
                       Keperluan
                     </label>
                     <textarea
@@ -173,7 +173,7 @@ export default function KontakPage() {
                   <button
                     type="submit"
                     disabled={submitting}
-                    className="mt-6 inline-flex w-full items-center justify-center gap-3 border-2 border-primary/25 bg-primary px-8 py-4 text-sm font-bold uppercase tracking-wide text-cream shadow-[4px_4px_0_0_#093FB4] transition-all hover:brightness-110 active:translate-x-1 active:translate-y-1 active:shadow-none disabled:opacity-60 sm:w-auto"
+                    className="mt-6 inline-flex w-full items-center justify-center gap-3 border-2 border-primary/25 bg-primary px-8 py-4 text-sm font-bold uppercase tracking-wide text-cream shadow-[2px_2px_0_0_#093FB4] transition-colors hover:brightness-110 disabled:opacity-60 sm:w-auto"
                   >
                     {submitting ? (
                       <>

@@ -2,7 +2,7 @@ import { motion, useReducedMotion } from 'framer-motion'
 
 export const EASE = [0.76, 0, 0.24, 1]
 
-export function Reveal({ children, delay = 0, y = 28, scale = 1, className = '', once = true, blur = true }) {
+export function Reveal({ children, delay = 0, y = 28, scale = 1, className = '', once = true, blur = false }) {
   const reduce = useReducedMotion()
   return (
     <motion.div

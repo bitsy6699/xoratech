@@ -68,7 +68,7 @@ export default function LayananPage() {
                           <h3 className="mt-5 text-xl font-bold">{s.title}</h3>
                           <p className="mt-2 text-sm leading-relaxed text-primary/60">{s.short}</p>
                         </div>
-                        <span className="mt-6 inline-block font-pixel text-lg uppercase tracking-widest text-primary">
+                        <span className="mt-6 inline-block font-sans text-sm font-semibold uppercase tracking-wide text-primary">
                           Lihat Detail →
                         </span>
                       </Link>

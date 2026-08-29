@@ -29,9 +29,9 @@ export default function PortofolioPage() {
               <button
                 key={filter.value}
                 onClick={() => setActiveFilter(filter.value)}
-                className={`relative border-2 px-5 py-2 font-pixel text-lg uppercase tracking-widest transition-all ${
+                className={`relative border-2 px-5 py-2 font-sans text-sm font-semibold uppercase tracking-wide transition-all ${
                   activeFilter === filter.value
-                    ? 'border-primary/25 bg-primary text-cream shadow-[4px_4px_0_0_#093FB4]'
+                    ? 'border-primary/25 bg-primary text-cream shadow-[2px_2px_0_0_#093FB4]'
                     : 'border-primary/30 bg-cream text-primary hover:bg-primary/5'
                 }`}
               >

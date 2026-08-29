@@ -3,7 +3,6 @@ import ScrollHeading from '../components/motion/ScrollHeading'
 import CountUp from '../components/motion/CountUp'
 import { SectionKicker, PixelTag } from '../components/ui/Button.jsx'
 import Spotlight from '../components/ui/Spotlight'
-import Magnetic from '../components/ui/Magnetic'
 import Icon from '../components/ui/Icon'
 import { stats } from '../data/content'
 
@@ -79,7 +78,7 @@ export default function TentangPage() {
               <div className="text-5xl font-bold tracking-tight sm:text-6xl">
                 <CountUp value={stat.value} suffix={stat.suffix} />
               </div>
-              <p className="mt-2 font-pixel text-xl uppercase tracking-widest text-cream">{stat.label}</p>
+              <p className="mt-2 font-sans text-xs font-semibold uppercase tracking-wide text-cream">{stat.label}</p>
             </div>
           ))}
         </div>
@@ -95,14 +94,12 @@ export default function TentangPage() {
           <p className="mx-auto mt-4 max-w-xl font-light text-primary/60">
             Mari ceritakan proyek Anda. Kami akan merespon dalam satu hari kerja.
           </p>
-          <Magnetic>
-            <Link
-              to="/kontak"
-              className="mt-8 inline-flex items-center gap-2 border-2 border-primary/25 bg-primary px-8 py-4 text-sm font-bold uppercase tracking-wide text-cream shadow-[4px_4px_0_0_#093FB4] transition-all hover:brightness-110 active:translate-x-1 active:translate-y-1 active:shadow-none"
-            >
-              Mulai Konsultasi
-            </Link>
-          </Magnetic>
+          <Link
+            to="/kontak"
+            className="mt-8 inline-flex items-center gap-2 border-2 border-primary/25 bg-primary px-8 py-4 text-sm font-bold uppercase tracking-wide text-cream shadow-[2px_2px_0_0_#093FB4] transition-colors hover:brightness-110"
+          >
+            Mulai Konsultasi
+          </Link>
         </div>
       </section>
     </div>

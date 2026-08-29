@@ -93,13 +93,7 @@ export default function Navbar() {
         </nav>
 
         <div className="hidden lg:block">
-          <Button
-            to="/kontak"
-            size="sm"
-            variant={dark ? 'pixel' : 'primary'}
-            magnetic
-            className=""
-          >
+          <Button to="/kontak" size="sm" variant={dark ? 'pixel' : 'primary'} className="">
             Konsultasi Gratis
           </Button>
         </div>

@@ -10,7 +10,6 @@ import RouteTransition from './components/ui/RouteTransition'
 import PixelCursor from './components/ui/PixelCursor'
 import ScrollProgress from './components/ui/ScrollProgress'
 import BackToTop from './components/ui/BackToTop'
-import ClickDust from './components/ui/ClickDust'
 import HomePage from './pages/Home'
 import LayananPage from './pages/Layanan'
 import LayananDetailPage from './pages/LayananDetail'
@@ -30,7 +29,6 @@ export default function App() {
         <ScrollToTop />
         <ScrollProgress />
         <PixelCursor />
-        <ClickDust />
         <Navbar />
         <RouteTransition>
           <main>

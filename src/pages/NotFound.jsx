@@ -12,7 +12,7 @@ export default function NotFoundPage() {
         </p>
         <Link
           to="/"
-          className="mt-8 inline-flex items-center gap-2 border-2 border-cream bg-cream px-8 py-4 text-sm font-bold uppercase tracking-wide text-primary shadow-[4px_4px_0_0_#fffcfb] transition-all hover:bg-primary hover:text-cream"
+          className="mt-8 inline-flex items-center gap-2 border-2 border-cream bg-cream px-8 py-4 text-sm font-bold uppercase tracking-wide text-primary shadow-[2px_2px_0_0_#fffcfb] transition-colors hover:bg-primary hover:text-cream"
         >
           Kembali ke Beranda
           <PixelArrow className="h-4 w-4 text-current" />

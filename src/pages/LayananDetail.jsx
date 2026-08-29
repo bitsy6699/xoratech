@@ -6,7 +6,6 @@ import TiltCard from '../components/motion/TiltCard'
 import { SectionKicker, PixelTag } from '../components/ui/Button.jsx'
 import Spotlight from '../components/ui/Spotlight'
 import CardSpotlight from '../components/ui/CardSpotlight'
-import Magnetic from '../components/ui/Magnetic'
 import Icon from '../components/ui/Icon'
 import PixelArrow from '../components/ui/PixelArrow'
 import { services, findService } from '../data/services'
@@ -67,7 +66,7 @@ function CategoryLanding({ category }) {
                       <h3 className="mt-5 text-xl font-bold">{s.title}</h3>
                       <p className="mt-2 text-sm leading-relaxed text-primary/60">{s.short}</p>
                     </div>
-                    <div className="mt-6 flex items-center gap-2 font-pixel text-lg uppercase tracking-widest text-primary">
+                    <div className="mt-6 flex items-center gap-2 font-sans text-sm font-semibold uppercase tracking-wide text-primary">
                       <span>Buka Detail</span>
                       <span className="h-2 w-2 bg-primary/40" />
                       <span className="h-2 w-2 bg-primary/70" />
@@ -97,7 +96,7 @@ function ServiceDetail({ service, category }) {
       <section data-nav-theme="dark" className="relative isolate overflow-hidden bg-primary py-24 sm:py-28 text-cream">
         <Spotlight>
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="flex flex-wrap items-center gap-3 font-pixel text-lg uppercase tracking-widest text-cream/60">
+            <div className="flex flex-wrap items-center gap-3 font-sans text-sm font-semibold uppercase tracking-wide text-cream/60">
               <Link to="/layanan" className="hover:text-cream">Layanan</Link>
               <span className="text-cream/40">/</span>
               <Link to={`/layanan/${category.slug}`} className="hover:text-cream">{category.title}</Link>
@@ -131,23 +130,19 @@ function ServiceDetail({ service, category }) {
                   ))}
                 </div>
                   <div className="mt-10 flex flex-wrap gap-4">
-                    <Magnetic>
-                      <Link
-                        to={`/kontak?layanan=${encodeURIComponent(service.title)}`}
-                        className="inline-flex items-center gap-2 border-2 border-primary/25 bg-primary px-7 py-3.5 text-sm font-bold uppercase tracking-wide text-cream shadow-[4px_4px_0_0_#093FB4] transition-all hover:brightness-110 active:translate-x-1 active:translate-y-1 active:shadow-none"
-                      >
-                        Pesan Layanan Ini
-                        <PixelArrow className="h-3.5 w-3.5 text-cream" />
-                      </Link>
-                    </Magnetic>
-                    <Magnetic>
-                      <Link
-                        to="/portofolio"
-                        className="inline-flex items-center border-2 border-primary/25 px-7 py-3.5 text-sm font-semibold uppercase tracking-wide text-primary transition-colors hover:bg-primary hover:text-cream"
-                      >
-                        Lihat Portofolio
-                      </Link>
-                    </Magnetic>
+                    <Link
+                      to={`/kontak?layanan=${encodeURIComponent(service.title)}`}
+                      className="inline-flex items-center gap-2 border-2 border-primary/25 bg-primary px-7 py-3.5 text-sm font-bold uppercase tracking-wide text-cream shadow-[2px_2px_0_0_#093FB4] transition-colors hover:brightness-110"
+                    >
+                      Pesan Layanan Ini
+                      <PixelArrow className="h-3.5 w-3.5 text-cream" />
+                    </Link>
+                    <Link
+                      to="/portofolio"
+                      className="inline-flex items-center border-2 border-primary/25 px-7 py-3.5 text-sm font-semibold uppercase tracking-wide text-primary transition-colors hover:bg-primary hover:text-cream"
+                    >
+                      Lihat Portofolio
+                    </Link>
                   </div>
                 </div>
 
@@ -211,7 +206,7 @@ function ServiceDetail({ service, category }) {
                 </div>
 
                 <div className="border-2 border-primary/25 bg-cream p-6">
-                  <h3 className="font-pixel text-lg uppercase tracking-widest text-primary">Kategori</h3>
+                  <h3 className="font-sans text-sm font-bold uppercase tracking-wide text-primary">Kategori</h3>
                   <ul className="mt-4 space-y-1 text-sm">
                     {category.services.map((s) => (
                       <li key={s.slug}>

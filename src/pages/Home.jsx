@@ -16,7 +16,6 @@ import RippleDistortion from '../components/ui/RippleDistortion'
 import LineDraw from '../components/ui/LineDraw'
 import Spotlight from '../components/ui/Spotlight'
 import CardSpotlight from '../components/ui/CardSpotlight'
-import Magnetic from '../components/ui/Magnetic'
 import TestimonialCarousel from '../components/ui/TestimonialCarousel'
 import logoWhiteUrl from '../assets/logo-crop-white.png'
 import { services } from '../data/services'
@@ -101,7 +100,7 @@ const CategoriesSection = ({ sectionRef }) => {
                     </div>
                     <h3 className="text-2xl font-bold">{full.title}</h3>
                     <p className="mt-3 text-sm leading-relaxed text-primary/60">{full.description}</p>
-                    <div className="mt-6 flex items-center gap-3 font-pixel text-lg uppercase tracking-widest text-primary">
+                    <div className="mt-6 flex items-center gap-3 font-sans text-sm font-semibold uppercase tracking-wide text-primary">
                       <span>{full.services.length} Layanan</span>
                       <span className="h-2 w-2 bg-primary opacity-30" />
                       <span>Lihat Detail</span>
@@ -175,7 +174,7 @@ function PortfolioPreview() {
   return (
     <HorizontalScroll className="bg-cream" scrollHeight="360vh">
       <div className="flex h-[64vh] w-[82vw] flex-col justify-center lg:w-[48vw]">
-        <div className="mb-5 flex items-center gap-3 font-pixel text-lg uppercase tracking-[0.35em] text-primary">
+        <div className="mb-5 flex items-center gap-3 font-sans text-sm font-semibold uppercase tracking-[0.2em] text-primary">
           <span className="h-2 w-2 bg-primary/40" />
           Portofolio
         </div>
@@ -191,7 +190,7 @@ function PortfolioPreview() {
         <Reveal delay={0.25}>
           <div className="mt-8 flex items-center gap-4">
             <ArrowLink to="/portofolio">Selengkapnya</ArrowLink>
-            <span className="flex items-center gap-2 font-pixel text-lg uppercase tracking-widest text-primary/60">
+              <span className="flex items-center gap-2 font-sans text-sm font-semibold uppercase tracking-wide text-primary/60">
               <PixelArrow direction="r" className="h-4 w-4 animate-scroll-hint" />
               Scroll
             </span>
@@ -288,7 +287,7 @@ function StatItem({ value, suffix, label }) {
         <CountUp value={value} suffix="" />
         <span className="text-primary/40">{suffix}</span>
       </div>
-      <p className="mt-2 font-pixel text-xl uppercase tracking-widest text-primary/60">{label}</p>
+      <p className="mt-2 font-sans text-xs font-semibold uppercase tracking-wide text-primary/60">{label}</p>
     </div>
   )
 }
@@ -332,23 +331,19 @@ function CTASection() {
           </div>
 
           <div className="mt-10 flex flex-wrap justify-center gap-4">
-            <Magnetic>
-              <Link
-                to="/kontak"
-                className="inline-flex items-center gap-3 border-2 border-cream bg-cream px-9 py-4 font-sans text-sm font-bold uppercase tracking-wide text-primary shadow-[4px_4px_0_0_#FFFCFB] transition-transform hover:-translate-y-0.5"
-              >
-                Mulai Proyek
-                <PixelArrow className="h-4 w-4 text-current" />
-              </Link>
-            </Magnetic>
-            <Magnetic>
-              <a
-                href="mailto:halo@xora.id"
-                className="inline-flex items-center border-2 border-cream/40 px-9 py-4 font-sans text-sm font-semibold uppercase tracking-wide text-cream transition-colors hover:bg-cream hover:text-primary"
-              >
-                WhatsApp Kami
-              </a>
-            </Magnetic>
+            <Link
+              to="/kontak"
+              className="inline-flex items-center gap-3 border-2 border-cream bg-cream px-9 py-4 font-sans text-sm font-bold uppercase tracking-wide text-primary shadow-[2px_2px_0_0_#FFFCFB] transition-colors hover:bg-cream/90"
+            >
+              Mulai Proyek
+              <PixelArrow className="h-4 w-4 text-current" />
+            </Link>
+            <a
+              href="mailto:halo@xora.id"
+              className="inline-flex items-center border-2 border-cream/40 px-9 py-4 font-sans text-sm font-semibold uppercase tracking-wide text-cream transition-colors hover:bg-cream hover:text-primary"
+            >
+              WhatsApp Kami
+            </a>
           </div>
         </ScrollReveal>
         </div>
