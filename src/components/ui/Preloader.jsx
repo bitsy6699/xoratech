@@ -96,6 +96,9 @@ export default function Preloader() {
             style={{ imageRendering: 'pixelated' }}
           />
           <p className="mt-6 font-pixel text-5xl tracking-[0.12em] text-cream">XORA</p>
+          <div className="mt-4 space-y-1 font-mono text-xs tracking-widest text-cream/60">
+            <p>{percent < 35 ? '> INIT XORA_CORE' : percent < 70 ? '> LOAD MODULES… OK' : '> READY — LAUNCHING'}</p>
+          </div>
 
           <div className="mt-10 flex gap-1.5" role="presentation">
             {Array.from({ length: PIXELS }).map((_, i) => {

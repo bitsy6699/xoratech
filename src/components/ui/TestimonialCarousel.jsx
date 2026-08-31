@@ -68,9 +68,17 @@ export default function TestimonialCarousel({ items = [] }) {
         ref={trackRef}
         className="no-scrollbar flex snap-x snap-mandatory gap-8 overflow-x-auto scroll-px-4 px-4 pb-4" data-lenis-prevent
       >
-        {items.map((t) => (
+        {items.map((t, idx) => {
+          const dist = Math.abs(idx - index)
+          const isActive = idx === index
+          return (
           <figure
             key={t.name}
+            style={{
+              transform: isActive ? 'scale(1) translateZ(0)' : `scale(${Math.max(0.92, 1 - dist * 0.06)})`,
+              opacity: isActive ? 1 : 0.82,
+              transformOrigin: 'center center',
+            }}
             className="h-full w-[88vw] shrink-0 snap-start border-2 border-primary/25 bg-cream p-6 shadow-[4px_4px_0_0_#093FB4] transition-all hover:-translate-y-0.5 md:w-[46%] lg:w-[31%]"
           >
             <div className="flex gap-1 text-primary/40">
@@ -84,7 +92,7 @@ export default function TestimonialCarousel({ items = [] }) {
               <div className="text-sm text-primary/60">{t.role}</div>
             </figcaption>
           </figure>
-        ))}
+        )})}
       </div>
 
       <div className="mt-8 flex items-center justify-center gap-5">
