@@ -36,17 +36,17 @@ export default function LineDraw({ className = '', color = '#FFFCFB' }) {
         style={{ backgroundColor: color, opacity: 0.35 }}
       />
 
-      {/* one-shot sweep pixel — meaningful "encoding pass", then rests */}
+      {/* looping sweep pixel — calm scanner pass, repeats with a breath */}
       {!reduce && inView && (
         <motion.span
           aria-hidden="true"
-          className="pointer-events-none absolute top-1/2 h-2.5 w-2.5 -translate-y-1/2"
-          style={{ backgroundColor: color, left: 0 }}
-          initial={{ x: 0, opacity: 0 }}
-          animate={{ x: ['0px', '100%'], opacity: [0, 1, 1, 0] }}
+          className="pointer-events-none absolute top-1/2 h-2.5 w-2.5 -translate-y-1/2 -translate-x-1/2"
+          style={{ backgroundColor: color, left: '0%' }}
+          initial={{ left: '0%', opacity: 0 }}
+          animate={{ left: ['0%', '100%'], opacity: [0, 1, 1, 0] }}
           transition={{
-            x: { duration: 1.05, delay: 0.9, ease: [0.4, 0, 0.2, 1] },
-            opacity: { duration: 1.05, delay: 0.9, times: [0, 0.12, 0.88, 1] },
+            left: { duration: 1.1, delay: 0.9, ease: [0.4, 0, 0.2, 1], repeat: Infinity, repeatDelay: 1.5 },
+            opacity: { duration: 1.1, delay: 0.9, times: [0, 0.12, 0.88, 1], repeat: Infinity, repeatDelay: 1.5 },
           }}
         />
       )}
