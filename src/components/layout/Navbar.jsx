@@ -1,9 +1,10 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
 import Logo from '../ui/Logo'
 import Button from '../ui/Button'
 import Icon from '../ui/Icon'
+import { lenisStart, lenisStop } from '../../lib/smooth'
 
 const navLinks = [
   { to: '/', label: 'Beranda' },
@@ -19,10 +20,33 @@ export default function Navbar() {
   const [open, setOpen] = useState(false)
   const location = useLocation()
 
+  // sync scrolled with Lenis (native scroll fallback for reduced-motion)
+  const scrolledRef = useRef(scrolled)
+  scrolledRef.current = scrolled
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 12)
-    window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
+    const sync = (v) => {
+      const next = v > 12
+      if (next !== scrolledRef.current) setScrolled(next)
+    }
+    const onWindowScroll = () => sync(window.scrollY)
+    window.addEventListener('scroll', onWindowScroll, { passive: true })
+    // Lenis emits its own scroll (fires during smoothed inertia where native scroll lags)
+    let off
+    const t = window.setTimeout(() => {
+      const lenis = window.__lenis
+      if (lenis?.on) {
+        const handler = ({ scroll }) => sync(scroll)
+        lenis.on('scroll', handler)
+        off = () => lenis.off('scroll', handler)
+      }
+    }, 60)
+    // run once to set initial state correctly
+    onWindowScroll()
+    return () => {
+      window.clearTimeout(t)
+      window.removeEventListener('scroll', onWindowScroll)
+      off?.()
+    }
   }, [])
 
   useEffect(() => {
@@ -46,22 +70,43 @@ export default function Navbar() {
     setOpen(false)
   }, [location.pathname])
 
+  // lock scroll when mobile menu is open (matches preloader/route overlay behavior)
+  useEffect(() => {
+    if (!open) return
+    lenisStop()
+    const prev = document.documentElement.style.overflow
+    document.documentElement.style.overflow = 'hidden'
+    return () => {
+      document.documentElement.style.overflow = prev
+      lenisStart()
+    }
+  }, [open])
+
   const dark = overDark && !open
-  const compact = scrolled && !dark
+  const solid = scrolled
   const accent = dark ? 'text-cream' : 'text-primary'
+  // hairline when at top, pixel rail (2px) when scrolled — never double
+  const borderCls = solid
+    ? 'border-transparent'
+    : dark
+      ? 'border-cream/10'
+      : 'border-primary/10'
+  const rail = solid ? (dark ? 'shadow-[0_2px_0_0_#FFFCFB]' : 'shadow-[0_2px_0_0_#093FB4]') : ''
   const navBg = dark
-    ? 'bg-primary/90 border-cream/20 backdrop-blur'
-    : 'bg-cream/95 border-primary/20 backdrop-blur'
+    ? solid
+      ? 'bg-primary backdrop-blur'
+      : 'bg-primary/90 backdrop-blur-md'
+    : solid
+      ? 'bg-cream backdrop-blur'
+      : 'bg-cream/95 backdrop-blur-md'
 
   return (
     <header
-      className={`sticky top-0 z-40 border-b-2 transition-all ${navBg} ${
-        compact ? 'shadow-[0_4px_0_0_#093FB4]' : ''
-      } ${dark ? 'shadow-[0_4px_0_0_#FFFCFB]' : ''}`}
+      className={`sticky top-0 z-40 border-b transition-[background-color,border-color,box-shadow,height] duration-300 ${navBg} ${borderCls} ${rail}`}
     >
       <div
-        className={`mx-auto flex max-w-7xl items-center justify-between px-4 transition-all sm:px-6 lg:px-8 ${
-          compact ? 'h-14' : 'h-16'
+        className={`mx-auto flex max-w-7xl items-center justify-between px-4 transition-[height] duration-300 sm:px-6 lg:px-8 ${
+          solid ? 'h-14' : 'h-16'
         }`}
       >
         <Logo variant={dark ? 'dark' : 'light'} />
@@ -73,8 +118,8 @@ export default function Navbar() {
               to={link.to}
               end={link.to === '/'}
               className={({ isActive }) =>
-                `group relative font-medium tracking-wide transition-colors hover:opacity-70 ${
-                  isActive ? accent : dark ? 'text-cream/85' : 'text-primary'
+                `group relative font-medium tracking-wide transition-colors ${
+                  isActive ? accent : dark ? 'text-cream/85 hover:text-cream' : 'text-primary/80 hover:text-primary'
                 }`
               }
             >
@@ -98,17 +143,16 @@ export default function Navbar() {
           </Button>
         </div>
 
-        <button
-          className={`flex h-10 w-10 items-center justify-center border-2 ${dark ? 'border-cream/40' : 'border-primary'} lg:hidden`}
-          onClick={() => setOpen(!open)}
-          aria-label={open ? 'Tutup menu' : 'Buka menu'}
-          aria-expanded={open}
-        >
-          <Icon
-            name={open ? 'close' : 'menu'}
-            className={`h-5 w-5 ${dark && !open ? 'text-cream' : 'text-primary'}`}
-          />
-        </button>
+        <div className="flex items-center gap-3 lg:hidden">
+          <button
+            className={`flex h-10 w-10 shrink-0 items-center justify-center border-2 transition-colors ${dark ? 'border-cream/50 text-cream hover:border-cream' : 'border-primary/30 text-primary hover:border-primary'}`}
+            onClick={() => setOpen(!open)}
+            aria-label={open ? 'Tutup menu' : 'Buka menu'}
+            aria-expanded={open}
+          >
+            <Icon name={open ? 'close' : 'menu'} className="h-5 w-5" />
+          </button>
+        </div>
       </div>
 
       <AnimatePresence>
@@ -118,7 +162,7 @@ export default function Navbar() {
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.3, ease: [0.76, 0, 0.24, 1] }}
-            className="overflow-hidden border-t-2 border-primary/10 bg-cream px-4 lg:hidden"
+            className="overflow-hidden border-t border-primary/10 bg-cream px-4 lg:hidden"
           >
             <div className="flex flex-col gap-1 pb-6 pt-2">
               {navLinks.map((link) => (
