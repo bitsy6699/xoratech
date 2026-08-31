@@ -44,7 +44,7 @@ export default function ScrollAchromatism() {
       lastY = y
       lastT = now
       // map velocity to split; threshold out micro-jitters
-      const next = Math.max(0, Math.min(1.6, Math.abs(vel) * 0.055 - 0.18))
+      const next = Math.max(0, Math.min(1, Math.abs(vel) * 0.055 - 0.18))
       if (next > target) target = next
       if (!raf) raf = requestAnimationFrame(tick)
     }

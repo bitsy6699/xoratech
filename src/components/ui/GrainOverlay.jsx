@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react'
 
-export default function GrainOverlay({ opacity = 0.035 }) {
+export default function GrainOverlay({ opacity = 0.02 }) {
   const canvasRef = useRef(null)
 
   useEffect(() => {
@@ -41,7 +41,7 @@ export default function GrainOverlay({ opacity = 0.035 }) {
       ctx.clearRect(0, 0, w, h)
       ctx.globalAlpha = opacity
       // sparse pixel grain
-      const count = Math.round((w * h) / 4200)
+      const count = Math.round((w * h) / 8000)
       for (let i = 0; i < count; i++) {
         const x = (Math.random() * w) | 0
         const y = (Math.random() * h) | 0

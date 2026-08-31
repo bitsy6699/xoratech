@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import Magnetic from './Magnetic'
 import PixelArrow from './PixelArrow'
 
-export default function Button({ children, to, href, magnetic = true, variant = 'primary', size = 'md', className = '', ...props }) {
+export default function Button({ children, to, href, magnetic = false, variant = 'primary', size = 'md', className = '', ...props }) {
   const base =
     ' inline-flex items-center justify-center gap-2 border-2 font-sans font-semibold uppercase tracking-wide transition-colors duration-150'
   const variants = {
