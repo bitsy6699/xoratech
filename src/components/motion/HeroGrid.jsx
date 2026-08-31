@@ -1,7 +1,9 @@
 import { useEffect, useRef } from 'react'
 import { useReducedMotion } from 'framer-motion'
 
-const SPACING = 30
+const SPACING = 34
+const CONNECT_DIST = 108
+const CURSOR_RADIUS = 170
 
 const fract = (n) => n - Math.floor(n)
 
@@ -48,6 +50,7 @@ export default function HeroGrid({ className = '' }) {
 
     const draw = () => {
       ctx.clearRect(0, 0, width, height)
+      // dots
       ctx.fillStyle = '#FFFCFB'
       for (let i = 0; i < dots.length; i++) {
         const dot = dots[i]
@@ -55,11 +58,36 @@ export default function HeroGrid({ className = '' }) {
         const dy = cursor.y - dot.y
         const d = Math.hypot(dx, dy)
         const waveBoost = wave.strength * Math.max(0, 1 - Math.abs(d - wave.r) / 90)
-        const idle = 0.1 + 0.05 * Math.sin(clock * 1.6 + dot.h * 6.283)
-        const alpha = Math.min(0.9, idle + waveBoost)
-        if (alpha <= 0.014) continue
+        const idle = 0.11 + 0.06 * Math.sin(clock * 1.6 + dot.h * 6.283)
+        const alpha = Math.min(0.85, idle + waveBoost * 0.9 + (d < CURSOR_RADIUS ? (1 - d / CURSOR_RADIUS) * 0.22 : 0))
+        if (alpha <= 0.018) continue
         ctx.globalAlpha = alpha
         ctx.fillRect(dot.x - 1, dot.y - 1, 2, 2)
+      }
+      ctx.globalAlpha = 1
+      // constellation lines near cursor
+      ctx.strokeStyle = 'rgba(255,252,251,0.22)'
+      ctx.lineWidth = 0.7
+      for (let i = 0; i < dots.length; i++) {
+        const a = dots[i]
+        const da = Math.hypot(a.x - cursor.x, a.y - cursor.y)
+        if (da > CURSOR_RADIUS) continue
+        for (let j = i + 1; j < dots.length; j++) {
+          const b = dots[j]
+          const db = Math.hypot(b.x - cursor.x, b.y - cursor.y)
+          if (db > CURSOR_RADIUS) continue
+          const dist = Math.hypot(a.x - b.x, a.y - b.y)
+          if (dist > CONNECT_DIST) continue
+          // alpha based on avg cursor proximity + dist
+          const avg = (da + db) / 2
+          const alpha = (1 - avg / CURSOR_RADIUS) * (1 - dist / CONNECT_DIST) * 0.42
+          if (alpha <= 0.03) continue
+          ctx.globalAlpha = alpha
+          ctx.beginPath()
+          ctx.moveTo(a.x, a.y)
+          ctx.lineTo(b.x, b.y)
+          ctx.stroke()
+        }
       }
       ctx.globalAlpha = 1
     }
@@ -67,7 +95,7 @@ export default function HeroGrid({ className = '' }) {
     const frame = () => {
       clock += 0.016
       if (wave.strength > 0.012) {
-        wave.r += 3.5
+        wave.r += 3.8
         wave.strength *= 0.94
       } else {
         wave.strength = 0

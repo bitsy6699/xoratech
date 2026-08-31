@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import Hero from '../components/motion/Hero'
 import RevealHeading from '../components/motion/RevealHeading'
 import ScrollHeading from '../components/motion/ScrollHeading'
+import ScrubHeading from '../components/motion/ScrubHeading'
 import ScrollReveal from '../components/motion/ScrollReveal'
 import { Reveal } from '../components/motion/Reveal'
 import CountUp from '../components/motion/CountUp'
@@ -10,6 +11,7 @@ import TiltCard from '../components/motion/TiltCard'
 import Parallax from '../components/motion/Parallax'
 import HorizontalScroll from '../components/motion/HorizontalScroll'
 import { SectionKicker, ArrowLink, Marquee } from '../components/ui/Button.jsx'
+import Magnetic from '../components/ui/Magnetic'
 import PixelArrow from '../components/ui/PixelArrow'
 import PixelWipe from '../components/ui/PixelWipe'
 import RippleDistortion from '../components/ui/RippleDistortion'
@@ -90,6 +92,7 @@ const CategoriesSection = ({ sectionRef }) => {
                 <CardSpotlight className="h-full">
                   <Link
                     to={`/layanan/${full.slug}`}
+                    data-cursor="Lihat"
                     className="group relative flex h-full flex-col border-2 border-primary/25 bg-cream p-8 shadow-[4px_4px_0_0_#093FB4] transition-colors duration-200 hover:border-primary/50"
                   >
                     <div className="mb-8 flex items-start justify-between">
@@ -203,6 +206,7 @@ function PortfolioPreview() {
           <CardSpotlight color="255, 252, 251" opacity={0.08} radius={360} className="h-full">
             <Link
               to="/portofolio"
+              data-cursor="Buka"
               className="group relative block h-[64vh] w-[80vw] overflow-hidden border-2 border-primary/20 shadow-[4px_4px_0_0_#093FB4] transition-shadow duration-200 hover:-translate-y-1 md:w-[54vw] lg:w-[42vw]"
             >
               <div className="absolute inset-0" style={{ backgroundColor: item.color }}>
@@ -243,22 +247,22 @@ function ProcessSection() {
     <section data-nav-theme="dark" className="relative isolate overflow-hidden bg-primary py-28 text-cream">
       <Spotlight>
         <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <ScrollReveal>
-            <div className="mb-14">
-              <SectionKicker dark>Proses Kerja</SectionKicker>
-              <ScrollHeading lines={['Empat langkah menuju', 'selesai']} className="text-4xl font-bold tracking-tight sm:text-5xl" />
-            </div>
-          </ScrollReveal>
+          <div className="mb-14">
+            <SectionKicker dark>Proses Kerja</SectionKicker>
+            <ScrubHeading lines={['Empat langkah menuju', 'selesai']} className="text-4xl font-bold tracking-tight sm:text-5xl" />
+          </div>
 
           <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
             {processSteps.map((step) => (
               <div
                 key={step.step}
-                className="group relative border-2 border-cream/15 bg-cream/5 p-6 transition-colors hover:border-cream/60"
+                data-cursor="Langkah"
+                className="group relative border-2 border-cream/15 bg-cream/5 p-6 transition-colors hover:border-cream/60 hover:bg-cream/[0.07]"
               >
                 <span className="font-pixel text-5xl text-cream">{step.step}</span>
                 <h3 className="mt-4 text-xl font-bold">{step.title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-cream/60">{step.description}</p>
+                <span className="pointer-events-none absolute bottom-0 left-0 h-0.5 w-0 bg-cream transition-all duration-500 group-hover:w-full" />
               </div>
             ))}
           </div>
@@ -331,19 +335,25 @@ function CTASection() {
           </div>
 
           <div className="mt-10 flex flex-wrap justify-center gap-4">
-            <Link
-              to="/kontak"
-              className="inline-flex items-center gap-3 border-2 border-cream bg-cream px-9 py-4 font-sans text-sm font-bold uppercase tracking-wide text-primary shadow-[2px_2px_0_0_#FFFCFB] transition-colors hover:bg-cream/90"
-            >
-              Mulai Proyek
-              <PixelArrow className="h-4 w-4 text-current" />
-            </Link>
-            <a
-              href="mailto:halo@xora.id"
-              className="inline-flex items-center border-2 border-cream/40 px-9 py-4 font-sans text-sm font-semibold uppercase tracking-wide text-cream transition-colors hover:bg-cream hover:text-primary"
-            >
-              WhatsApp Kami
-            </a>
+            <Magnetic>
+              <Link
+                to="/kontak"
+                data-cursor="Mulai"
+                className="inline-flex items-center gap-3 border-2 border-cream bg-cream px-9 py-4 font-sans text-sm font-bold uppercase tracking-wide text-primary shadow-[2px_2px_0_0_#FFFCFB] transition-colors hover:bg-cream/90"
+              >
+                Mulai Proyek
+                <PixelArrow className="h-4 w-4 text-current" />
+              </Link>
+            </Magnetic>
+            <Magnetic>
+              <a
+                href="mailto:halo@xora.id"
+                data-cursor="Chat"
+                className="inline-flex items-center border-2 border-cream/40 px-9 py-4 font-sans text-sm font-semibold uppercase tracking-wide text-cream transition-colors hover:bg-cream hover:text-primary"
+              >
+                WhatsApp Kami
+              </a>
+            </Magnetic>
           </div>
         </ScrollReveal>
         </div>

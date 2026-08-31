@@ -22,23 +22,33 @@ export default function TiltCard({
     damping: 20,
   })
 
+  const glareRef = useRef(null)
+
   const onMouseMove = (e) => {
     if (reduce) return
     const rect = ref.current?.getBoundingClientRect()
     if (!rect) return
-    px.set((e.clientX - rect.left) / rect.width)
-    py.set((e.clientY - rect.top) / rect.height)
+    const nx = (e.clientX - rect.left) / rect.width
+    const ny = (e.clientY - rect.top) / rect.height
+    px.set(nx)
+    py.set(ny)
+    if (glareRef.current) {
+      glareRef.current.style.setProperty('--gx', `${nx * 100}%`)
+      glareRef.current.style.setProperty('--gy', `${ny * 100}%`)
+      glareRef.current.style.opacity = '1'
+    }
   }
 
   const onMouseLeave = () => {
     px.set(0.5)
     py.set(0.5)
+    if (glareRef.current) glareRef.current.style.opacity = '0'
   }
 
   return (
     <motion.div
       ref={ref}
-      className={className}
+      className={`relative ${className}`.trim()}
       onMouseMove={onMouseMove}
       onMouseLeave={onMouseLeave}
       style={{
@@ -52,6 +62,15 @@ export default function TiltCard({
       {...rest}
     >
       {children}
+      <span
+        ref={glareRef}
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300"
+        style={{
+          background: 'radial-gradient(300px at var(--gx, 50%) var(--gy, 50%), rgba(255,252,251,0.18), transparent 68%)',
+          mixBlendMode: 'overlay',
+        }}
+      />
     </motion.div>
   )
 }
