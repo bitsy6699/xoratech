@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import Logo from '../ui/Logo'
 import Icon from '../ui/Icon'
+import Magnetic from '../ui/Magnetic'
 import Spotlight from '../ui/Spotlight'
 import { allServices } from '../../data/services'
 
@@ -42,14 +43,15 @@ export default function Footer() {
                 ['linkedin', 'LinkedIn'],
                 ['youtube', 'YouTube'],
               ].map(([icon, label]) => (
-                <a
-                  key={label}
-                  href="#"
-                  aria-label={label}
-                  className="group inline-flex h-9 w-9 items-center justify-center border border-cream/20 text-cream transition-colors hover:border-cream hover:text-cream"
-                >
-                  <Icon name={icon} className="h-5 w-5" />
-                </a>
+                <Magnetic key={label} strength={0.32} radius={120}>
+                  <a
+                    href="#"
+                    aria-label={label}
+                    className="group inline-flex h-9 w-9 items-center justify-center border border-cream/20 text-cream transition-colors hover:border-cream hover:text-cream"
+                  >
+                    <Icon name={icon} className="h-5 w-5" />
+                  </a>
+                </Magnetic>
               ))}
             </div>
           </div>

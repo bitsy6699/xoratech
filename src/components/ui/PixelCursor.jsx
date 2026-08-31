@@ -1,33 +1,15 @@
 import { useEffect, useRef, useState } from 'react'
-import { motion, useMotionValue, useSpring } from 'framer-motion'
+import { gsap } from 'gsap'
 
 const INTERACTIVE = 'a, button, select, textarea, input, label, [role="button"], [data-cursor]'
-const CREAM = '#FFFCFB'
-const BLUE = '#093FB4'
-
-const parseColor = (str) => {
-  const m = str.match(/rgba?\(([\d\s.,]+)\)/)
-  if (!m) return null
-  const parts = m[1].split(',').map((s) => parseFloat(s))
-  if (parts.length >= 3 && (parts.length === 3 || parts[3] > 0)) return { r: parts[0], g: parts[1], b: parts[2] }
-  return null
-}
-
-const luminance = ({ r, g, b }) => (0.299 * r + 0.587 * g + 0.114 * b) / 255
 
 export default function PixelCursor() {
   const [enabled, setEnabled] = useState(false)
-  const [hovering, setHovering] = useState(false)
-  const [pressed, setPressed] = useState(false)
-  const [hidden, setHidden] = useState(true)
-  const [color, setColor] = useState(CREAM)
-
-  const x = useMotionValue(-100)
-  const y = useMotionValue(-100)
-  const ringX = useSpring(x, { stiffness: 300, damping: 28, mass: 0.7 })
-  const ringY = useSpring(y, { stiffness: 300, damping: 28, mass: 0.7 })
-
-  const lastRef = useRef({ x: -100, y: -100, color: CREAM })
+  const dotRef = useRef(null)
+  const ringRef = useRef(null)
+  const labelRef = useRef(null)
+  const trailRef = useRef(null)
+  const stateRef = useRef({ x: -100, y: -100, hovering: false, pressed: false, hidden: true, label: '' })
 
   useEffect(() => {
     const fine = window.matchMedia('(hover: hover) and (pointer: fine)')
@@ -35,98 +17,202 @@ export default function PixelCursor() {
     if (!fine.matches || reduce.matches) return
     setEnabled(true)
 
-    const pickColor = (e) => {
-      const cx = e.clientX
-      const cy = e.clientY
-      const prev = lastRef.current
-      if (Math.abs(cx - prev.x) < 3 && Math.abs(cy - prev.y) < 3) return
-      lastRef.current.x = cx
-      lastRef.current.y = cy
+    let qxDot, qyDot, qxRing, qyRing
+    let trailCanvas, trailCtx
+    let trailParticles = []
+    let lastX = -100
+    let lastY = -100
+    let velocity = 0
+    let raf = 0
 
-      let chosen = CREAM
-      const els = document.elementsFromPoint(cx, cy)
-      for (const el of els) {
-        const parsed = parseColor(getComputedStyle(el).backgroundColor)
-        if (parsed) {
-          chosen = luminance(parsed) > 0.5 ? BLUE : CREAM
-          break
-        }
+    const applyState = () => {
+      const s = stateRef.current
+      const ring = ringRef.current
+      const label = labelRef.current
+      if (ring) {
+        const size = s.hidden ? 0 : s.hovering ? (s.pressed ? 44 : 38) : 22
+        const scale = s.pressed ? 0.86 : 1
+        ring.style.width = `${size}px`
+        ring.style.height = `${size}px`
+        ring.style.marginLeft = `${-size / 2}px`
+        ring.style.marginTop = `${-size / 2}px`
+        ring.style.transform = `scale(${scale})`
+        ring.style.opacity = s.hidden ? '0' : s.hovering ? '1' : '0.9'
+        ring.style.borderWidth = s.hovering ? '2px' : '1.5px'
       }
-      if (chosen !== prev.color) {
-        lastRef.current.color = chosen
-        setColor(chosen)
+      if (label) {
+        label.textContent = s.label
+        label.style.opacity = s.hovering && s.label ? '1' : '0'
+        label.style.transform = s.hovering && s.label ? 'translate(-50%, -130%) scale(1)' : 'translate(-50%, -110%) scale(0.96)'
       }
     }
 
     const onMove = (e) => {
-      x.set(e.clientX)
-      y.set(e.clientY)
-      setHidden(false)
-      pickColor(e)
-    }
-    const onLeave = () => setHidden(true)
-    const onDown = () => setPressed(true)
-    const onUp = () => setPressed(false)
-    const onOver = (e) => {
-      setHovering(!!e.target.closest?.(INTERACTIVE))
+      const x = e.clientX
+      const y = e.clientY
+      const dx = x - lastX
+      const dy = y - lastY
+      velocity = Math.hypot(dx, dy)
+      lastX = x
+      lastY = y
+      stateRef.current.hidden = false
+      if (qxDot) { qxDot(x); qyDot(y) }
+      if (qxRing) { qxRing(x); qyRing(y) }
+      applyState()
+
+      // trail particles when moving fast
+      if (velocity > 8 && trailCtx && trailCanvas) {
+        if (trailParticles.length < 18 && Math.random() < 0.65) {
+          trailParticles.push({ x, y, vx: dx * 0.08 + (Math.random() - 0.5) * 2, vy: dy * 0.08 + (Math.random() - 0.5) * 2, life: 1, decay: 0.09 + Math.random() * 0.05 })
+        }
+      }
+
+      // cursor label from [data-cursor]
+      const el = e.target.closest?.('[data-cursor]')
+      const nextLabel = el?.getAttribute('data-cursor') || ''
+      if (nextLabel !== stateRef.current.label) {
+        stateRef.current.label = nextLabel
+        applyState()
+      }
     }
 
-    window.addEventListener('mousemove', onMove, { passive: true })
-    document.documentElement.addEventListener('mouseleave', onLeave)
-    document.documentElement.addEventListener('mousemove', onOver)
-    document.documentElement.addEventListener('mousedown', onDown)
-    document.documentElement.addEventListener('mouseup', onUp)
-    document.documentElement.classList.add('has-custom-cursor')
+    const onOver = (e) => {
+      const hovering = !!e.target.closest?.(INTERACTIVE)
+      if (hovering !== stateRef.current.hovering) {
+        stateRef.current.hovering = hovering
+        applyState()
+      }
+    }
+
+    const onDown = () => { stateRef.current.pressed = true; applyState() }
+    const onUp = () => { stateRef.current.pressed = false; applyState() }
+    const onLeave = () => { stateRef.current.hidden = true; applyState() }
+    const onEnter = () => { stateRef.current.hidden = false; applyState() }
+
+    // wait for refs to be mounted
+    const init = () => {
+      if (!dotRef.current || !ringRef.current) {
+        requestAnimationFrame(init)
+        return
+      }
+      // GSAP quickTo for buttery physics (retro-premium)
+      qxDot = gsap.quickTo(dotRef.current, 'x', { duration: 0.08, ease: 'power2.out' })
+      qyDot = gsap.quickTo(dotRef.current, 'y', { duration: 0.08, ease: 'power2.out' })
+      qxRing = gsap.quickTo(ringRef.current, 'x', { duration: 0.38, ease: 'power3.out' })
+      qyRing = gsap.quickTo(ringRef.current, 'y', { duration: 0.38, ease: 'power3.out' })
+      gsap.set([dotRef.current, ringRef.current], { x: -100, y: -100 })
+
+      // trail canvas
+      trailCanvas = trailRef.current
+      if (trailCanvas) {
+        trailCtx = trailCanvas.getContext('2d')
+        const dpr = Math.min(2, window.devicePixelRatio || 1)
+        const resize = () => {
+          trailCanvas.width = Math.round(window.innerWidth * dpr)
+          trailCanvas.height = Math.round(window.innerHeight * dpr)
+          trailCanvas.style.width = `${window.innerWidth}px`
+          trailCanvas.style.height = `${window.innerHeight}px`
+          if (trailCtx) trailCtx.setTransform(dpr, 0, 0, dpr, 0, 0)
+        }
+        resize()
+        window.addEventListener('resize', resize)
+
+        const trailFrame = () => {
+          if (!trailCtx) return
+          trailCtx.clearRect(0, 0, window.innerWidth, window.innerHeight)
+          for (let i = trailParticles.length - 1; i >= 0; i--) {
+            const p = trailParticles[i]
+            p.x += p.vx
+            p.y += p.vy
+            p.vx *= 0.94
+            p.vy *= 0.94
+            p.vy += 0.12
+            p.life -= p.decay
+            if (p.life <= 0) { trailParticles.splice(i, 1); continue }
+            trailCtx.globalAlpha = p.life * 0.55
+            trailCtx.fillStyle = '#FFFCFB'
+            trailCtx.fillRect(p.x - 1, p.y - 1, 2, 2)
+          }
+          trailCtx.globalAlpha = 1
+          raf = requestAnimationFrame(trailFrame)
+        }
+        raf = requestAnimationFrame(trailFrame)
+
+        // store cleanup
+        trailCanvas._cleanup = () => window.removeEventListener('resize', resize)
+      }
+
+      window.addEventListener('mousemove', onMove, { passive: true })
+      document.documentElement.addEventListener('mousemove', onOver)
+      document.documentElement.addEventListener('mousedown', onDown)
+      document.documentElement.addEventListener('mouseup', onUp)
+      document.documentElement.addEventListener('mouseleave', onLeave)
+      window.addEventListener('mouseenter', onEnter)
+      document.documentElement.classList.add('has-custom-cursor')
+      applyState()
+    }
+
+    init()
 
     return () => {
+      cancelAnimationFrame(raf)
       window.removeEventListener('mousemove', onMove)
-      document.documentElement.removeEventListener('mouseleave', onLeave)
       document.documentElement.removeEventListener('mousemove', onOver)
       document.documentElement.removeEventListener('mousedown', onDown)
       document.documentElement.removeEventListener('mouseup', onUp)
+      document.documentElement.removeEventListener('mouseleave', onLeave)
+      window.removeEventListener('mouseenter', onEnter)
+      trailRef.current?._cleanup?.()
       document.documentElement.classList.remove('has-custom-cursor')
     }
-  }, [x, y])
+  }, [])
 
   if (!enabled) return null
 
-  const ringSize = hidden ? 0 : hovering ? (pressed ? 40 : 34) : 20
-  const softColor = color === BLUE ? 'rgba(9,63,180,0.15)' : 'rgba(255,252,251,0.15)'
-
   return (
-    <div
-      aria-hidden="true"
-      className="pointer-events-none fixed inset-0 z-[60]"
-      style={{ opacity: hidden ? 0 : 1, transition: 'opacity 0.2s ease' }}
-    >
-      {/* inner dot (instant) — color sampled from the backdrop */}
-      <motion.div
+    <div aria-hidden="true" className="pointer-events-none fixed inset-0 z-[60]">
+      {/* trail canvas */}
+      <canvas ref={trailRef} className="absolute inset-0 h-full w-full" style={{ mixBlendMode: 'difference' }} />
+      {/* dot — instant */}
+      <div
+        ref={dotRef}
         className="absolute left-0 top-0"
         style={{
-          x,
-          y,
-          width: 6,
-          height: 6,
-          marginLeft: -3,
-          marginTop: -3,
-          backgroundColor: color,
-          transition: 'background-color 0.15s linear',
+          width: 6, height: 6, marginLeft: -3, marginTop: -3,
+          backgroundColor: '#FFFCFB',
+          mixBlendMode: 'difference',
+          willChange: 'transform',
         }}
       />
-      {/* outer pixel ring (spring lag) — same sampled color */}
-      <motion.div
+      {/* ring — lagging, pixel square, difference */}
+      <div
+        ref={ringRef}
         className="absolute left-0 top-0"
         style={{
-          x: ringX,
-          y: ringY,
-          marginLeft: -ringSize / 2,
-          marginTop: -ringSize / 2,
-          width: ringSize,
-          height: ringSize,
-          border: `2px solid ${color}`,
-          backgroundColor: softColor,
-          boxShadow: color === BLUE ? '0 0 0 1px rgba(9,63,180,0.3)' : '0 0 0 1px rgba(255,252,251,0.3)',
-          transition: 'border-color 0.15s linear, background-color 0.15s linear, box-shadow 0.15s linear',
+          width: 22, height: 22, marginLeft: -11, marginTop: -11,
+          border: '1.5px solid #FFFCFB',
+          backgroundColor: 'transparent',
+          mixBlendMode: 'difference',
+          willChange: 'transform',
+          transition: 'width 0.18s ease, height 0.18s ease, opacity 0.18s ease, border-width 0.18s ease, transform 0.12s ease',
+        }}
+      >
+        {/* crosshair ticks */}
+        <span className="absolute left-1/2 top-0 h-1 w-px -translate-x-1/2 bg-[#FFFCFB]" />
+        <span className="absolute bottom-0 left-1/2 h-1 w-px -translate-x-1/2 bg-[#FFFCFB]" />
+        <span className="absolute left-0 top-1/2 h-px w-1 -translate-y-1/2 bg-[#FFFCFB]" />
+        <span className="absolute right-0 top-1/2 h-px w-1 -translate-y-1/2 bg-[#FFFCFB]" />
+      </div>
+      {/* label chip */}
+      <div
+        ref={labelRef}
+        className="absolute left-0 top-0 whitespace-nowrap border border-[#FFFCFB] bg-[#FFFCFB] px-2 py-0.5 font-pixel text-xs uppercase tracking-widest text-primary"
+        style={{
+          mixBlendMode: 'difference',
+          willChange: 'transform, opacity',
+          transition: 'opacity 0.16s ease, transform 0.16s ease',
+          opacity: 0,
+          transform: 'translate(-50%, -110%) scale(0.96)',
         }}
       />
     </div>

@@ -212,6 +212,16 @@ body {
   }
 }
 
+/* scroll-velocity chromatic aberration — split applied on main */
+html.has-aberration main {
+  text-shadow: calc(var(--ab-r, 0px)) 0 0 rgba(255, 0, 80, 0.28), calc(var(--ab-b, 0px)) 0 0 rgba(0, 220, 255, 0.28);
+}
+html.has-aberration main img,
+html.has-aberration main video,
+html.has-aberration main canvas {
+  filter: drop-shadow(calc(var(--ab-r, 0px)) 0 0 rgba(255, 0, 80, 0.22)) drop-shadow(calc(var(--ab-b, 0px)) 0 0 rgba(0, 220, 255, 0.22));
+}
+
 @media (prefers-reduced-motion: reduce) {
   .animate-marquee,
   .animate-caret,
@@ -225,5 +235,12 @@ body {
   [data-reveal] {
     transform: none !important;
     opacity: 1 !important;
+  }
+  html.has-aberration main,
+  html.has-aberration main img,
+  html.has-aberration main video,
+  html.has-aberration main canvas {
+    text-shadow: none !important;
+    filter: none !important;
   }
 }

@@ -9,6 +9,7 @@ import GrainOverlay from './components/ui/GrainOverlay'
 import RouteTransition from './components/ui/RouteTransition'
 import PixelCursor from './components/ui/PixelCursor'
 import ScrollProgress from './components/ui/ScrollProgress'
+import ScrollAchromatism from './components/ui/ScrollAchromatism'
 import BackToTop from './components/ui/BackToTop'
 import HomePage from './pages/Home'
 import LayananPage from './pages/Layanan'
@@ -28,6 +29,7 @@ export default function App() {
       <div className="min-h-screen">
         <Preloader />
         <GrainOverlay />
+        <ScrollAchromatism />
         <SmoothScroll />
         <ScrollToTop />
         <ScrollProgress />
